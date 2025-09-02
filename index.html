@@ -1,297 +1,106 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Timeline & Visa Checklist</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --primary: #1a73e8;
-    --bg: #f8f9fa;
-    --card-bg: #fff;
-    --text-dark: #212529;
-    --text-light: #495057;
-    --timeline-line: rgba(26,115,232,0.3);
-    --shadow-color: rgba(0, 0, 0, 0.05);
-  }
-  body {
-    margin:0;
-    font-family: 'Poppins', sans-serif;
-    background: var(--bg);
-    color: var(--text-dark);
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-  }
-  .wrap {
-    max-width: 900px;
-    width: 100%;
-    background: var(--card-bg);
-    border-radius: 10px;
-    padding: 24px;
-    box-shadow: 0 4px 12px var(--shadow-color);
-  }
-  h1 { font-size: 28px; font-weight: 700; margin: 0 0 24px; }
-  h2 { font-size: 24px; font-weight: 600; margin: 36px 0 16px; }
-  h3 { font-size: 19px; font-weight: 600; margin: 0 0 8px; }
-  p { margin: 4px 0; color: var(--text-light); }
-  .toggle-btn {
-    padding: 10px 20px;
-    background: var(--primary);
-    color: #fff;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: 600;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 12px rgba(26,115,232,0.2);
-    transition: all 0.2s ease-in-out;
-  }
-  .toggle-btn:hover { 
-    background: #5c99f5;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(26,115,232,0.3);
-  }
-  .hidden { display: none; }
-  .card {
-    background: var(--card-bg);
-    padding: 40px 25px 18px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px var(--shadow-color);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    position: relative;
-    overflow: hidden;
-  }
-  .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px var(--shadow-color);
-  }
-  .day-tag {
-    display: block;
-    position: absolute;
-    top: 10px;
-    padding: 4px 8px;
-    background-color: var(--tag-bg);
-    color: var(--tag-text);
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    z-index: 1;
-  }
-  .timeline {
-    position: relative;
-    padding: 40px 0;
-    list-style: none;
-  }
-  .timeline::before {
-    content:'';
-    position: absolute;
-    top:0;
-    left:50%;
-    transform: translateX(-50%);
-    width: 3px;
-    height: 100%;
-    background: var(--timeline-line);
-  }
-  .timeline li {
-    position: relative;
-    width: 50%;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  .timeline li:nth-child(odd) { left:0; text-align:right; }
-  .timeline li:nth-child(even) { left:50%; text-align:left; }
-  .timeline li:nth-child(odd) .day-tag { right: 10px; }
-  .timeline li:nth-child(even) .day-tag { left: 10px; }
-  .timeline li:not(.heading)::before {
-    content:'';
-    position: absolute;
-    top: 20px;
-    width: 16px;
-    height: 16px;
-    background: var(--primary);
-    border-radius: 50%;
-    border: 3px solid var(--card-bg);
-    z-index: 1;
-  }
-  .timeline li:nth-child(odd):not(.heading)::before { right:-8px; }
-  .timeline li:nth-child(even):not(.heading)::before { left:-8px; }
-  .heading { text-align:center; }
-  .heading h2 { margin-bottom: 0; }
-  .checklist { list-style:none; padding:0; }
-  .checklist li { margin-bottom:16px; }
-  .checklist a { color: var(--primary); text-decoration:none; }
-  .checklist a:hover { text-decoration: underline; }
-
-  /* Loading screen styles */
-  #loader-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--bg);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    font-size: 1.2rem;
-    color: var(--text-dark);
-  }
-  .loader {
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid var(--primary);
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    animation: spin 1s linear infinite;
-    margin-bottom: 20px;
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  @media(max-width:768px){
-    body { padding: 10px; }
-    .wrap { padding: 15px; }
-    h1 { font-size: 24px; margin-bottom: 20px; }
-    h2 { font-size: 22px; margin: 28px 0 12px; }
-    h3 { font-size: 18px; margin: 20px 0 6px; }
-    .timeline li, .timeline li:nth-child(odd), .timeline li:nth-child(even){
-      width:100%;
-      padding-left:50px;
-      text-align:left !important;
-      left: 0;
-    }
-    .timeline li:before { left:12px !important; }
-    .timeline li:not(.heading)::before { left: 12px !important; }
-  }
+:root{
+  --primary:#1a73e8;
+  --bg:#f8f9fa;
+  --card-bg:#fff;
+  --text-dark:#212529;
+  --text-light:#495057;
+  --timeline-line:rgba(26,115,232,0.3);
+  --shadow-color:rgba(0,0,0,0.05);
+}
+body{margin:0;font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text-dark);display:flex;justify-content:center;padding:20px;}
+.wrap{max-width:900px;width:100%;background:var(--card-bg);border-radius:10px;padding:24px;display:none;}
+h1{font-size:28px;margin-bottom:24px;}
+h2{font-size:20px;margin:24px 0 12px;}
+h3{font-size:17px;margin:8px 0 4px;}
+p{margin:4px 0;color:var(--text-light);}
+.toggle-btn{padding:10px 20px;background:var(--primary);color:#fff;border:none;border-radius:25px;cursor:pointer;font-weight:600;margin-bottom:20px;}
+.toggle-btn:hover{background:#5c99f5;}
+.hidden{display:none;}
+.card{background:var(--card-bg);padding:16px 20px;border-radius:10px;margin-bottom:20px;border:1px solid #e0e0e0;position:relative;}
+.card:hover{transform:translateY(-2px);box-shadow:0 6px 15px rgba(0,0,0,0.05);}
+.timeline{position:relative;padding:40px 0;list-style:none;}
+.timeline::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:3px;height:100%;background:var(--timeline-line);}
+.timeline li{position:relative;width:50%;padding:20px;box-sizing:border-box;}
+.timeline li:nth-child(odd){left:0;text-align:right;}
+.timeline li:nth-child(even){left:50%;text-align:left;}
+.timeline li:not(.heading)::before{content:'';position:absolute;top:20px;width:16px;height:16px;background:var(--primary);border-radius:50%;border:3px solid var(--card-bg);z-index:1;}
+.timeline li:nth-child(odd):not(.heading)::before{right:-8px;}
+.timeline li:nth-child(even):not(.heading)::before{left:-8px;}
+.heading{text-align:center;}
+.checklist{list-style:none;padding:0;}
+.checklist li{margin-bottom:16px;}
+.checklist a{color:var(--primary);text-decoration:none;}
+.checklist a:hover{text-decoration:underline;}
+#loader-container{position:fixed;top:0;left:0;width:100%;height:100%;background:var(--bg);display:flex;flex-direction:column;justify-content:center;align-items:center;font-size:1.2rem;color:var(--text-dark);}
+.loader{border:5px solid #f3f3f3;border-top:5px solid var(--primary);border-radius:50%;width:30px;height:30px;animation:spin 1s linear infinite;margin-bottom:20px;}
+@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+@media(max-width:768px){.timeline li,.timeline li:nth-child(odd),.timeline li:nth-child(even){width:100%;padding-left:50px;text-align:left !important;left:0;}.timeline::before{left:20px;}.timeline li:before{left:12px !important;}.timeline li:not(.heading)::before{left:12px !important;}}
 </style>
 </head>
 <body>
-<div id="content-container" class="hidden">
-  <div class="wrap">
-    <button id="toggle-btn" class="toggle-btn" onclick="toggleView()">Show Checklist</button>
-    <ul id="timeline" class="timeline">
-      <li class="heading"><h2>Week 1: September 3 – 9</h2></li>
-      <li><div class="card">
-        <span class="day-tag">Wednesday, Sep 3</span>
-        <h3>Initial student meetup</h3>
-        <p>Update and verify student information.</p>
-      </div></li>
-      <li><div class="card">
-        <span class="day-tag">Thu – Sun, Sep 4 – 7</span>
-        <h3>Communication Channels</h3>
-        <p>Update communication channels with parents.</p>
-        <p>Announce project roadmap.</p>
-      </div></li>
-      <li><div class="card">
-        <span class="day-tag">Mon – Thu, Sep 8 – 9</span>
-        <h3>Information & Invitation</h3>
-        <p>Update Norland Group sheet.</p>
-        <p>Issue official invitation letter.</p>
-      </div></li>
-      <li class="heading"><h2>Week 2: September 10 – 15</h2></li>
-      <li><div class="card">
-        <span class="day-tag">Wednesday, Sep 10</span>
-        <h3>Application Finalization</h3>
-        <p>Parents sign COVA form.</p>
-        <p>Scan ID and visa photo.</p>
-      </div></li>
-      <li><div class="card">
-        <span class="day-tag">Thursday, Sep 11</span>
-        <h3>Visa Packet & Sponsorship</h3>
-        <p>Provide air ticket quote.</p>
-        <p>Send Visa packet to D.C.</p>
-        <p>Sponsorship meetup.</p>
-        <p>Collect invitation letter.</p>
-      </div></li>
-      <li><div class="card">
-        <span class="day-tag">Monday, Sep 15</span>
-        <h3>Passport Collection</h3>
-        <p>Collect stamped Visa passport.</p>
-      </div></li>
-      <li class="heading"><h2>Future Payments</h2></li>
-      <li><div class="card">
-        <span class="day-tag">October</span>
-        <h3>Second Payment Due</h3>
-        <p>Second payment due.</p>
-      </div></li>
-      <li><div class="card">
-        <span class="day-tag">November</span>
-        <h3>Third & Final Payment Due</h3>
-        <p>Third and final payment due.</p>
-      </div></li>
-    </ul>
-    <ul id="checklist" class="checklist hidden">
-      <li><div class="card">
-        <h3>Passport & ID</h3>
-        <p>Valid ≥6 months with 2 blank pages.</p>
-        <p>Include bio-page copy. Minors: notarized consent if parent not accompanying.</p>
-      </div></li>
-      <li><div class="card">
-        <h3>COVA Visa Form</h3>
-        <p>Complete online and print 8–9 pages.</p>
-        <p>Parent/guardian signs Confirmation Page + Page 8 if minor.</p>
-        <p><a href="https://cova.mfa.gov.cn" target="_blank">COVA Form</a></p>
-      </div></li>
-      <li><div class="card">
-        <h3>Supporting Docs</h3>
-        <p>Recent Chinese visa (if any).</p>
-        <p>Proof of US residence.</p>
-        <p>Signed “Where You Stay” form.</p>
-        <p>Birth certificate (if minor).</p>
-      </div></li>
-      <li><div class="card">
-        <h3>Invitation Letter</h3>
-        <p>Include minor details, travel info, inviter info, signature/seal, and date.</p>
-      </div></li>
-      <li><div class="card">
-        <h3>Application Procedure</h3>
-        <p>Submit completed COVA form and documents physically.</p>
-        <p>Collect visa in 4 business days.</p>
-        <p>Payment: credit card, money order, or cashier’s check.</p>
-      </div></li>
-    </ul>
-  </div>
-</div>
+
 <div id="loader-container">
   <div class="loader"></div>
   <p>Loading...</p>
 </div>
+
+<div class="wrap" id="content-container">
+  <button id="toggle-btn" class="toggle-btn" onclick="toggleView()">Show Checklist</button>
+
+  <ul id="timeline" class="timeline">
+    <li class="heading"><h2>Week 1: September 3 – 9</h2></li>
+    <li><div class="card"><h3>Wednesday, Sep 3</h3><p>Initial student meetup.</p><p>Update and verify student info.</p></div></li>
+    <li><div class="card"><h3>Thu – Sun, Sep 4 – 7</h3><p>Update communication channels.</p><p>Announce project roadmap.</p></div></li>
+    <li><div class="card"><h3>Mon – Thu, Sep 8 – 9</h3><p>Update Norland Group sheet.</p><p>Issue official invitation letter.</p></div></li>
+    <li class="heading"><h2>Week 2: September 10 – 15</h2></li>
+    <li><div class="card"><h3>Wed, Sep 10</h3><p>Finalize application.</p><p>Parents sign COVA form.</p></div></li>
+    <li><div class="card"><h3>Thu, Sep 11</h3><p>Provide air ticket quote.</p><p>Send Visa packet to D.C.</p></div></li>
+    <li><div class="card"><h3>Mon, Sep 15</h3><p>Collect stamped Visa passport.</p></div></li>
+    <li class="heading"><h2>Future Payments</h2></li>
+    <li><div class="card"><h3>October</h3><p>Second payment due.</p></div></li>
+    <li><div class="card"><h3>November</h3><p>Third and final payment due.</p></div></li>
+  </ul>
+
+  <ul id="checklist" class="checklist hidden">
+    <li><div class="card"><h3>Passport & ID</h3><p>Valid ≥6 months with 2 blank pages.</p></div></li>
+    <li><div class="card"><h3>COVA Form</h3><p>Complete online, print 8–9 pages.</p><p><a href="https://cova.mfa.gov.cn" target="_blank">COVA Form</a></p></div></li>
+    <li><div class="card"><h3>Supporting Docs</h3><p>Proof of US residence, signed forms, birth certificate if minor.</p></div></li>
+  </ul>
+</div>
+
 <script>
-    function toggleView(){
-      const timeline = document.getElementById('timeline');
-      const checklist = document.getElementById('checklist');
-      const btn = document.getElementById('toggle-btn');
-      timeline.classList.toggle('hidden');
-      checklist.classList.toggle('hidden');
-      btn.textContent = checklist.classList.contains('hidden') ? 'Show Checklist' : 'Show Timeline';
+function toggleView(){
+  const timeline = document.getElementById('timeline');
+  const checklist = document.getElementById('checklist');
+  const btn = document.getElementById('toggle-btn');
+  timeline.classList.toggle('hidden');
+  checklist.classList.toggle('hidden');
+  btn.textContent = checklist.classList.contains('hidden') ? 'Show Checklist' : 'Show Timeline';
+}
+
+// Password + Loader
+window.addEventListener('DOMContentLoaded', () => {
+  const loader = document.getElementById('loader-container');
+  const content = document.getElementById('content-container');
+
+  setTimeout(() => {
+    let password = prompt("Please enter the password to view this page:");
+    if(password === "norland2025"){
+      loader.style.display = "none";
+      content.style.display = "block";
+    } else if(password !== null){
+      alert("Incorrect password.");
+      window.location.reload();
     }
-    
-    function checkPassword() {
-      var password = prompt("Please enter the password to view this page.");
-      if (password === "norland2025") {
-        document.getElementById('loader-container').classList.remove('hidden');
-        setTimeout(function() {
-          document.getElementById('loader-container').classList.add('hidden');
-          document.getElementById('content-container').classList.remove('hidden');
-        }, 2000);
-      } else if (password !== null) {
-        alert("Incorrect password.");
-        window.location.reload();
-      }
-    }
-    
-    document.addEventListener('DOMContentLoaded', (event) => {
-      checkPassword();
-    });
+  }, 300);
+});
 </script>
 </body>
 </html>
