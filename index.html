@@ -267,6 +267,16 @@ function toggleView(){
   
   btn.textContent = checklist.classList.contains('hidden') ? 'Show Checklist' : 'Show Timeline';
 }
+function checkPassword() {
+  var password = prompt("Please enter the password to view this page.");
+      if (password === "norland2025") {
+        document.getElementById('content-container').style.display = 'block';
+      } else {
+        alert("Incorrect password.");
+        window.location.reload();
+      }
+    }
+    window.onload = checkPassword;
 </script>
 </body>
 </html>
