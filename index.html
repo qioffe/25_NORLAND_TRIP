@@ -267,19 +267,22 @@ function toggleView(){
   
   btn.textContent = checklist.classList.contains('hidden') ? 'Show Checklist' : 'Show Timeline';
 }
-    function checkPassword() {
-      var password = prompt("Please enter the password to view this page.");
-      if (password === "norland2025") {
-        document.getElementById('loader-container').classList.remove('hidden');
-        setTimeout(function() {
-          document.getElementById('loader-container').classList.add('hidden');
-          document.getElementById('content-container').classList.remove('hidden');
-        }, 500);
-      } else {
-        alert("Incorrect password.");
-        window.location.reload();
-      }
-    }
+function checkPassword() {
+  const password = prompt("Please enter the password to view this page.");
+
+
+  if (password === "norland2025") {
+
+    document.getElementById('loader-container').classList.remove('hidden');
+    setTimeout(function() {
+      document.getElementById('loader-container').classList.add('hidden');
+      document.getElementById('content-container').classList.remove('hidden');
+    }, 2000); 
+  } else if (password !== null) {
+    alert("Incorrect password.");
+    window.location.reload();
+  }
+}
 </script>
 </body>
 </html>
