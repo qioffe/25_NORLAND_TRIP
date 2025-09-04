@@ -275,27 +275,36 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         
-        /* Mobile Optimizations for Timeline */
+        /* Mobile Optimizations for Timeline and Tabs */
         @media (max-width: 640px) {
             .step-container {
-                padding-left: 2rem; /* Adjusted for better alignment */
+                padding-left: 2rem;
             }
             .step-item:not(:last-child)::after {
-                left: 0.5rem; /* Adjusted for perfect alignment with icon */
-                top: 1.5rem; /* Adjust line start point */
+                left: 0.5rem; /* Aligned with icon center */
+                top: 1.5rem;
             }
             .step-icon {
                 width: 2rem;
                 height: 2rem;
                 font-size: 0.875rem;
-                left: -0.5rem; /* Pull icon slightly to the left to align with line */
+                left: -0.5rem; /* Aligned with icon center */
             }
             .step-content {
-                margin-left: 2rem; /* Reduced margin for content */
+                margin-left: 2rem;
                 padding: 1rem;
             }
+            /* Tab responsiveness */
+            .tabs-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 0 1rem; /* Add horizontal padding to make content scrollable */
+            }
             .tab-btn {
-                flex: 1 1 0%;
+                flex-shrink: 0;
+                width: auto;
+                white-space: nowrap;
+                font-size: 0.875rem; /* Make font slightly smaller on mobile */
             }
         }
         
@@ -391,7 +400,7 @@
     <div class="bg-white p-10 w-full max-w-5xl mx-auto m3-container">
 
         <!-- Tabs Navigation -->
-        <div class="flex border-b border-gray-200 mb-8">
+        <div class="flex flex-1 border-b border-gray-200 mb-8">
             <button id="timeline-tab-btn" class="tab-btn flex-1 py-3 px-4 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600" data-tab="timeline-tab">Application Progress</button>
             <button id="checklist-tab-btn" class="tab-btn flex-1 py-3 px-4 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600" data-tab="checklist-tab">Checklist</button>
             <button id="documents-tab-btn" class="tab-btn flex-1 py-3 px-4 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600" data-tab="documents-tab">Documents</button>
