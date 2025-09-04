@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE ahtml>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -402,16 +402,26 @@
                 justify-content: space-between;
             }
         }
-
-        .mobile-video-container {
-            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
-            transform: scale(0.9);
-            opacity: 0;
+        
+        /* New styling to make the mobile video card the same size as the number cards */
+        .mobile-video-card-container {
+            position: relative;
+            height: 14rem; /* Adjusted to be slightly bigger */
+            width: 100%;
+            overflow: hidden;
+            transition: all 0.5s ease-in-out;
         }
-
-        .mobile-video-container.is-visible {
-            transform: scale(1);
+        .mobile-video-card-container.is-visible {
             opacity: 1;
+        }
+        .mobile-video-card-container iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
         }
     </style>
 </head>
@@ -458,9 +468,9 @@
                 </div>
             </div>
 
-            <!-- New mobile video player container -->
-            <div id="mobile-video-player" class="relative w-full aspect-video rounded-[40px] overflow-hidden hidden mobile-video-container">
-                <iframe id="youtube-player-mobile" class="absolute top-0 left-0 w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <!-- New mobile video player container with number card styling -->
+            <div id="mobile-video-player" class="m3-sub-card relative p-0 hidden mobile-video-card-container">
+                <iframe id="youtube-player-mobile" class="absolute inset-0 w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
 
             <!-- Desktop Layout -->
@@ -857,10 +867,21 @@
 
             if (playButtonMobile) {
                 playButtonMobile.addEventListener('click', () => {
-                    mobileHeroContent.classList.add('hidden');
-                    mobileVideoContainer.classList.remove('hidden');
-                    mobileVideoContainer.classList.add('is-visible');
-                    youtubePlayerMobile.src = videoUrl + '?autoplay=1';
+                    if (mobileVideoContainer.classList.contains('is-visible')) {
+                        // If video is visible, hide it and show text
+                        mobileVideoContainer.classList.remove('is-visible');
+                        setTimeout(() => {
+                            mobileVideoContainer.classList.add('hidden');
+                            mobileHeroContent.classList.remove('hidden');
+                            youtubePlayerMobile.src = '';
+                        }, 500); // Wait for transition to finish
+                    } else {
+                        // If video is hidden, show it and hide text
+                        mobileHeroContent.classList.add('hidden');
+                        mobileVideoContainer.classList.remove('hidden');
+                        mobileVideoContainer.classList.add('is-visible');
+                        youtubePlayerMobile.src = videoUrl + '?autoplay=1';
+                    }
                 });
             }
 
