@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -352,14 +352,22 @@
         }
     </style>
 </head>
-<body>
+<body class="bg-gray-100 flex flex-col items-center min-h-screen p-8 py-16 space-y-12">
     <!-- Updated Material 3 Expressive Hero Card -->
     <div id="hero-card" class="group p-10 w-full max-w-5xl mx-auto m3-container bg-white flex flex-col lg:flex-row items-center justify-between space-y-6 lg:space-y-0 relative">
+        <!-- Desktop Play Button Overlay - Visible on hover on large screens -->
+        <button id="play-btn-desktop" class="hidden sm:flex absolute inset-0 z-50 items-center justify-center bg-white bg-opacity-70 backdrop-blur-md rounded-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-90 group-hover:scale-100">
+            <svg class="w-20 h-20 text-blue-600 transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+        </button>
+
         <!-- Date on the left -->
         <div class="flex flex-col items-center lg:items-start w-full lg:w-2/3 z-10">
             <span class="text-sm font-semibold text-gray-500 mb-2">2025 TRIP</span>
             <div class="flex items-center gap-4">
                 <h1 class="expressive-title hero-title-gradient">NOV 22</h1>
+                <!-- Mobile Play Button - Always visible on small screens -->
                 <button id="play-btn-mobile" class="sm:hidden hero-play-btn w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-full shadow-lg bg-gray-100 transition-transform duration-200 active:scale-95" style="animation: subtle-pulse 2s infinite;">
                     <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M8 5v14l11-7z"/>
@@ -742,14 +750,22 @@
             });
 
             // Video player functionality
-            const playButton = document.getElementById('play-btn-mobile');
+            const playButtonDesktop = document.getElementById('play-btn-desktop');
+            const playButtonMobile = document.getElementById('play-btn-mobile');
             const videoModal = document.getElementById('video-modal');
             const closeButton = document.getElementById('close-btn');
             const youtubePlayer = document.getElementById('youtube-player');
             const videoUrl = 'https://www.youtube.com/embed/UsciZfWn2ig?autoplay=1';
+            
+            if (playButtonDesktop) {
+                playButtonDesktop.addEventListener('click', () => {
+                    youtubePlayer.src = videoUrl;
+                    videoModal.classList.add('is-visible');
+                });
+            }
 
-            if (playButton) {
-                playButton.addEventListener('click', () => {
+            if (playButtonMobile) {
+                playButtonMobile.addEventListener('click', () => {
                     youtubePlayer.src = videoUrl;
                     videoModal.classList.add('is-visible');
                 });
