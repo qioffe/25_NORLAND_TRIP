@@ -14,11 +14,12 @@ if not serpapi_api_key:
 params = {
     "api_key": serpapi_api_key,
     "engine": "google_flights",
+    "q": "MIA to PVG flights", # Added to provide more context to the API
     "hl": "en",
     "gl": "us",
     "currency": "USD",
-    "from_code": "MIA",  # Updated to Miami International Airport
-    "to_code": "PVG",    # Updated to Shanghai Pudong International Airport
+    "from_code": "MIA",
+    "to_code": "PVG",
     "outbound_date": "2025-11-22"
 }
 
