@@ -340,39 +340,32 @@
             animation: pulse-glow 2s infinite;
         }
         .hero-play-btn {
-            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            background: linear-gradient(to right, #4299E1, #3B82F6, #1D4ED8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        
-        /* New rules for a more reliable approach on mobile */
-        .is-mobile .hero-play-btn {
-            opacity: 1;
-            transform: scale(1);
-            animation: pulse-glow 2s infinite;
-        }
-        .is-desktop .hero-play-btn {
-            opacity: 0;
-            transform: scale(0.9);
-        }
-        .is-desktop .hero-play-btn:hover {
-            opacity: 1;
-            transform: scale(1);
+
+        @keyframes subtle-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
 <body>
     <!-- Updated Material 3 Expressive Hero Card -->
-    <div id="hero-card" class="p-10 w-full max-w-5xl mx-auto m3-container bg-white flex flex-col lg:flex-row items-center justify-between space-y-6 lg:space-y-0 relative">
-        <!-- Play Button Overlay -->
-        <button id="play-btn" class="hero-play-btn absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-70 backdrop-blur-md rounded-[40px]">
-            <svg class="w-20 h-20 text-blue-600 transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 5v14l11-7z"/>
-            </svg>
-        </button>
-
+    <div id="hero-card" class="group p-10 w-full max-w-5xl mx-auto m3-container bg-white flex flex-col lg:flex-row items-center justify-between space-y-6 lg:space-y-0 relative">
         <!-- Date on the left -->
         <div class="flex flex-col items-center lg:items-start w-full lg:w-2/3 z-10">
             <span class="text-sm font-semibold text-gray-500 mb-2">2025 TRIP</span>
-            <h1 class="expressive-title hero-title-gradient">NOV 22</h1>
+            <div class="flex items-center gap-4">
+                <h1 class="expressive-title hero-title-gradient">NOV 22</h1>
+                <button id="play-btn-mobile" class="sm:hidden hero-play-btn w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-full shadow-lg bg-gray-100 transition-transform duration-200 active:scale-95" style="animation: subtle-pulse 2s infinite;">
+                    <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </button>
+            </div>
         </div>
         
         <!-- Buttons and location on the right -->
@@ -749,16 +742,19 @@
             });
 
             // Video player functionality
-            const playButton = document.getElementById('play-btn');
+            const playButton = document.getElementById('play-btn-mobile');
             const videoModal = document.getElementById('video-modal');
             const closeButton = document.getElementById('close-btn');
             const youtubePlayer = document.getElementById('youtube-player');
             const videoUrl = 'https://www.youtube.com/embed/UsciZfWn2ig?autoplay=1';
 
-            playButton.addEventListener('click', () => {
-                youtubePlayer.src = videoUrl;
-                videoModal.classList.add('is-visible');
-            });
+            if (playButton) {
+                playButton.addEventListener('click', () => {
+                    youtubePlayer.src = videoUrl;
+                    videoModal.classList.add('is-visible');
+                });
+            }
+
 
             closeButton.addEventListener('click', () => {
                 youtubePlayer.src = ''; // Stop the video
@@ -805,14 +801,6 @@
         };
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Check for mobile and add appropriate class
-            const isMobile = window.matchMedia("(max-width: 640px)").matches;
-            if (isMobile) {
-                document.body.classList.add('is-mobile');
-            } else {
-                document.body.classList.add('is-desktop');
-            }
-
             renderTimeline();
             renderChecklist();
             setupEventListeners();
