@@ -403,38 +403,15 @@
             }
         }
 
-        #travel-tips-container {
-            min-height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #6B7280;
-            font-size: 1rem;
-            text-align: center;
+        .mobile-video-container {
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            transform: scale(0.9);
+            opacity: 0;
         }
 
-        .tips-list {
-            text-align: left;
-            padding-left: 1rem;
-        }
-        .tips-list li {
-            list-style: disc;
-            margin-bottom: 0.5rem;
-            color: #4B5563;
-        }
-        
-        /* Spinner for loading state */
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border-left-color: #3B82F6;
-            animation: spin 1s ease infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .mobile-video-container.is-visible {
+            transform: scale(1);
+            opacity: 1;
         }
     </style>
 </head>
@@ -451,7 +428,7 @@
             </button>
 
             <!-- Mobile Layout -->
-            <div class="flex flex-col items-start w-full lg:hidden">
+            <div id="mobile-hero-content" class="flex flex-col items-start w-full lg:hidden">
                 <span class="text-sm font-semibold text-gray-500 mb-2">2025 TRIP</span>
 
                 <div class="flex items-center justify-between w-full">
@@ -479,6 +456,11 @@
                     <div class="btn-gradient shadow-md">DRAMA</div>
                     <div class="btn-gradient shadow-md">CHORUS</div>
                 </div>
+            </div>
+
+            <!-- New mobile video player container -->
+            <div id="mobile-video-player" class="relative w-full aspect-video rounded-[40px] overflow-hidden hidden mobile-video-container">
+                <iframe id="youtube-player-mobile" class="absolute top-0 left-0 w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
 
             <!-- Desktop Layout -->
@@ -545,16 +527,6 @@
             <div id="checklist-tab" class="tab-content" style="display:none;">
                 <div id="checklist-container" class="space-y-6">
                 </div>
-                
-                <div class="mt-8 flex justify-center">
-                    <button id="generate-tips-btn" class="btn-gradient shadow-md px-6 py-3 font-bold transition-transform duration-200 active:scale-95">
-                        ✨ Generate Travel Tips
-                    </button>
-                </div>
-                
-                <div id="travel-tips-container" class="m3-sub-card p-6 mt-8">
-                    Click the button above to get some helpful tips for your trip!
-                </div>
             </div>
 
             <div id="documents-tab" class="tab-content" style="display:none;">
@@ -591,7 +563,7 @@
         <div id="video-modal" class="video-overlay">
             <div class="video-container">
                 <button id="close-btn" class="close-btn">&times;</button>
-                <iframe id="youtube-player" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe id="youtube-player-desktop" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>
     </div>
@@ -870,32 +842,36 @@
             const playButtonMobile = document.getElementById('play-btn-mobile');
             const videoModal = document.getElementById('video-modal');
             const closeButton = document.getElementById('close-btn');
-            const youtubePlayer = document.getElementById('youtube-player');
-            const videoUrl = 'https://www.youtube.com/embed/UsciZfWn2ig?autoplay=1';
-            
+            const youtubePlayerDesktop = document.getElementById('youtube-player-desktop');
+            const youtubePlayerMobile = document.getElementById('youtube-player-mobile');
+            const mobileHeroContent = document.getElementById('mobile-hero-content');
+            const mobileVideoContainer = document.getElementById('mobile-video-player');
+            const videoUrl = 'https://www.youtube.com/embed/UsciZfWn2ig';
+
             if (playButtonDesktop) {
                 playButtonDesktop.addEventListener('click', () => {
-                    youtubePlayer.src = videoUrl;
+                    youtubePlayerDesktop.src = videoUrl + '?autoplay=1';
                     videoModal.classList.add('is-visible');
                 });
             }
 
             if (playButtonMobile) {
                 playButtonMobile.addEventListener('click', () => {
-                    youtubePlayer.src = videoUrl;
-                    videoModal.classList.add('is-visible');
+                    mobileHeroContent.classList.add('hidden');
+                    mobileVideoContainer.classList.remove('hidden');
+                    mobileVideoContainer.classList.add('is-visible');
+                    youtubePlayerMobile.src = videoUrl + '?autoplay=1';
                 });
             }
 
-
             closeButton.addEventListener('click', () => {
-                youtubePlayer.src = ''; // Stop the video
+                youtubePlayerDesktop.src = ''; // Stop the video
                 videoModal.classList.remove('is-visible');
             });
 
             videoModal.addEventListener('click', (event) => {
                 if (event.target === videoModal) {
-                    youtubePlayer.src = '';
+                    youtubePlayerDesktop.src = '';
                     videoModal.classList.remove('is-visible');
                 }
             });
@@ -910,68 +886,6 @@
                         daysLeftCard.dataset.state = 'deadline';
                     }
                     updateCountdownAndProgress(); // Update display based on new state
-                });
-            }
-
-            // Gemini API call for Travel Tips
-            const generateTipsBtn = document.getElementById('generate-tips-btn');
-            if(generateTipsBtn) {
-                generateTipsBtn.addEventListener('click', async () => {
-                    const tipsContainer = document.getElementById('travel-tips-container');
-                    const originalContent = tipsContainer.innerHTML;
-                    
-                    tipsContainer.innerHTML = `<div class="flex flex-col items-center justify-center p-4"><div class="spinner"></div><p class="mt-4 text-gray-500 text-sm">Generating tips...</p></div>`;
-
-                    try {
-                        const userQuery = "Generate a list of 5 essential travel tips for a trip to Jiangsu, China in November 2025. Be concise and actionable, focusing on a student group. The output should be a single JSON object with a key 'tips' and a value of an array of strings.";
-                        const apiKey = "";
-                        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-                        const payload = {
-                            contents: [{ parts: [{ text: userQuery }] }],
-                            generationConfig: {
-                                responseMimeType: "application/json",
-                                responseSchema: {
-                                    type: "OBJECT",
-                                    properties: {
-                                        "tips": {
-                                            "type": "ARRAY",
-                                            "items": { "type": "STRING" }
-                                        }
-                                    }
-                                }
-                            }
-                        };
-                        const response = await fetch(apiUrl, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-
-                        if (!response.ok) {
-                            throw new Error(`API error! status: ${response.status}`);
-                        }
-
-                        const result = await response.json();
-                        const candidate = result.candidates?.[0];
-                        
-                        if (candidate && candidate.content?.parts?.[0]?.text) {
-                            const jsonText = candidate.content.parts[0].text;
-                            const parsedJson = JSON.parse(jsonText);
-                            const tips = parsedJson.tips;
-                            
-                            if (Array.isArray(tips) && tips.length > 0) {
-                                const tipsHtml = tips.map(tip => `<li>${tip}</li>`).join('');
-                                tipsContainer.innerHTML = `<ul class="tips-list space-y-2">${tipsHtml}</ul>`;
-                            } else {
-                                tipsContainer.innerHTML = `<p class="text-red-500">Failed to generate tips. Please try again.</p>`;
-                            }
-                        } else {
-                            tipsContainer.innerHTML = `<p class="text-red-500">Failed to generate tips. The response was empty.</p>`;
-                        }
-                    } catch (error) {
-                        console.error('Error generating travel tips:', error);
-                        tipsContainer.innerHTML = `<p class="text-red-500">An error occurred. Please check the console for details.</p>`;
-                    }
                 });
             }
         };
