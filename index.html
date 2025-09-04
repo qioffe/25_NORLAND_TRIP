@@ -403,6 +403,23 @@
                 justify-content: space-between;
             }
         }
+
+        /* Adjusted Mobile Timeline Spacing */
+        @media (max-width: 640px) {
+            .step-container {
+                padding-left: 2.5rem; /* Increased padding */
+            }
+            .step-item:not(:last-child)::after {
+                left: 1.125rem; /* Aligned with icon center */
+            }
+            .step-icon {
+                left: 0.25rem; /* Adjusted position */
+            }
+            .step-content {
+                margin-left: 2.5rem; /* Increased margin to create space */
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex flex-col items-center min-h-screen p-8 py-12 space-y-8">
@@ -468,30 +485,6 @@
                         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
                     </svg>
                     <span class="font-medium">Jiangsu, China</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Buttons Card (Mobile Only) -->
-        <div id="chips-card-mobile" class="lg:hidden px-2 py-4">
-            <div class="flex flex-wrap justify-center gap-2">
-                <div class="btn-gradient shadow-md">
-                    NORLAND
-                </div>
-                <div class="btn-gradient shadow-md">
-                    CRAFT
-                </div>
-                <div class="btn-gradient shadow-md">
-                    BAND
-                </div>
-                <div class="btn-gradient shadow-md">
-                    ARTS
-                </div>
-                <div class="btn-gradient shadow-md">
-                    DRAMA
-                </div>
-                <div class="btn-gradient shadow-md">
-                    CHORUS
                 </div>
             </div>
         </div>
