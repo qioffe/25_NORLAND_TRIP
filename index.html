@@ -623,7 +623,8 @@
             if (!priceElement) return;
 
             try {
-                const response = await fetch('data.json');
+                // Add a unique timestamp to defeat browser caching
+                const response = await fetch('data.json?t=' + new Date().getTime());
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
