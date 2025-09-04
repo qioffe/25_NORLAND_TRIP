@@ -211,10 +211,6 @@
             opacity: 0.7;
         }
 
-        .checklist-item.is-completed .checklist-icon-completed {
-            display: flex;
-        }
-
         .checklist-icon-completed {
             display: none;
             position: absolute;
@@ -334,27 +330,30 @@
             box-shadow: 4px 4px 12px -4px rgba(59, 130, 246, 0.4);
         }
         
-        /* Mobile Specific Tab Styles */
+        /* Mobile Specific Tab Styles - Re-evaluated for M3 principles */
         @media (max-width: 640px) {
             .tab-btn {
                 font-size: 0.875rem;
             }
             .step-container {
-                padding-left: 2rem; /* Adjusted for better spacing */
+                /* Reduced padding to bring the timeline closer to the edge on mobile */
+                padding-left: 0.5rem;
             }
             .step-item:not(:last-child)::after {
-                left: 1.25rem; /* Adjusted to match icon center */
+                /* Perfect alignment with the center of the icon on mobile */
+                left: 0.75rem;
                 top: 1.5rem;
                 height: calc(100% - 2.5rem);
             }
             .step-icon {
-                width: 2.5rem;
-                height: 2.5rem;
+                width: 2rem;
+                height: 2rem;
                 font-size: 0.875rem;
                 left: 0;
             }
             .step-content {
-                margin-left: 2.75rem;
+                /* Adjusted margin to create a consistent gutter, pushing content away from the timeline */
+                margin-left: 2.5rem;
                 padding: 1rem;
             }
         }
@@ -405,9 +404,11 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 flex flex-col items-center min-h-screen p-8 py-12 space-y-8">
+<!-- Adjusted body padding to align with M3 principles of fluid spacing -->
+<body class="bg-gray-100 flex flex-col items-center min-h-screen p-4 sm:p-6 lg:p-8 py-12 space-y-8">
     <!-- Main, Integrated Dashboard Container -->
-    <div class="main-container w-full max-w-5xl mx-auto p-4 md:p-10">
+    <!-- Adjusted container padding to be more fluid across screen sizes -->
+    <div class="main-container w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-10">
 
         <!-- Updated Material 3 Expressive Hero Section -->
         <div class="hero-section group relative">
@@ -473,7 +474,8 @@
         </div>
         
         <!-- Dashboard Content Area -->
-        <div class="p-4 md:p-10">
+        <!-- Adjusted content padding for better mobile readability -->
+        <div class="p-4 sm:p-6 lg:p-10">
             <!-- New Dashboard Card -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
                 <!-- Days Left Card -->
@@ -502,7 +504,8 @@
         </div>
         
         <!-- Main Content Area with Tabs -->
-        <div class="p-4 md:p-10">
+        <!-- Adjusted content padding for better mobile readability -->
+        <div class="p-4 sm:p-6 lg:p-10">
 
             <!-- Tabs Navigation -->
             <div class="tabs-container flex sm:justify-center mb-4 overflow-x-auto relative space-x-4 py-2">
