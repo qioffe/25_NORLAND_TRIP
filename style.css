@@ -3,6 +3,7 @@ body {
   background-color: #F8F9FA;
 }
 
+/* Timeline styles */
 .timeline-item {
   position: relative;
 }
@@ -43,6 +44,7 @@ body {
   content: none;
 }
 
+/* Expandable card */
 .details-card {
   transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
   overflow: hidden;
@@ -63,7 +65,7 @@ body {
   transform: rotate(90deg);
 }
 
-/* Responsive adjustments for mobile */
+/* Mobile adjustments */
 @media (max-width: 640px) {
   #timeline-wrapper {
     padding-left: 2rem;
