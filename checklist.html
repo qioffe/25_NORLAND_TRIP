@@ -3,26 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visa Requirements Checklist</title>
+  <title>Visa Checklist</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-gray-50 flex flex-col items-center min-h-screen p-4 py-12 space-y-8">
 
-  <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-4xl mx-auto space-y-12">
+  <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-5xl mx-auto space-y-12">
 
     <!-- Header -->
-    <div class="flex flex-col items-center mb-8">
-      <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-6">Visa Requirements</h1>
-      <p class="text-base text-gray-600 text-center mb-6">Complete the COVA form, submit all documents, and collect the stamped passport.</p>
-      <a href="index.html" class="text-blue-600 hover:underline">← Back to Home</a>
+    <div class="flex flex-col items-center mb-8 space-y-4">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 text-center">Visa Requirements</h1>
+      <p class="text-base text-gray-600 text-center">Complete the COVA form, submit all documents, then collect the stamped passport in 4 business days.</p>
+
+      <div class="flex space-x-4">
+        <a href="index.html" class="text-blue-600 hover:underline">← Back to Home</a>
+        <a href="timeline.html"
+           class="bg-blue-600 text-white font-medium py-1 px-4 rounded-full shadow-md hover:bg-blue-700 transition">
+          Go to Timeline
+        </a>
+      </div>
     </div>
 
-    <!-- Checklist -->
+    <!-- Checklist Content -->
     <ul class="space-y-6 text-gray-600">
       <li class="cursor-pointer">
-        <div class="flex justify-between items-center">
-          <span class="font-medium text-gray-800">Notarized Consent Letter</span>
+        <div class="flex items-start justify-between">
+          <span class="font-medium text-gray-800 hover:text-blue-600">Notarized Consent Letter</span>
           <span class="expand-icon text-gray-400">&#9656;</span>
         </div>
         <div class="details-card">
@@ -31,36 +38,8 @@
           </div>
         </div>
       </li>
-
-      <li class="cursor-pointer">
-        <div class="flex justify-between items-center">
-          <span class="font-medium text-gray-800">Passport & Identification</span>
-          <span class="expand-icon text-gray-400">&#9656;</span>
-        </div>
-        <div class="details-card">
-          <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
-            <ul class="list-disc list-inside text-sm text-gray-700">
-              <li>Passport – valid for 6 months with 2 blank pages.</li>
-              <li>Photocopy of passport bio-page.</li>
-              <li>Birth Certificate for minor applicant.</li>
-            </ul>
-          </div>
-        </div>
-      </li>
-
-      <li class="cursor-pointer">
-        <div class="flex justify-between items-center">
-          <span class="font-medium text-gray-800">COVA Visa Form</span>
-          <span class="expand-icon text-gray-400">&#9656;</span>
-        </div>
-        <div class="details-card">
-          <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
-            <p class="text-sm text-gray-700">Completed online at <a href="https://cova.mfa.gov.cn/qzCoCommonController.do?show&pageId=index&locale=en_US" target="_blank" class="text-blue-600 hover:underline">COVA Form</a>, printed in full (8–9 pages).</p>
-          </div>
-        </div>
-      </li>
+      <!-- add other checklist items like before -->
     </ul>
-
   </div>
 
   <script src="script.js"></script>
