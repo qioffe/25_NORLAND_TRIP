@@ -27,7 +27,8 @@ params = {
     "departure_id": "MIA",
     "arrival_id": "PVG",
     "outbound_date": "2025-11-22",
-    "return_date": "2025-11-30"
+    "return_date": "2025-11-30",
+    "deep_search": "true"
 }
 
 try:
