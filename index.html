@@ -175,6 +175,7 @@
 
         /* Expressive Checklist Styles */
         .checklist-item {
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -182,7 +183,7 @@
             border-radius: 28px;
             padding: 1.5rem;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
             box-shadow: 0 4px 8px -2px rgba(0,0,0,0.05);
         }
 
@@ -196,6 +197,35 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
+        }
+
+        .checklist-item.is-completed {
+            background-color: #DDE8F4;
+            color: #6B7280;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .checklist-item.is-completed .checklist-item-header {
+            opacity: 0.7;
+        }
+
+        .checklist-item.is-completed .checklist-icon-completed {
+            display: flex;
+        }
+
+        .checklist-icon-completed {
+            display: none;
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            width: 2rem;
+            height: 2rem;
+            background-color: #22C55E;
+            border-radius: 9999px;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: all 0.5s ease-in-out;
         }
         
         .checklist-content {
@@ -218,9 +248,6 @@
 
         .checklist-expand-icon.rotate-90 {
             transform: rotate(90deg);
-        }
-        .text-justify {
-            text-align: justify;
         }
         .video-overlay {
             position: fixed;
@@ -350,6 +377,14 @@
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
+
+        .document-link {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .document-link:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px -4px rgba(0,0,0,0.08);
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex flex-col items-center min-h-screen p-8 py-12 space-y-8">
@@ -472,7 +507,7 @@
     <div class="bg-white p-10 w-full max-w-5xl mx-auto m3-container">
 
         <!-- Tabs Navigation -->
-        <div class="tabs-container flex sm:justify-center mb-4 overflow-x-auto relative space-x-4">
+        <div class="tabs-container flex sm:justify-center mb-4 overflow-x-auto relative space-x-4 py-2">
             <button id="timeline-tab-btn" class="tab-btn is-active" data-tab="timeline-tab">Application Progress</button>
             <button id="checklist-tab-btn" class="tab-btn" data-tab="checklist-tab">Checklist</button>
             <button id="documents-tab-btn" class="tab-btn" data-tab="documents-tab">Documents</button>
@@ -495,17 +530,29 @@
         <!-- Documents View (Tab Content) -->
         <div id="documents-tab" class="tab-content" style="display:none;">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="py-4 px-6 rounded-2xl font-bold text-blue-600 text-center border-2 border-transparent transition-all duration-300 hover:border-blue-300 bg-gray-50 hover:bg-white">
-                    Consent Letter
+                <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-card p-6 flex items-center justify-center space-x-2">
+                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+                    </svg>
+                    <span class="font-bold text-blue-600 text-center">Consent Letter</span>
                 </a>
-                <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="py-4 px-6 rounded-2xl font-bold text-blue-600 text-center border-2 border-transparent transition-all duration-300 hover:border-blue-300 bg-gray-50 hover:bg-white">
-                    JESIE Application
+                <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-card p-6 flex items-center justify-center space-x-2">
+                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+                    </svg>
+                    <span class="font-bold text-blue-600 text-center">JESIE Application</span>
                 </a>
-                <a href="https://qioffe.github.io/25_NORLAND_TRIP/cova_2013.pdf" target="_blank" rel="noopener noreferrer" class="py-4 px-6 rounded-2xl font-bold text-blue-600 text-center border-2 border-transparent transition-all duration-300 hover:border-blue-300 bg-gray-50 hover:bg-white">
-                    Visa Application Templates
+                <a href="https://qioffe.github.io/25_NORLAND_TRIP/cova_2013.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-card p-6 flex items-center justify-center space-x-2">
+                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+                    </svg>
+                    <span class="font-bold text-blue-600 text-center">Visa Application Templates</span>
                 </a>
-                <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf" target="_blank" rel="noopener noreferrer" class="py-4 px-6 rounded-2xl font-bold text-blue-600 text-center border-2 border-transparent transition-all duration-300 hover:border-blue-300 bg-gray-50 hover:bg-white">
-                    Where You Stay Form
+                <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-card p-6 flex items-center justify-center space-x-2">
+                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+                    </svg>
+                    <span class="font-bold text-blue-600 text-center">Where You Stay Form</span>
                 </a>
             </div>
         </div>
@@ -615,11 +662,14 @@
             const container = document.getElementById('checklist-container');
             container.innerHTML = checklistData.map(item => `
                 <div class="checklist-item" data-expanded="false">
+                    <button class="checklist-icon-completed" aria-label="Mark as complete">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </button>
                     <div class="checklist-item-header">
                         <span class="font-bold text-blue-600">${item.title}</span>
                         <span class="expand-icon text-gray-400 checklist-expand-icon">&#9656;</span>
                     </div>
-                    <div class="checklist-content text-justify">
+                    <div class="checklist-content">
                         <p class="leading-relaxed text-gray-700">${item.content}</p>
                     </div>
                 </div>
@@ -772,12 +822,17 @@
                     }
                 }
 
-                // Checklist accordion
+                // Checklist accordion and completion
                 const checklistItem = e.target.closest('.checklist-item');
                 if (checklistItem) {
-                    const content = checklistItem.querySelector('.checklist-content');
-                    const isExpanded = content.classList.toggle('is-expanded');
-                    checklistItem.querySelector('.checklist-expand-icon').classList.toggle('rotate-90', isExpanded);
+                    // Toggle expansion if the click is not on the completion button
+                    if (!e.target.closest('.checklist-icon-completed')) {
+                        const content = checklistItem.querySelector('.checklist-content');
+                        const isExpanded = content.classList.toggle('is-expanded');
+                        checklistItem.querySelector('.checklist-expand-icon').classList.toggle('rotate-90', isExpanded);
+                    } else {
+                        checklistItem.classList.toggle('is-completed');
+                    }
                 }
             });
 
