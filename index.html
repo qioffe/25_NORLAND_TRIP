@@ -275,64 +275,42 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         
-        /* --- Mobile Optimizations for Timeline and Tabs --- */
-        @media (max-width: 640px) {
-            .step-container {
-                padding-left: 2rem;
-            }
-            .step-item:not(:last-child)::after {
-                left: 0.5rem; /* Aligned with icon center */
-                top: 1.5rem;
-            }
-            .step-icon {
-                width: 2rem;
-                height: 2rem;
-                font-size: 0.875rem;
-                left: -0.5rem; /* Aligned with icon center */
-            }
-            .step-content {
-                margin-left: 2rem;
-                padding: 1rem;
-            }
-            /* Tab responsiveness */
-            .tabs-container {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                position: relative; 
-                padding: 0.5rem; /* Add padding for a bit of space */
-                
-                /* Hide scrollbar for WebKit browsers */
-                -ms-overflow-style: none; /* IE and Edge */
-                scrollbar-width: none; /* Firefox */
-            }
-            .tabs-container::-webkit-scrollbar {
-                display: none;
-            }
-            .tab-btn {
-                flex-shrink: 0;
-                white-space: nowrap;
-                font-size: 0.875rem;
-                transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
-                border-radius: 9999px; /* Pill shape */
-                padding: 0.5rem 1rem;
-                background-color: #E6EEF5; /* A light background for inactive tabs */
-                color: #6B7280;
-                border: none;
-                
-            }
-            .tab-btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px -2px rgba(0,0,0,0.05);
-            }
-            
-            /* Styles for the active tab pill */
-            .tab-btn.is-active {
-                background: linear-gradient(to right, #4299E1, #3B82F6, #1D4ED8);
-                color: white; /* White text for contrast */
-                box-shadow: 0 4px 12px -4px rgba(59, 130, 246, 0.4);
-            }
+        /* Common Tab Styles */
+        .tabs-container {
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+        .tabs-container::-webkit-scrollbar {
+            display: none;
+        }
+        .tab-btn {
+            white-space: nowrap;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s, color 0.3s;
+            font-weight: bold;
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+            color: #6B7280;
+        }
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px -2px rgba(0,0,0,0.05);
+        }
+        .tab-btn.is-active {
+            background: linear-gradient(to right, #4299E1, #3B82F6, #1D4ED8);
+            color: white;
+            box-shadow: 0 4px 12px -4px rgba(59, 130, 246, 0.4);
         }
         
+        /* Mobile Specific Tab Styles */
+        @media (max-width: 640px) {
+            .tab-btn {
+                font-size: 0.875rem;
+            }
+        }
+
         @keyframes pulse-glow {
             0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
             70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
@@ -434,15 +412,14 @@
     <div class="bg-white p-10 w-full max-w-5xl mx-auto m3-container">
 
         <!-- Tabs Navigation -->
-        <div class="tabs-container flex border-b-2 border-transparent mb-4 overflow-x-auto relative sm:justify-center">
-            <button id="timeline-tab-btn" class="tab-btn flex-shrink-0 sm:flex-1 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600" data-tab="timeline-tab">Application Progress</button>
-            <button id="checklist-tab-btn" class="tab-btn flex-shrink-0 sm:flex-1 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600" data-tab="checklist-tab">Checklist</button>
-            <button id="documents-tab-btn" class="tab-btn flex-shrink-0 sm:flex-1 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600" data-tab="documents-tab">Documents</button>
+        <div class="tabs-container flex sm:justify-center mb-4 overflow-x-auto relative space-x-4">
+            <button id="timeline-tab-btn" class="tab-btn is-active" data-tab="timeline-tab">Application Progress</button>
+            <button id="checklist-tab-btn" class="tab-btn" data-tab="checklist-tab">Checklist</button>
+            <button id="documents-tab-btn" class="tab-btn" data-tab="documents-tab">Documents</button>
         </div>
         
-
         <!-- Timeline View (Tab Content) -->
-        <div id="timeline-tab" class="tab-content" style="display:none;">
+        <div id="timeline-tab" class="tab-content" style="display:block;">
             <div id="timeline-container" class="step-container space-y-8">
                 <!-- Timeline content will be dynamically generated here -->
             </div>
@@ -702,8 +679,7 @@
                     
 
                     tabButtons.forEach(btn => {
-                        btn.classList.remove('is-active', 'text-blue-600');
-                        btn.classList.add('text-gray-600');
+                        btn.classList.remove('is-active');
                     });
 
                     tabContents.forEach(content => {
@@ -711,8 +687,7 @@
                     });
 
                     document.getElementById(tabId).style.display = 'block';
-                    e.currentTarget.classList.add('is-active', 'text-blue-600');
-                    e.currentTarget.classList.remove('text-gray-600');
+                    e.currentTarget.classList.add('is-active');
                 });
             });
 
