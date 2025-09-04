@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Norland Trip Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="https://placehold.co/16x16/3B82F6/ffffff?text=N">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -775,22 +776,6 @@
                     updateCountdownAndProgress(); // Update display based on new state
                 });
             }
-            
-            // New hover listeners for hero card play button
-            const heroCard = document.getElementById('hero-card');
-            const isMobile = window.matchMedia("(max-width: 640px)").matches;
-
-            if (isMobile) {
-                 playButton.classList.add('is-visible', 'is-pulsing');
-            } else {
-                 heroCard.addEventListener('mouseenter', () => {
-                     playButton.classList.add('is-visible');
-                 });
-                 heroCard.addEventListener('mouseleave', () => {
-                     playButton.classList.remove('is-visible');
-                 });
-            }
-
         };
 
         const setupCardInteractions = () => {
