@@ -1,374 +1,233 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visa Application Overview</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F8F9FA;
-        }
-
-        .timeline-item {
-            position: relative;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -2.5rem;
-            top: 0.5rem;
-            width: 1.5rem;
-            height: 1.5rem;
-            border-radius: 9999px;
-            background-color: #4285F4;
-            border: 4px solid #C5E0FB;
-            z-index: 10;
-        }
-
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            left: -1.75rem;
-            top: 2rem;
-            height: calc(100% - 2rem);
-            width: 2px;
-            background-color: #C5E0FB;
-            transform: scaleY(0);
-            transform-origin: top;
-            transition: transform 1s ease-in-out, opacity 0.5s ease-in-out;
-            opacity: 0;
-        }
-
-        .timeline-item.animate-line::after {
-            transform: scaleY(1);
-            opacity: 1;
-        }
-
-        .timeline-item:last-child::after {
-            content: none;
-        }
-
-        .details-card {
-            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
-            overflow: hidden;
-            max-height: 0;
-            opacity: 0;
-        }
-
-        .details-card.is-visible {
-            max-height: 500px;
-            opacity: 1;
-        }
-
-        .expand-icon {
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .expand-icon.rotate-90 {
-            transform: rotate(90deg);
-        }
-
-        /* Responsive adjustments for mobile */
-        @media (max-width: 640px) {
-            #timeline-wrapper {
-                padding-left: 2rem; /* reduced from pl-20 */
-            }
-
-            .timeline-item::before {
-                left: -1.5rem;
-                width: 1.25rem;
-                height: 1.25rem;
-                border-width: 3px;
-            }
-
-            .timeline-item::after {
-                left: -1.25rem;
-                width: 2px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visa Application Overview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-50 flex flex-col items-center min-h-screen p-4 py-12 space-y-8">
 
-    <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-5xl mx-auto space-y-12">
+  <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-5xl mx-auto space-y-12">
 
-        <!-- Main Header Card -->
-        <div id="header-card" class="flex flex-col items-center mb-8">
-            <h1 id="page-title" class="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-6">Project Timeline</h1>
-            <p id="page-subtitle" class="text-base text-gray-600 text-center mb-6">A comprehensive schedule of key milestones for the visa application process.</p>
-            <button id="view-toggle-btn" class="bg-blue-600 text-white font-medium py-2 px-6 rounded-full shadow-md hover:bg-blue-700 transition duration-300 ease-in-out">
-                Show Checklist
-            </button>
-        </div>
-
-        <!-- Timeline View -->
-        <div id="timeline-view">
-            <div id="timeline-wrapper" class="relative pl-20 sm:pl-20">
-                <ul class="space-y-6">
-                    <!-- Week 1 -->
-                    <li class="cursor-pointer timeline-item">
-                        <div class="flex justify-between items-center bg-gray-50 rounded-lg p-4 transition-all duration-300 ease-in-out hover:scale-[1.02] hover:bg-blue-50">
-                            <div class="flex flex-col">
-                                <span class="font-bold text-blue-600">Week 1: September 3 – 9</span>
-                                <span class="text-sm text-gray-500">Initial preparations</span>
-                            </div>
-                            <span class="expand-icon text-gray-400">&#9656;</span>
-                        </div>
-                        <div class="details-card">
-                            <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
-                                <h3 class="font-semibold text-gray-800 mb-2">Key Actions:</h3>
-                                <div class="flex flex-col sm:flex-row items-start mt-2">
-                                    <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
-                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">SEPTEMBER 3</span>
-                                    </div>
-                                    <div class="text-sm text-gray-700">Initial student information verification begins.</div>
-                                </div>
-                                <div class="flex flex-col sm:flex-row items-start mt-2">
-                                    <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
-                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">SEPTEMBER 4-7</span>
-                                    </div>
-                                    <div class="text-sm text-gray-700">Communication channels with parents are updated, and the initial project roadmap is announced.</div>
-                                </div>
-                                <div class="flex flex-col sm:flex-row items-start mt-2">
-                                    <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
-                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">SEPTEMBER 8-9</span>
-                                    </div>
-                                    <div class="text-sm text-gray-700">Final student data is compiled, including home addresses and contact details. The official invitation letter is issued.</div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-
-                    <!-- Week 2 -->
-                    <li class="cursor-pointer timeline-item">
-                        <div class="flex justify-between items-center bg-gray-50 rounded-lg p-4 transition-all duration-300 ease-in-out hover:scale-[1.02] hover:bg-blue-50">
-                            <div class="flex flex-col">
-                                <span class="font-bold text-blue-600">Week 2: September 10 – 15</span>
-                                <span class="text-sm text-gray-500">Visa application process</span>
-                            </div>
-                            <span class="expand-icon text-gray-400">&#9656;</span>
-                        </div>
-                        <div class="details-card">
-                            <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
-                                <h3 class="font-semibold text-gray-800 mb-2">Key Actions:</h3>
-                                <div class="flex flex-col sm:flex-row items-start mt-2">
-                                    <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
-                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">SEPTEMBER 10</span>
-                                    </div>
-                                    <div class="text-sm text-gray-700">The application is finalized and parents must sign documents, including the pre-filled COVA form. The first payment amount is also announced.</div>
-                                </div>
-                                <div class="flex flex-col sm:flex-row items-start mt-2">
-                                    <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
-                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">SEPTEMBER 11</span>
-                                    </div>
-                                    <div class="text-sm text-gray-700">The complete visa packet is dispatched to Washington, D.C. An air ticket quote is provided to parents.</div>
-                                </div>
-                                <div class="flex flex-col sm:flex-row items-start mt-2">
-                                    <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
-                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">SEPTEMBER 15</span>
-                                    </div>
-                                    <div class="text-sm text-gray-700">The stamped visa passport is collected.</div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-
-                    <!-- Future Payments -->
-                    <li class="cursor-pointer timeline-item">
-                        <div class="flex justify-between items-center bg-gray-50 rounded-lg p-4 transition-all duration-300 ease-in-out hover:scale-[1.02] hover:bg-blue-50">
-                            <div class="flex flex-col">
-                                <span class="font-bold text-blue-600">Future Payments</span>
-                                <span class="text-sm text-gray-500">October & November</span>
-                            </div>
-                            <span class="expand-icon text-gray-400">&#9656;</span>
-                        </div>
-                        <div class="details-card">
-                            <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
-                                <h3 class="font-semibold text-gray-800 mb-2">Payment Schedule:</h3>
-                                <div class="flex flex-col sm:flex-row items-start mt-2">
-                                    <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
-                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">OCTOBER</span>
-                                    </div>
-                                    <div class="text-sm text-gray-700">The second payment is due.</div>
-                                </div>
-                                <div class="flex flex-col sm:flex-row items-start mt-2">
-                                    <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
-                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">NOVEMBER</span>
-                                    </div>
-                                    <div class="text-sm text-gray-700">The third and final payment is due.</div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Checklist View (Hidden by default) -->
-        <div id="checklist-view" class="space-y-6" style="display: none;">
-            <ul class="space-y-6 text-gray-600">
-                <li class="cursor-pointer">
-                    <div class="flex items-start">
-                        <div class="flex-grow flex justify-between items-center">
-                            <span class="font-medium text-gray-800 transition-colors hover:text-blue-600">Notarized Consent Letter</span>
-                            <span class="expand-icon text-gray-400">&#9656;</span>
-                        </div>
-                    </div>
-                    <div class="details-card">
-                        <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
-                            <p class="text-sm text-gray-700 leading-relaxed">A notarized consent letter is required if a parent is not accompanying the minor.</p>
-                        </div>
-                    </div>
-                </li>
-                <li class="cursor-pointer">
-                    <div class="flex items-start">
-                        <div class="flex-grow flex justify-between items-center">
-                            <span class="font-medium text-gray-800 transition-colors hover:text-blue-600">Passport & Identification</span>
-                            <span class="expand-icon text-gray-400">&#9656;</span>
-                        </div>
-                    </div>
-                    <div class="details-card">
-                        <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
-                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
-                                <li>Passport – valid for at least six (6) months, with a minimum of two (2) blank visa pages.</li>
-                                <li>Photocopy of passport bio-page.</li>
-                                <li>Birth Certificate for minor applicant.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-                <li class="cursor-pointer">
-                    <div class="flex items-start">
-                        <div class="flex-grow flex justify-between items-center">
-                            <span class="font-medium text-gray-800 transition-colors hover:text-blue-600">COVA Visa Form</span>
-                            <span class="expand-icon text-gray-400">&#9656;</span>
-                        </div>
-                    </div>
-                    <div class="details-card">
-                        <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
-                            <p class="text-sm text-gray-700 leading-relaxed">Completed online at <a href="https://cova.mfa.gov.cn/qzCoCommonController.do?show&pageId=index&locale=en_US" target="_blank" class="text-blue-600 hover:underline" rel="noopener noreferrer">COVA Form</a>, printed in full (8–9 pages).</p>
-                        </div>
-                    </div>
-                </li>
-                <li class="cursor-pointer">
-                    <div class="flex items-start">
-                        <div class="flex-grow flex justify-between items-center">
-                            <span class="font-medium text-gray-800 transition-colors hover:text-blue-600">Supporting Documentation</span>
-                            <span class="expand-icon text-gray-400">&#9656;</span>
-                        </div>
-                    </div>
-                    <div class="details-card">
-                        <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
-                            <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
-                                <li>Photocopy of most recent Chinese visa or residence permit, if applicable.</li>
-                                <li>Proof of residence in the United States.</li>
-                                <li>Completed “Where You Stay” Form.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-                <li class="cursor-pointer">
-                    <div class="flex items-start">
-                        <div class="flex-grow flex justify-between items-center">
-                            <span class="font-medium text-gray-800 transition-colors hover:text-blue-600">Invitation Letter</span>
-                            <span class="expand-icon text-gray-400">&#9656;</span>
-                        </div>
-                    </div>
-                    <div class="details-card">
-                        <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
-                            <p class="text-sm text-gray-700 leading-relaxed">Includes minor’s full name, purpose of visit, intended dates, places to visit, inviter info, official seal/signature, and date of issuance.</p>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Separator -->
-        <hr class="my-10 border-t border-gray-200" />
-
-        <!-- File Links Card -->
-        <div id="file-links-card" class="bg-white rounded-xl p-8">
-            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full justify-center items-center">
-                <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-600 py-1 px-3 hover:underline transition duration-300 ease-in-out text-center">
-                    Consent Letter
-                </a>
-                <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-600 py-1 px-3 hover:underline transition duration-300 ease-in-out text-center">
-                    JESIE Application
-                </a>
-                <a href="https://qioffe.github.io/25_NORLAND_TRIP/cova_2013.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-600 py-1 px-3 hover:underline transition duration-300 ease-in-out text-center">
-                    Visa Application Templates
-                </a>
-                <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-600 py-1 px-3 hover:underline transition duration-300 ease-in-out text-center">
-                    Where You Stay Form
-                </a>
-            </div>
-        </div>
-
+    <!-- Main Header Card -->
+    <div id="header-card" class="flex flex-col items-center mb-8">
+      <h1 id="page-title" class="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-6">Project Timeline</h1>
+      <p id="page-subtitle" class="text-base text-gray-600 text-center mb-6">A comprehensive schedule of key milestones for the visa application process.</p>
+      <button id="view-toggle-btn" class="bg-blue-600 text-white font-medium py-2 px-6 rounded-full shadow-md hover:bg-blue-700 transition duration-300 ease-in-out">
+        Show Checklist
+      </button>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const toggleButton = document.getElementById('view-toggle-btn');
-            const timelineView = document.getElementById('timeline-view');
-            const checklistView = document.getElementById('checklist-view');
-            const pageTitle = document.getElementById('page-title');
-            const pageSubtitle = document.getElementById('page-subtitle');
+    <!-- Timeline View -->
+    <div id="timeline-view">
+      <div id="timeline-wrapper" class="relative pl-20 sm:pl-20">
+        <ul class="space-y-6">
+          <!-- Week 1 -->
+          <li class="cursor-pointer timeline-item">
+            <div class="flex justify-between items-center bg-gray-50 rounded-lg p-4 transition-all duration-300 ease-in-out hover:scale-[1.02] hover:bg-blue-50">
+              <div class="flex flex-col">
+                <span class="font-bold text-blue-600">Week 1: September 3 – 9</span>
+                <span class="text-sm text-gray-500">Initial preparations</span>
+              </div>
+              <span class="expand-icon text-gray-400">&#9656;</span>
+            </div>
+            <div class="details-card">
+              <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
+                <h3 class="font-semibold text-gray-800 mb-2">Key Actions:</h3>
+                <div class="flex flex-col sm:flex-row items-start mt-2">
+                  <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
+                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">SEPTEMBER 3</span>
+                  </div>
+                  <div class="text-sm text-gray-700">Initial student information verification begins.</div>
+                </div>
+                <div class="flex flex-col sm:flex-row items-start mt-2">
+                  <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
+                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">SEPTEMBER 4-7</span>
+                  </div>
+                  <div class="text-sm text-gray-700">Communication channels with parents are updated, and the initial project roadmap is announced.</div>
+                </div>
+                <div class="flex flex-col sm:flex-row items-start mt-2">
+                  <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
+                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">SEPTEMBER 8-9</span>
+                  </div>
+                  <div class="text-sm text-gray-700">Final student data is compiled, including home addresses and contact details. The official invitation letter is issued.</div>
+                </div>
+              </div>
+            </div>
+          </li>
 
-            let isTimeline = true;
+          <!-- Week 2 -->
+          <li class="cursor-pointer timeline-item">
+            <div class="flex justify-between items-center bg-gray-50 rounded-lg p-4 transition-all duration-300 ease-in-out hover:scale-[1.02] hover:bg-blue-50">
+              <div class="flex flex-col">
+                <span class="font-bold text-blue-600">Week 2: September 10 – 15</span>
+                <span class="text-sm text-gray-500">Visa application process</span>
+              </div>
+              <span class="expand-icon text-gray-400">&#9656;</span>
+            </div>
+            <div class="details-card">
+              <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
+                <h3 class="font-semibold text-gray-800 mb-2">Key Actions:</h3>
+                <div class="flex flex-col sm:flex-row items-start mt-2">
+                  <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
+                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">SEPTEMBER 10</span>
+                  </div>
+                  <div class="text-sm text-gray-700">The application is finalized and parents must sign documents, including the pre-filled COVA form. The first payment amount is also announced.</div>
+                </div>
+                <div class="flex flex-col sm:flex-row items-start mt-2">
+                  <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
+                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">SEPTEMBER 11</span>
+                  </div>
+                  <div class="text-sm text-gray-700">The complete visa packet is dispatched to Washington, D.C. An air ticket quote is provided to parents.</div>
+                </div>
+                <div class="flex flex-col sm:flex-row items-start mt-2">
+                  <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
+                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">SEPTEMBER 15</span>
+                  </div>
+                  <div class="text-sm text-gray-700">The stamped visa passport is collected.</div>
+                </div>
+              </div>
+            </div>
+          </li>
 
-            const setupClickEvents = (parentSelector) => {
-                const listItems = document.querySelectorAll(`${parentSelector} li`);
-                listItems.forEach(item => {
-                    item.addEventListener('click', () => {
-                        const detailsCard = item.querySelector('.details-card');
-                        const expandIcon = item.querySelector('.expand-icon');
-                        if (detailsCard && expandIcon) {
-                            detailsCard.classList.toggle('is-visible');
-                            expandIcon.classList.toggle('rotate-90');
-                        }
-                    });
-                });
-            };
+          <!-- Future Payments -->
+          <li class="cursor-pointer timeline-item">
+            <div class="flex justify-between items-center bg-gray-50 rounded-lg p-4 transition-all duration-300 ease-in-out hover:scale-[1.02] hover:bg-blue-50">
+              <div class="flex flex-col">
+                <span class="font-bold text-blue-600">Future Payments</span>
+                <span class="text-sm text-gray-500">October & November</span>
+              </div>
+              <span class="expand-icon text-gray-400">&#9656;</span>
+            </div>
+            <div class="details-card">
+              <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
+                <h3 class="font-semibold text-gray-800 mb-2">Payment Schedule:</h3>
+                <div class="flex flex-col sm:flex-row items-start mt-2">
+                  <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
+                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">OCTOBER</span>
+                  </div>
+                  <div class="text-sm text-gray-700">The second payment is due.</div>
+                </div>
+                <div class="flex flex-col sm:flex-row items-start mt-2">
+                  <div class="flex-shrink-0 w-full sm:w-32 sm:mb-0 mb-1">
+                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">NOVEMBER</span>
+                  </div>
+                  <div class="text-sm text-gray-700">The third and final payment is due.</div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
 
-            const animateTimeline = () => {
-                const timelineItems = document.querySelectorAll('#timeline-wrapper > ul > li');
-                timelineItems.forEach((item, index) => {
-                    setTimeout(() => {
-                        if (!item.classList.contains('animate-line')) {
-                            item.classList.add('animate-line');
-                        }
-                    }, index * 500);
-                });
-            };
+    <!-- Checklist View (Hidden by default) -->
+    <div id="checklist-view" class="space-y-6" style="display: none;">
+      <ul class="space-y-6 text-gray-600">
+        <li class="cursor-pointer">
+          <div class="flex items-start">
+            <div class="flex-grow flex justify-between items-center">
+              <span class="font-medium text-gray-800 transition-colors hover:text-blue-600">Notarized Consent Letter</span>
+              <span class="expand-icon text-gray-400">&#9656;</span>
+            </div>
+          </div>
+          <div class="details-card">
+            <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
+              <p class="text-sm text-gray-700 leading-relaxed">A notarized consent letter is required if a parent is not accompanying the minor.</p>
+            </div>
+          </div>
+        </li>
+        <li class="cursor-pointer">
+          <div class="flex items-start">
+            <div class="flex-grow flex justify-between items-center">
+              <span class="font-medium text-gray-800 transition-colors hover:text-blue-600">Passport & Identification</span>
+              <span class="expand-icon text-gray-400">&#9656;</span>
+            </div>
+          </div>
+          <div class="details-card">
+            <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
+              <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                <li>Passport – valid for at least six (6) months, with a minimum of two (2) blank visa pages.</li>
+                <li>Photocopy of passport bio-page.</li>
+                <li>Birth Certificate for minor applicant.</li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="cursor-pointer">
+          <div class="flex items-start">
+            <div class="flex-grow flex justify-between items-center">
+              <span class="font-medium text-gray-800 transition-colors hover:text-blue-600">COVA Visa Form</span>
+              <span class="expand-icon text-gray-400">&#9656;</span>
+            </div>
+          </div>
+          <div class="details-card">
+            <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
+              <p class="text-sm text-gray-700 leading-relaxed">Completed online at <a href="https://cova.mfa.gov.cn/qzCoCommonController.do?show&pageId=index&locale=en_US" target="_blank" class="text-blue-600 hover:underline" rel="noopener noreferrer">COVA Form</a>, printed in full (8–9 pages).</p>
+            </div>
+          </div>
+        </li>
+        <li class="cursor-pointer">
+          <div class="flex items-start">
+            <div class="flex-grow flex justify-between items-center">
+              <span class="font-medium text-gray-800 transition-colors hover:text-blue-600">Supporting Documentation</span>
+              <span class="expand-icon text-gray-400">&#9656;</span>
+            </div>
+          </div>
+          <div class="details-card">
+            <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
+              <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                <li>Photocopy of most recent Chinese visa or residence permit, if applicable.</li>
+                <li>Proof of residence in the United States.</li>
+                <li>Completed “Where You Stay” Form.</li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li class="cursor-pointer">
+          <div class="flex items-start">
+            <div class="flex-grow flex justify-between items-center">
+              <span class="font-medium text-gray-800 transition-colors hover:text-blue-600">Invitation Letter</span>
+              <span class="expand-icon text-gray-400">&#9656;</span>
+            </div>
+          </div>
+          <div class="details-card">
+            <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
+              <p class="text-sm text-gray-700 leading-relaxed">Includes minor’s full name, purpose of visit, intended dates, places to visit, inviter info, official seal/signature, and date of issuance.</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
 
-            toggleButton.addEventListener('click', () => {
-                isTimeline = !isTimeline;
-                if (isTimeline) {
-                    timelineView.style.display = 'block';
-                    checklistView.style.display = 'none';
-                    pageTitle.textContent = 'Project Timeline';
-                    pageSubtitle.textContent = 'A comprehensive schedule of key milestones for the visa application process.';
-                    toggleButton.textContent = 'Show Checklist';
-                    animateTimeline();
-                } else {
-                    timelineView.style.display = 'none';
-                    checklistView.style.display = 'block';
-                    pageTitle.textContent = 'Visa Requirements';
-                    pageSubtitle.textContent = 'Complete the COVA form, submit all documents at the Visa Office, then collect the stamped passport in 4 business days';
-                    toggleButton.textContent = 'Show Project Timeline';
-                }
-            });
+    <!-- Separator -->
+    <hr class="my-10 border-t border-gray-200" />
 
-            setupClickEvents('#timeline-view');
-            setupClickEvents('#checklist-view');
-            animateTimeline();
-        });
-    </script>
+    <!-- File Links Card -->
+    <div id="file-links-card" class="bg-white rounded-xl p-8">
+      <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full justify-center items-center">
+        <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-600 py-1 px-3 hover:underline transition duration-300 ease-in-out text-center">
+          Consent Letter
+        </a>
+        <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-600 py-1 px-3 hover:underline transition duration-300 ease-in-out text-center">
+          JESIE Application
+        </a>
+        <a href="https://qioffe.github.io/25_NORLAND_TRIP/cova_2013.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-600 py-1 px-3 hover:underline transition duration-300 ease-in-out text-center">
+          Visa Application Templates
+        </a>
+        <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-600 py-1 px-3 hover:underline transition duration-300 ease-in-out text-center">
+          Where You Stay Form
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
