@@ -1,27 +1,785 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visa Application Overview</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Norland Trip Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #E6EEF5; /* Softer, expressive background */
+        }
+        
+        .m3-container {
+            border-radius: 40px; /* More pill-like, expressive shape */
+            box-shadow: 0 12px 24px -6px rgba(0,0,0,0.1), 0 6px 12px -6px rgba(0,0,0,0.05); /* Soft, pronounced shadow */
+            transition: all 0.5s cubic-bezier(0.2, 0.5, 0.4, 1.2);
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .m3-container.is-visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .m3-card {
+            border-radius: 28px;
+            background-color: #F8FBFE; /* Soft, almost white card background */
+            box-shadow: 0 4px 8px -2px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .m3-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px -4px rgba(0,0,0,0.08);
+        }
+
+        .m3-card.is-pressed {
+            transform: scale(0.98);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .progress-container {
+            height: 28px;
+            background-color: #DDE8F4;
+            border-radius: 9999px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #4299E1, #3B82F6, #1D4ED8);
+            transition: width 0.5s ease-in-out;
+            animation: fluid-fill 3s linear infinite;
+            position: relative;
+        }
+        .progress-text-inside {
+            position: absolute;
+            top: 50%;
+            right: 1.5rem;
+            transform: translateY(-50%);
+            white-space: nowrap;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #334155;
+            z-index: 20;
+        }
+
+        @keyframes fluid-fill {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .expressive-title {
+            font-weight: 900; /* Extra bold */
+            font-size: 4rem; /* Base size */
+            line-height: 1;
+        }
+        
+        /* Responsive scaling */
+        @media (min-width: 640px) {
+            .expressive-title {
+                font-size: 7rem;
+            }
+        }
+        
+        .hero-title-gradient {
+            background-image: linear-gradient(to bottom right, #3B82F6, #1D4ED8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .btn-gradient {
+            background-image: linear-gradient(to right, #4299E1, #3B82F6, #1D4ED8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            background-color: #DDE8F4; /* Lighter background for the transparent text effect */
+            box-shadow: 0 4px 8px -2px rgba(0,0,0,0.05);
+        }
+
+        /* Expressive Step Progress Styles */
+        .step-container {
+            position: relative;
+            padding-left: 5rem;
+        }
+        .step-item {
+            position: relative;
+        }
+        .step-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 1.5rem;
+            top: 2rem;
+            height: calc(100% - 2.5rem);
+            width: 2px;
+            background-color: #CBD5E1;
+            z-index: 5;
+        }
+        .step-icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 9999px;
+            background-color: #DDE8F4;
+            color: #4B5563; /* Dark gray for visibility */
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            z-index: 10;
+        }
+        .step-item.is-active .step-icon {
+            background-color: #3B82F6;
+            color: white; /* White for better contrast on blue background */
+            box-shadow: 0 0 15px 5px rgba(59, 130, 246, 0.5);
+        }
+        .step-item.is-completed .step-icon {
+            background-color: #22C55E;
+            color: white; /* White for better contrast on green background */
+            box-shadow: 0 0 15px 5px rgba(34, 197, 94, 0.5);
+        }
+        .step-content {
+            margin-left: 5rem;
+        }
+        
+        .details-card {
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+        }
+        .details-card.is-visible {
+            max-height: 500px;
+            opacity: 1;
+        }
+        .expand-icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        .expand-icon.rotate-90 {
+            transform: rotate(90deg);
+        }
+
+        /* Expressive Checklist Styles */
+        .checklist-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background-color: #F8FBFE;
+            border-radius: 28px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 8px -2px rgba(0,0,0,0.05);
+        }
+
+        .checklist-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px -4px rgba(0,0,0,0.08);
+        }
+
+        .checklist-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .checklist-content {
+            padding-top: 1rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            opacity: 0;
+            width: 100%;
+        }
+
+        .checklist-content.is-expanded {
+            max-height: 500px;
+            opacity: 1;
+        }
+
+        .checklist-expand-icon {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .checklist-expand-icon.rotate-90 {
+            transform: rotate(90deg);
+        }
+        .text-justify {
+            text-align: justify;
+        }
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .video-overlay.is-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .video-container {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: white;
+            color: #333;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1001;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Mobile Optimizations for Timeline */
+        @media (max-width: 640px) {
+            .step-container {
+                padding-left: 2.5rem; /* Reduced padding on small screens */
+            }
+            .step-item:not(:last-child)::after {
+                left: 1rem; /* Adjust line position */
+                top: 1.5rem; /* Adjust line start point */
+            }
+            .step-icon {
+                width: 2rem;
+                height: 2rem;
+                font-size: 0.875rem;
+                left: -0.5rem; /* Pull icon slightly to the left */
+            }
+            .step-content {
+                margin-left: 2rem; /* Reduced margin for content */
+                padding: 1rem;
+            }
+        }
+        
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+        
+        .is-pulsing {
+            animation: pulse-glow 2s infinite;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 flex flex-col items-center justify-center min-h-screen p-4">
+<body class="bg-gray-100 flex flex-col items-center min-h-screen p-8 py-16 space-y-12">
 
-  <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-md mx-auto text-center space-y-6">
-    <h1 class="text-3xl font-bold text-gray-800">Visa Application Overview</h1>
-    <p class="text-gray-600">Choose a view to continue:</p>
+    <!-- Updated Material 3 Expressive Hero Card -->
+    <div id="hero-card" class="group p-10 w-full max-w-5xl mx-auto m3-container bg-white flex flex-col lg:flex-row items-center justify-between space-y-6 lg:space-y-0 relative">
+        <!-- Play Button Overlay -->
+        <button id="play-btn" class="absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-70 backdrop-blur-md rounded-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-90 group-hover:scale-100">
+            <svg class="w-20 h-20 text-blue-600 transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+        </button>
 
-    <div class="flex flex-col space-y-4">
-      <a href="timeline.html" class="bg-blue-600 text-white font-medium py-2 px-6 rounded-full shadow-md hover:bg-blue-700 transition duration-300 ease-in-out">
-        View Project Timeline
-      </a>
-      <a href="checklist.html" class="bg-green-600 text-white font-medium py-2 px-6 rounded-full shadow-md hover:bg-green-700 transition duration-300 ease-in-out">
-        View Checklist
-      </a>
+        <!-- Date on the left -->
+        <div class="flex flex-col items-center lg:items-start w-full lg:w-2/3 z-10">
+            <h1 class="expressive-title hero-title-gradient">NOV 22</h1>
+        </div>
+        
+        <!-- Buttons and location on the right -->
+        <div class="flex flex-col items-center lg:items-end space-y-4 w-full lg:w-1/3 z-10">
+            <div class="flex flex-wrap justify-center lg:justify-end gap-2 w-full">
+                <div class="btn-gradient shadow-md">
+                    NORLAND
+                </div>
+                <div class="btn-gradient shadow-md">
+                    CRAFT
+                </div>
+                <div class="btn-gradient shadow-md">
+                    BAND
+                </div>
+                <div class="btn-gradient shadow-md">
+                    ARTS
+                </div>
+                <div class="btn-gradient shadow-md">
+                    DRAMA
+                </div>
+                <div class="btn-gradient shadow-md">
+                    CHORUS
+                </div>
+            </div>
+            <div class="flex items-center space-x-2 p-3 bg-gray-100 text-gray-700 rounded-full shadow-inner">
+                <!-- Location Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+                </svg>
+                <span class="font-medium">Jiangsu, China</span>
+            </div>
+        </div>
     </div>
-  </div>
+    
+    <!-- New Dashboard Card -->
+    <div id="dashboard-card" class="bg-white p-10 w-full max-w-5xl mx-auto m3-container">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
+            <!-- Days Left Card -->
+            <div id="days-left-card" class="m3-card p-6 flex flex-col items-start space-y-2 cursor-pointer">
+                <p id="countdown-days" class="text-6xl font-extrabold hero-title-gradient">0</p>
+                <p id="countdown-label" class="text-lg font-semibold text-gray-600">DAYS TO DEADLINE</p>
+            </div>
+            <!-- Attendance Card -->
+            <div id="spots-left-card" class="m3-card p-6 flex flex-col items-start space-y-2">
+                <p class="text-6xl font-extrabold hero-title-gradient">18</p>
+                <p class="text-lg font-semibold text-gray-600">SPOTS LEFT</p>
+            </div>
+            <!-- Air Ticket Price Card -->
+            <div id="ticket-price-card" class="m3-card p-6 flex flex-col items-start space-y-2">
+                <p id="ticket-price-number" class="text-6xl font-extrabold hero-title-gradient">$1,460</p>
+                <p class="text-lg font-semibold text-gray-600">MIA-PVG</p>
+            </div>
+        </div>
+        <!-- Expressive Progress Bar -->
+        <div class="w-full mt-8">
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+                <span id="progress-text" class="progress-text-inside"></span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content Area with Tabs -->
+    <div class="bg-white p-10 w-full max-w-5xl mx-auto m3-container">
 
+        <!-- Tabs Navigation -->
+        <div class="flex border-b border-gray-200 mb-8">
+            <button id="timeline-tab-btn" class="tab-btn flex-1 py-3 px-4 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600" data-tab="timeline-tab">Application Progress</button>
+            <button id="checklist-tab-btn" class="tab-btn flex-1 py-3 px-4 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600" data-tab="checklist-tab">Checklist</button>
+            <button id="documents-tab-btn" class="tab-btn flex-1 py-3 px-4 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600" data-tab="documents-tab">Documents</button>
+        </div>
+
+        <!-- Timeline View (Tab Content) -->
+        <div id="timeline-tab" class="tab-content" style="display:none;">
+            <div id="timeline-container" class="step-container space-y-8">
+                <!-- Timeline content will be dynamically generated here -->
+            </div>
+        </div>
+
+        <!-- Checklist View (Tab Content) -->
+        <div id="checklist-tab" class="tab-content" style="display:none;">
+            <div id="checklist-container" class="space-y-6">
+                <!-- Checklist content will be dynamically generated here -->
+            </div>
+        </div>
+
+        <!-- Documents View (Tab Content) -->
+        <div id="documents-tab" class="tab-content" style="display:none;">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="py-4 px-6 rounded-2xl font-bold text-blue-600 text-center border-2 border-transparent transition-all duration-300 hover:border-blue-300 bg-gray-50 hover:bg-white">
+                    Consent Letter
+                </a>
+                <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="py-4 px-6 rounded-2xl font-bold text-blue-600 text-center border-2 border-transparent transition-all duration-300 hover:border-blue-300 bg-gray-50 hover:bg-white">
+                    JESIE Application
+                </a>
+                <a href="https://qioffe.github.io/25_NORLAND_TRIP/cova_2013.pdf" target="_blank" rel="noopener noreferrer" class="py-4 px-6 rounded-2xl font-bold text-blue-600 text-center border-2 border-transparent transition-all duration-300 hover:border-blue-300 bg-gray-50 hover:bg-white">
+                    Visa Application Templates
+                </a>
+                <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf" target="_blank" rel="noopener noreferrer" class="py-4 px-6 rounded-2xl font-bold text-blue-600 text-center border-2 border-transparent transition-all duration-300 hover:border-blue-300 bg-gray-50 hover:bg-white">
+                    Where You Stay Form
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Video Modal -->
+    <div id="video-modal" class="video-overlay">
+        <div class="video-container">
+            <button id="close-btn" class="close-btn">&times;</button>
+            <iframe id="youtube-player" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        const timelineData = [
+            {
+                title: "Embarking on the Journey",
+                dates: "First Stage",
+                start: "2025-10-01",
+                end: "2025-10-15",
+                details: "This initial phase focuses on the essential steps for your visa application. We will first verify all student information and establish communication with parents. Upon completion, we will issue the official invitation letter, which is a key document for your visa packet.",
+                milestones: [
+                    "Complete student information verification.",
+                    "Official invitation letters are issued and final data is compiled."
+                ]
+            },
+            {
+                title: "Securing Your Passage",
+                dates: "Second Stage",
+                start: "2025-10-16",
+                end: "2025-10-31",
+                details: "This is the critical phase where we finalize all visa-related paperwork. We'll work closely with parents to gather signatures and submit the complete visa packet. The goal is to collect the stamped passport by the end of this period.",
+                milestones: [
+                    "Final visa application forms are signed and submitted.",
+                    "The visa packet is dispatched to Washington, D.C.",
+                    "The stamped visa passport is collected."
+                ]
+            },
+            {
+                title: "Finalizing Your Preparations",
+                dates: "Third Stage",
+                start: "2025-11-01",
+                end: "2025-11-30",
+                details: "The final stages of preparation focus on logistics and finance. We will complete the last two payments, ensuring everything is in place for a smooth and worry-free departure.",
+                milestones: [
+                    "The second payment is due.",
+                    "The third and final payment is due."
+                ]
+            }
+        ];
+
+        const checklistData = [
+            {
+                title: "Notarized Consent Letter",
+                content: "A notarized consent letter is required if a parent is not accompanying the minor."
+            },
+            {
+                title: "Passport & Identification",
+                content: "<ul><li>Passport – valid for at least six (6) months, with a minimum of two (2) blank visa pages.</li><li>Photocopy of passport bio-page.</li><li>Birth Certificate for minor applicant.</li></ul>"
+            },
+            {
+                title: "COVA Visa Form",
+                content: 'Completed online at <a href="https://cova.mfa.gov.cn/qzCoCommonController.do?show&pageId=index&locale=en_US" target="_blank" class="text-blue-600 hover:underline" rel="noopener noreferrer">COVA Form</a>, printed in full (8–9 pages).'
+            },
+            {
+                title: "Supporting Documentation",
+                content: '<ul><li>Photocopy of most recent Chinese visa or residence permit, if applicable.</li><li>Proof of residence in the United States.</li><li>Completed “Where You Stay” Form.</li></ul>'
+            },
+            {
+                title: "Invitation Letter",
+                content: "Includes minor’s full name, purpose of visit, intended dates, places to visit, inviter info, official seal/signature, and date of issuance."
+            }
+        ];
+
+        const renderTimeline = () => {
+            const container = document.getElementById('timeline-container');
+            container.innerHTML = timelineData.map((step, index) => {
+                const milestonesHtml = step.milestones.map(m => `<li>${m}</li>`).join('');
+                return `
+                    <div class="step-item" data-start="${step.start}" data-end="${step.end}">
+                        <div class="step-icon">${index + 1}</div>
+                        <div class="step-content m3-card p-6">
+                            <div class="flex justify-between items-center">
+                                <div class="flex flex-col">
+                                    <span class="font-bold text-blue-600">${step.title}</span>
+                                    <span class="text-sm text-gray-500">${step.dates}</span>
+                                </div>
+                                <span class="expand-icon text-gray-400">&#9656;</span>
+                            </div>
+                            <div class="details-card">
+                                <div class="p-4 mt-2">
+                                    <p class="text-sm text-gray-700 mb-2">${step.details}</p>
+                                    <h3 class="font-semibold text-gray-800 mb-2">Key Milestones:</h3>
+                                    <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
+                                        ${milestonesHtml}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        };
+
+        const renderChecklist = () => {
+            const container = document.getElementById('checklist-container');
+            container.innerHTML = checklistData.map(item => `
+                <div class="checklist-item" data-expanded="false">
+                    <div class="checklist-item-header">
+                        <span class="font-bold text-blue-600">${item.title}</span>
+                        <span class="expand-icon text-gray-400 checklist-expand-icon">&#9656;</span>
+                    </div>
+                    <div class="checklist-content text-justify">
+                        <p class="leading-relaxed text-gray-700">${item.content}</p>
+                    </div>
+                </div>
+            `).join('');
+        };
+
+        const updateStepProgress = () => {
+            const now = new Date();
+            const steps = document.querySelectorAll('.step-item');
+            
+            steps.forEach((step, index) => {
+                const startDate = new Date(step.dataset.start);
+                const endDate = new Date(step.dataset.end);
+                
+                step.classList.remove('is-active', 'is-completed');
+
+                if (now >= endDate) {
+                    step.classList.add('is-completed');
+                } else if (now >= startDate && now < endDate) {
+                    step.classList.add('is-active');
+                } else if (index === 0) {
+                     step.classList.add('is-active');
+                }
+            });
+        };
+
+        const updateCountdownAndProgress = () => {
+            const deadlineDate = new Date('2025-09-15T00:00:00');
+            const tripDate = new Date('2025-11-22T00:00:00');
+            const now = new Date();
+
+            // Calculate days for both deadlines
+            const daysToTrip = Math.ceil((tripDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+            const daysToDeadline = Math.ceil((deadlineDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+            
+            // Set initial display to the deadline countdown
+            const countdownElement = document.getElementById('countdown-days');
+            const countdownLabel = document.getElementById('countdown-label');
+            if (countdownElement && countdownLabel) {
+                countdownElement.textContent = daysToDeadline > 0 ? daysToDeadline : 0;
+                countdownLabel.textContent = "DAYS TO DEADLINE";
+            }
+
+            // Progress bar logic remains tied to the deadline
+            const startDate = new Date('2025-09-02T00:00:00');
+            const totalTime = deadlineDate.getTime() - startDate.getTime();
+            const elapsedTime = now.getTime() - startDate.getTime();
+
+            let progressPercentage = 0;
+            let progressText = "September 15th deadline";
+            if (now >= deadlineDate) {
+                progressPercentage = 100;
+                progressText = "Deadline reached!";
+            } else if (now > startDate) {
+                progressPercentage = (elapsedTime / totalTime) * 100;
+            } else {
+                 progressText = "Countdown starts soon...";
+            }
+
+            const progressBar = document.getElementById('progress-bar');
+            if (progressBar) {
+                progressBar.style.width = `${progressPercentage}%`;
+            }
+
+            const progressTextElement = document.getElementById('progress-text');
+            if (progressTextElement) {
+                progressTextElement.textContent = progressText;
+            }
+
+            // Event listeners for hover functionality
+            const daysLeftCard = document.getElementById('days-left-card');
+            if (daysLeftCard) {
+                daysLeftCard.onmouseover = () => {
+                    countdownElement.textContent = daysToTrip > 0 ? daysToTrip : 0;
+                    countdownLabel.textContent = "DAYS TO DEPARTURE";
+                };
+                daysLeftCard.onmouseout = () => {
+                    countdownElement.textContent = daysToDeadline > 0 ? daysToDeadline : 0;
+                    countdownLabel.textContent = "DAYS TO DEADLINE";
+                };
+            }
+        };
+
+        const updateTicketPrice = async () => {
+            const priceElement = document.getElementById('ticket-price-number');
+            if (!priceElement) return;
+
+            /* This is the slot for your SerpAPI integration.
+              
+              To connect to SerpAPI, you need a backend server to protect your API key.
+              You will make a secure fetch request from this frontend code to your server,
+              and your server will then make the request to SerpAPI.
+
+              1. Set up a simple backend API (e.g., using Node.js, Python Flask, or similar).
+              2. Your backend will take a request, build the SerpAPI query, and use your
+                 private API key to fetch the real-time flight data.
+              3. The backend will return the final price to this frontend app.
+              4. Replace the code below with your fetch call.
+            */
+
+            // Example of how you would fetch from your own backend:
+            // try {
+            //   const response = await fetch('/api/ticket-price');
+            //   const data = await response.json();
+            //   if (data.price) {
+            //     priceElement.textContent = `$${data.price}`;
+            //   }
+            // } catch (error) {
+            //   console.error("Failed to fetch ticket price:", error);
+            // }
+
+            // Temporary simulated price for demonstration
+            const basePrice = 1460;
+            const fluctuation = Math.floor(Math.random() * 80) - 40; // Fluctuate by +/- $40
+            const newPrice = basePrice + fluctuation;
+            priceElement.textContent = `$${newPrice}`;
+        };
+
+        const setupEventListeners = () => {
+            document.querySelectorAll('.tab-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const tabId = e.currentTarget.dataset.tab;
+                    const tabButtons = document.querySelectorAll('.tab-btn');
+                    const tabContents = document.querySelectorAll('.tab-content');
+
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('text-blue-600', 'border-blue-600');
+                        btn.classList.add('text-gray-600', 'border-transparent');
+                    });
+
+                    tabContents.forEach(content => {
+                        content.style.display = 'none';
+                    });
+
+                    document.getElementById(tabId).style.display = 'block';
+                    e.currentTarget.classList.remove('text-gray-600', 'border-transparent');
+                    e.currentTarget.classList.add('text-blue-600', 'border-blue-600');
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                // Timeline accordion and highlight
+                const timelineItem = e.target.closest('.step-item');
+                if (timelineItem) {
+                    // Remove is-active from all steps
+                    document.querySelectorAll('.step-item').forEach(step => {
+                        step.classList.remove('is-active');
+                    });
+
+                    // Add is-active to the clicked item
+                    timelineItem.classList.add('is-active');
+
+                    // Toggle details card
+                    const detailsCard = timelineItem.querySelector('.details-card');
+                    const expandIcon = timelineItem.querySelector('.expand-icon');
+                    if (detailsCard && expandIcon) {
+                        detailsCard.classList.toggle('is-visible');
+                        expandIcon.classList.toggle('rotate-90');
+                    }
+                }
+
+                // Checklist accordion
+                const checklistItem = e.target.closest('.checklist-item');
+                if (checklistItem) {
+                    const content = checklistItem.querySelector('.checklist-content');
+                    const isExpanded = content.classList.toggle('is-expanded');
+                    checklistItem.querySelector('.checklist-expand-icon').classList.toggle('rotate-90', isExpanded);
+                }
+            });
+
+            // Video player functionality
+            const playButton = document.getElementById('play-btn');
+            const videoModal = document.getElementById('video-modal');
+            const closeButton = document.getElementById('close-btn');
+            const youtubePlayer = document.getElementById('youtube-player');
+            const videoUrl = 'https://www.youtube.com/embed/UsciZfWn2ig?autoplay=1';
+
+            playButton.addEventListener('click', () => {
+                youtubePlayer.src = videoUrl;
+                videoModal.classList.add('is-visible');
+            });
+
+            closeButton.addEventListener('click', () => {
+                youtubePlayer.src = ''; // Stop the video
+                videoModal.classList.remove('is-visible');
+            });
+
+            videoModal.addEventListener('click', (event) => {
+                if (event.target === videoModal) {
+                    youtubePlayer.src = '';
+                    videoModal.classList.remove('is-visible');
+                }
+            });
+        };
+
+        const setupCardInteractions = () => {
+            const daysLeftCard = document.getElementById('days-left-card');
+            const spotsLeftCard = document.getElementById('spots-left-card');
+            const ticketPriceCard = document.getElementById('ticket-price-card');
+            
+            const addPressListeners = (card) => {
+                card.addEventListener('mousedown', () => card.classList.add('is-pressed'));
+                card.addEventListener('mouseup', () => card.classList.remove('is-pressed'));
+                card.addEventListener('mouseleave', () => card.classList.remove('is-pressed'));
+                card.addEventListener('touchstart', () => card.classList.add('is-pressed'), { passive: true });
+                card.addEventListener('touchend', () => card.classList.remove('is-pressed'));
+            };
+            
+            addPressListeners(daysLeftCard);
+            addPressListeners(spotsLeftCard);
+            addPressListeners(ticketPriceCard);
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTimeline();
+            renderChecklist();
+            setupEventListeners();
+            setupCardInteractions();
+            
+            // Animate cards on load
+            const containers = document.querySelectorAll('.m3-container');
+            containers.forEach((container, index) => {
+                setTimeout(() => {
+                    container.classList.add('is-visible');
+                }, index * 200);
+            });
+            
+            const daysLeftCard = document.getElementById('days-left-card');
+            if (daysLeftCard) {
+                daysLeftCard.classList.add('is-pulsing');
+            }
+            
+            updateStepProgress();
+            setInterval(updateStepProgress, 1000 * 60); // Update step progress every minute
+            updateCountdownAndProgress();
+            setInterval(updateCountdownAndProgress, 1000 * 60); // Update countdown and progress every minute
+            updateTicketPrice();
+            setInterval(updateTicketPrice, 5000); // Update ticket price every 5 seconds
+
+            // Show the timeline tab by default
+            const timelineButton = document.getElementById('timeline-tab-btn');
+            if (timelineButton) {
+                timelineButton.click();
+            }
+        });
+    </script>
 </body>
 </html>
