@@ -1,0 +1,35 @@
+name: Update Flight Price
+
+on:
+workflow_dispatch:  # Allows manual triggering from the GitHub UI
+schedule:
+# Runs at 1 AM UTC every day
+- cron: '0 1 * * *'
+
+jobs:
+update-data:
+runs-on: ubuntu-latest
+steps:
+- name: Checkout repository
+uses: actions/checkout@v2
+
+  - name: Set up Python
+    uses: actions/setup-python@v2
+    with:
+      python-version: '3.10'
+      
+  - name: Install dependencies
+    run: pip install requests
+
+  - name: Run script to update data.json
+    run: python fetch_price.py
+    env:
+      SERPAPI_API_KEY: ${{ secrets.SERPAPI_API_KEY }}
+
+  - name: Commit and push changes
+    run: |
+      git config --global user.name 'github-actions[bot]'
+      git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      git add data.json
+      git commit -m "Update flight price via scheduled action" || echo "No changes to commit"
+      git push
