@@ -1,5 +1,5 @@
 {
     "price": null,
-    "last_updated": "2025-09-04T08:02:14.363762",
-    "status": "api_error: Missing `departure_id` parameter."
+    "last_updated": "2025-09-04T08:12:22.516871",
+    "status": "api_error: `return_date` is required if `type` is `1` (Round trip)."
 }
