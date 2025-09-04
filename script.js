@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const listItems = document.querySelectorAll('li');
+  // Expand/collapse behavior
+  const listItems = document.querySelectorAll('li.cursor-pointer');
   listItems.forEach(item => {
     item.addEventListener('click', () => {
       const detailsCard = item.querySelector('.details-card');
@@ -10,4 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // Animate timeline only on timeline.html
+  const timelineItems = document.querySelectorAll('#timeline-wrapper > ul > li');
+  if (timelineItems.length > 0) {
+    timelineItems.forEach((item, index) => {
+      setTimeout(() => {
+        if (!item.classList.contains('animate-line')) {
+          item.classList.add('animate-line');
+        }
+      }, index * 500);
+    });
+  }
 });
