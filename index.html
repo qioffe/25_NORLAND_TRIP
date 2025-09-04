@@ -275,7 +275,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         
-        /* Mobile Optimizations for Timeline and Tabs */
+        /* --- Mobile Optimizations for Timeline and Tabs --- */
         @media (max-width: 640px) {
             .step-container {
                 padding-left: 2rem;
@@ -298,13 +298,42 @@
             .tabs-container {
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
-                padding: 0 1rem; /* Add horizontal padding to make content scrollable */
+                padding: 0 1rem;
+                position: relative; /* Needed for the pseudo-elements */
+                /* Hide scrollbar for WebKit browsers */
+                -ms-overflow-style: none; /* IE and Edge */
+                scrollbar-width: none; /* Firefox */
+            }
+            .tabs-container::-webkit-scrollbar {
+                display: none;
             }
             .tab-btn {
                 flex-shrink: 0;
                 width: auto;
                 white-space: nowrap;
                 font-size: 0.875rem; /* Make font slightly smaller on mobile */
+            }
+
+            /* Fade-out effect for tabs */
+            .tabs-container::before,
+            .tabs-container::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                height: 100%;
+                width: 2rem;
+                pointer-events: none;
+                z-index: 10;
+            }
+
+            .tabs-container::before {
+                left: 0;
+                background: linear-gradient(to right, #F8FBFE, rgba(248, 251, 254, 0));
+            }
+            
+            .tabs-container::after {
+                right: 0;
+                background: linear-gradient(to left, #F8FBFE, rgba(248, 251, 254, 0));
             }
         }
         
@@ -400,11 +429,14 @@
     <div class="bg-white p-10 w-full max-w-5xl mx-auto m3-container">
 
         <!-- Tabs Navigation -->
-        <div class="tabs-container flex border-b border-gray-200 mb-8 overflow-x-auto">
+        <div class="tabs-container flex border-b border-gray-200 mb-4 overflow-x-auto relative">
             <button id="timeline-tab-btn" class="tab-btn py-3 px-4 flex-shrink-0 sm:flex-1 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600" data-tab="timeline-tab">Application Progress</button>
             <button id="checklist-tab-btn" class="tab-btn py-3 px-4 flex-shrink-0 sm:flex-1 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600" data-tab="checklist-tab">Checklist</button>
             <button id="documents-tab-btn" class="tab-btn py-3 px-4 flex-shrink-0 sm:flex-1 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600" data-tab="documents-tab">Documents</button>
         </div>
+        <p class="text-sm text-center text-gray-500 font-semibold mb-4 sm:hidden">
+            <span class="mr-1">&larr;</span>Swipe to see more options
+        </p>
 
         <!-- Timeline View (Tab Content) -->
         <div id="timeline-tab" class="tab-content" style="display:none;">
