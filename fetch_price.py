@@ -17,7 +17,8 @@ if not serpapi_api_key:
         }, f, indent=4)
     exit()
 
-# Define the search parameters for the flight route with 1 stop
+# Define the search parameters for the flight route with 1 stop.
+# Added the 'return_date' parameter to resolve the API error.
 params = {
     "api_key": serpapi_api_key,
     "engine": "google_flights",
@@ -27,6 +28,7 @@ params = {
     "departure_id": "MIA",
     "arrival_id": "PVG",
     "outbound_date": "2025-11-22",
+    "return_date": "2025-11-30", # Added return date to fix API error
     "stops": "1"
 }
 
