@@ -401,7 +401,7 @@
     <div id="dashboard-card" class="bg-white p-10 w-full max-w-5xl mx-auto m3-container">
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
             <!-- Days Left Card -->
-            <div id="days-left-card" class="m3-card p-6 flex flex-col items-start space-y-2 cursor-pointer">
+            <div id="days-left-card" class="m3-card p-6 flex flex-col items-start space-y-2 cursor-pointer" data-state="deadline">
                 <p id="countdown-days" class="text-6xl font-extrabold hero-title-gradient">0</p>
                 <p id="countdown-label" class="text-lg font-semibold text-gray-600">DAYS TO DEADLINE</p>
             </div>
@@ -618,10 +618,16 @@
             // Set initial display to the deadline countdown
             const countdownElement = document.getElementById('countdown-days');
             const countdownLabel = document.getElementById('countdown-label');
-            if (countdownElement && countdownLabel) {
+            const daysLeftCard = document.getElementById('days-left-card');
+
+            if (daysLeftCard.dataset.state === 'deadline') {
                 countdownElement.textContent = daysToDeadline > 0 ? daysToDeadline : 0;
                 countdownLabel.textContent = "DAYS TO DEADLINE";
+            } else {
+                countdownElement.textContent = daysToTrip > 0 ? daysToTrip : 0;
+                countdownLabel.textContent = "DAYS TO DEPARTURE";
             }
+
 
             // Progress bar logic remains tied to the deadline
             const startDate = new Date('2025-09-02T00:00:00');
@@ -647,19 +653,6 @@
             const progressTextElement = document.getElementById('progress-text');
             if (progressTextElement) {
                 progressTextElement.textContent = progressText;
-            }
-
-            // Event listeners for hover functionality
-            const daysLeftCard = document.getElementById('days-left-card');
-            if (daysLeftCard) {
-                daysLeftCard.onmouseover = () => {
-                    countdownElement.textContent = daysToTrip > 0 ? daysToTrip : 0;
-                    countdownLabel.textContent = "DAYS TO DEPARTURE";
-                };
-                daysLeftCard.onmouseout = () => {
-                    countdownElement.textContent = daysToDeadline > 0 ? daysToDeadline : 0;
-                    countdownLabel.textContent = "DAYS TO DEADLINE";
-                };
             }
         };
 
@@ -771,6 +764,19 @@
                     videoModal.classList.remove('is-visible');
                 }
             });
+            
+            // Days Left Card Toggle
+            const daysLeftCard = document.getElementById('days-left-card');
+            if (daysLeftCard) {
+                daysLeftCard.addEventListener('click', () => {
+                    if (daysLeftCard.dataset.state === 'deadline') {
+                        daysLeftCard.dataset.state = 'trip';
+                    } else {
+                        daysLeftCard.dataset.state = 'deadline';
+                    }
+                    updateCountdownAndProgress(); // Update display based on new state
+                });
+            }
         };
 
         const setupCardInteractions = () => {
