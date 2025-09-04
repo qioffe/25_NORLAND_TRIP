@@ -1,5 +1,5 @@
 {
     "price": null,
-    "last_updated": "2025-09-04T08:20:44.667540",
-    "status": "api_error: `return_date` is required if `type` is `1` (Round trip)."
+    "last_updated": "2025-09-04T08:25:13.363528",
+    "status": "api_error: Google Flights hasn't returned any results for this query."
 }
