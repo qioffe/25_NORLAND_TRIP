@@ -15,20 +15,22 @@
             background-color: #E6EEF5; /* Softer, expressive background */
         }
         
-        .m3-container {
+        .main-container {
             border-radius: 40px; /* More pill-like, expressive shape */
+            background-color: #F8FBFE;
             box-shadow: 0 12px 24px -6px rgba(0,0,0,0.1), 0 6px 12px -6px rgba(0,0,0,0.05); /* Soft, pronounced shadow */
             transition: all 0.5s cubic-bezier(0.2, 0.5, 0.4, 1.2);
             transform: translateY(20px);
             opacity: 0;
+            overflow: hidden;
         }
 
-        .m3-container.is-visible {
+        .main-container.is-visible {
             transform: translateY(0);
             opacity: 1;
         }
-        
-        .m3-card {
+
+        .m3-sub-card {
             border-radius: 28px;
             background-color: #F8FBFE; /* Soft, almost white card background */
             box-shadow: 0 4px 8px -2px rgba(0,0,0,0.05);
@@ -36,12 +38,12 @@
             cursor: pointer;
         }
 
-        .m3-card:hover {
+        .m3-sub-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 8px 16px -4px rgba(0,0,0,0.08);
         }
-
-        .m3-card.is-pressed {
+        
+        .m3-sub-card.is-pressed {
             transform: scale(0.98);
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
         }
@@ -385,43 +387,94 @@
             transform: translateY(-4px);
             box-shadow: 0 8px 16px -4px rgba(0,0,0,0.08);
         }
+
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            border-bottom: 2px solid rgba(221, 232, 244, 0.5); /* Light, subtle separator */
+            margin-bottom: 2.5rem;
+        }
+        @media (min-width: 640px) {
+            .hero-section {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex flex-col items-center min-h-screen p-8 py-12 space-y-8">
-    <!-- Updated Material 3 Expressive Hero Card -->
-    <div id="hero-card" class="group p-10 w-full max-w-5xl mx-auto m3-container bg-white flex flex-col lg:flex-row items-center justify-between space-y-6 lg:space-y-0 relative">
-        <!-- Desktop Play Button Overlay - Visible on hover on large screens -->
-        <button id="play-btn-desktop" class="hidden lg:flex absolute inset-0 z-50 items-center justify-center bg-white bg-opacity-70 backdrop-blur-md rounded-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-90 group-hover:scale-100">
-            <svg class="w-20 h-20 text-blue-600 transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 5v14l11-7z"/>
-            </svg>
-        </button>
+    <!-- Main, Integrated Dashboard Container -->
+    <div class="main-container w-full max-w-5xl mx-auto p-10">
 
-        <!-- Main content of the hero card -->
-        <div class="flex flex-col items-center lg:items-start w-full lg:w-2/3 z-10">
-            <span class="text-sm font-semibold text-gray-500 mb-2">2025 TRIP</span>
-            <div class="flex items-center gap-4">
-                <h1 class="expressive-title hero-title-gradient">NOV 22</h1>
-                <!-- Mobile Play Button - Always visible on small screens -->
-                <button id="play-btn-mobile" class="lg:hidden w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-full shadow-lg bg-gray-100 transition-transform duration-200 active:scale-95" style="animation: subtle-pulse 2s infinite;">
-                    <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                </button>
-            </div>
-            <!-- Location on Mobile -->
-            <div class="lg:hidden flex items-center space-x-2 p-3 bg-gray-100 text-gray-700 rounded-full shadow-inner mt-4">
-                <!-- Location Icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+        <!-- Updated Material 3 Expressive Hero Section -->
+        <div class="hero-section group relative">
+            <!-- Desktop Play Button Overlay - Visible on hover on large screens -->
+            <button id="play-btn-desktop" class="hidden lg:flex absolute inset-0 z-50 items-center justify-center bg-white bg-opacity-70 backdrop-blur-md rounded-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-90 group-hover:scale-100">
+                <svg class="w-20 h-20 text-blue-600 transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 5v14l11-7z"/>
                 </svg>
-                <span class="font-medium">Jiangsu, China</span>
+            </button>
+
+            <!-- Main content of the hero section -->
+            <div class="flex flex-col items-center lg:items-start w-full lg:w-2/3 z-10">
+                <span class="text-sm font-semibold text-gray-500 mb-2">2025 TRIP</span>
+                <div class="flex items-center gap-4">
+                    <h1 class="expressive-title hero-title-gradient">NOV 22</h1>
+                    <!-- Mobile Play Button - Always visible on small screens -->
+                    <button id="play-btn-mobile" class="lg:hidden w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-full shadow-lg bg-gray-100 transition-transform duration-200 active:scale-95" style="animation: subtle-pulse 2s infinite;">
+                        <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Location on Mobile -->
+                <div class="lg:hidden flex items-center space-x-2 p-3 bg-gray-100 text-gray-700 rounded-full shadow-inner mt-4">
+                    <!-- Location Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+                    </svg>
+                    <span class="font-medium">Jiangsu, China</span>
+                </div>
+            </div>
+            
+            <!-- Buttons and location on the right (Desktop Only) -->
+            <div class="hidden lg:flex flex-col items-end space-y-4 w-full lg:w-1/3 z-10">
+                <div class="flex flex-wrap justify-end gap-2 w-full">
+                    <div class="btn-gradient shadow-md">
+                        NORLAND
+                    </div>
+                    <div class="btn-gradient shadow-md">
+                        CRAFT
+                    </div>
+                    <div class="btn-gradient shadow-md">
+                        BAND
+                    </div>
+                    <div class="btn-gradient shadow-md">
+                        ARTS
+                    </div>
+                    <div class="btn-gradient shadow-md">
+                        DRAMA
+                    </div>
+                    <div class="btn-gradient shadow-md">
+                        CHORUS
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2 p-3 bg-gray-100 text-gray-700 rounded-full shadow-inner">
+                    <!-- Location Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+                    </svg>
+                    <span class="font-medium">Jiangsu, China</span>
+                </div>
             </div>
         </div>
-        
-        <!-- Buttons and location on the right (Desktop Only) -->
-        <div class="hidden lg:flex flex-col items-end space-y-4 w-full lg:w-1/3 z-10">
-            <div class="flex flex-wrap justify-end gap-2 w-full">
+
+        <!-- Buttons Card (Mobile Only) -->
+        <div id="chips-card-mobile" class="lg:hidden px-2 py-4">
+            <div class="flex flex-wrap justify-center gap-2">
                 <div class="btn-gradient shadow-md">
                     NORLAND
                 </div>
@@ -441,129 +494,99 @@
                     CHORUS
                 </div>
             </div>
-            <div class="flex items-center space-x-2 p-3 bg-gray-100 text-gray-700 rounded-full shadow-inner">
-                <!-- Location Icon -->
-                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24">
-                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
-                </svg>
-                <span class="font-medium">Jiangsu, China</span>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Buttons Card (Mobile Only) -->
-    <div id="chips-card-mobile" class="lg:hidden p-8 w-full max-w-5xl mx-auto m3-container bg-white">
-        <div class="flex flex-wrap justify-center gap-2">
-            <div class="btn-gradient shadow-md">
-                NORLAND
-            </div>
-            <div class="btn-gradient shadow-md">
-                CRAFT
-            </div>
-            <div class="btn-gradient shadow-md">
-                BAND
-            </div>
-            <div class="btn-gradient shadow-md">
-                ARTS
-            </div>
-            <div class="btn-gradient shadow-md">
-                DRAMA
-            </div>
-            <div class="btn-gradient shadow-md">
-                CHORUS
-            </div>
-        </div>
-    </div>
-
-    <!-- New Dashboard Card -->
-    <div id="dashboard-card" class="bg-white p-10 w-full max-w-5xl mx-auto m3-container">
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
-            <!-- Days Left Card -->
-            <div id="days-left-card" class="m3-card p-6 flex flex-col items-start space-y-2 cursor-pointer" data-state="deadline">
-                <p id="countdown-days" class="text-6xl font-extrabold hero-title-gradient">0</p>
-                <p id="countdown-label" class="text-lg font-semibold text-gray-600">DAYS TO DEADLINE</p>
-            </div>
-            <!-- Attendance Card -->
-            <div id="spots-left-card" class="m3-card p-6 flex flex-col items-start space-y-2">
-                <p class="text-6xl font-extrabold hero-title-gradient">18</p>
-                <p class="text-lg font-semibold text-gray-600">SPOTS LEFT</p>
-            </div>
-            <!-- Air Ticket Price Card -->
-            <div id="ticket-price-card" class="m3-card p-6 flex flex-col items-start space-y-2">
-                <p id="ticket-price-number" class="text-6xl font-extrabold hero-title-gradient">...</p>
-                <p id="route-info" class="text-lg font-semibold text-gray-600">Loading route...</p>
-            </div>
-        </div>
-        <!-- Expressive Progress Bar -->
-        <div class="w-full mt-8">
-            <div class="progress-container">
-                <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
-                <span id="progress-text" class="progress-text-inside"></span>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Main Content Area with Tabs -->
-    <div class="bg-white p-10 w-full max-w-5xl mx-auto m3-container">
-
-        <!-- Tabs Navigation -->
-        <div class="tabs-container flex sm:justify-center mb-4 overflow-x-auto relative space-x-4 py-2">
-            <button id="timeline-tab-btn" class="tab-btn is-active" data-tab="timeline-tab">Application Progress</button>
-            <button id="checklist-tab-btn" class="tab-btn" data-tab="checklist-tab">Checklist</button>
-            <button id="documents-tab-btn" class="tab-btn" data-tab="documents-tab">Documents</button>
         </div>
         
-        <!-- Timeline View (Tab Content) -->
-        <div id="timeline-tab" class="tab-content" style="display:block;">
-            <div id="timeline-container" class="step-container space-y-8">
-                <!-- Timeline content will be dynamically generated here -->
+        <!-- Dashboard Content Area -->
+        <div class="p-10">
+            <!-- New Dashboard Card -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
+                <!-- Days Left Card -->
+                <div id="days-left-card" class="m3-sub-card p-6 flex flex-col items-start space-y-2 cursor-pointer" data-state="deadline">
+                    <p id="countdown-days" class="text-6xl font-extrabold hero-title-gradient">0</p>
+                    <p id="countdown-label" class="text-lg font-semibold text-gray-600">DAYS TO DEADLINE</p>
+                </div>
+                <!-- Attendance Card -->
+                <div id="spots-left-card" class="m3-sub-card p-6 flex flex-col items-start space-y-2">
+                    <p class="text-6xl font-extrabold hero-title-gradient">18</p>
+                    <p class="text-lg font-semibold text-gray-600">SPOTS LEFT</p>
+                </div>
+                <!-- Air Ticket Price Card -->
+                <div id="ticket-price-card" class="m3-sub-card p-6 flex flex-col items-start space-y-2">
+                    <p id="ticket-price-number" class="text-6xl font-extrabold hero-title-gradient">...</p>
+                    <p id="route-info" class="text-lg font-semibold text-gray-600">Loading route...</p>
+                </div>
+            </div>
+            <!-- Expressive Progress Bar -->
+            <div class="w-full mt-8">
+                <div class="progress-container">
+                    <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+                    <span id="progress-text" class="progress-text-inside"></span>
+                </div>
             </div>
         </div>
+        
+        <!-- Main Content Area with Tabs -->
+        <div class="p-10">
 
-        <!-- Checklist View (Tab Content) -->
-        <div id="checklist-tab" class="tab-content" style="display:none;">
-            <div id="checklist-container" class="space-y-6">
-                <!-- Checklist content will be dynamically generated here -->
+            <!-- Tabs Navigation -->
+            <div class="tabs-container flex sm:justify-center mb-4 overflow-x-auto relative space-x-4 py-2">
+                <button id="timeline-tab-btn" class="tab-btn is-active" data-tab="timeline-tab">Application Progress</button>
+                <button id="checklist-tab-btn" class="tab-btn" data-tab="checklist-tab">Checklist</button>
+                <button id="documents-tab-btn" class="tab-btn" data-tab="documents-tab">Documents</button>
             </div>
+            
+            <!-- Timeline View (Tab Content) -->
+            <div id="timeline-tab" class="tab-content" style="display:block;">
+                <div id="timeline-container" class="step-container space-y-8">
+                    <!-- Timeline content will be dynamically generated here -->
+                </div>
+            </div>
+
+            <!-- Checklist View (Tab Content) -->
+            <div id="checklist-tab" class="tab-content" style="display:none;">
+                <div id="checklist-container" class="space-y-6">
+                    <!-- Checklist content will be dynamically generated here -->
+                </div>
+            </div>
+
+            <!-- Documents View (Tab Content) -->
+            <div id="documents-tab" class="tab-content" style="display:none;">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-sub-card p-6 flex flex-col items-center justify-center space-y-2">
+                        <svg class="w-12 h-12 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+                        </svg>
+                        <span class="font-bold text-blue-600 text-center">Consent Letter</span>
+                    </a>
+                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-sub-card p-6 flex flex-col items-center justify-center space-y-2">
+                        <svg class="w-12 h-12 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+                        </svg>
+                        <span class="font-bold text-blue-600 text-center">JESIE Application</span>
+                    </a>
+                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/cova_2013.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-sub-card p-6 flex flex-col items-center justify-center space-y-2">
+                        <svg class="w-12 h-12 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+                        </svg>
+                        <span class="font-bold text-blue-600 text-center">Visa Application Templates</span>
+                    </a>
+                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-sub-card p-6 flex flex-col items-center justify-center space-y-2">
+                        <svg class="w-12 h-12 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+                        </svg>
+                        <span class="font-bold text-blue-600 text-center">Where You Stay Form</span>
+                    </a>
+                </div>
+            </div>
+
         </div>
 
-        <!-- Documents View (Tab Content) -->
-        <div id="documents-tab" class="tab-content" style="display:none;">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-card p-6 flex items-center justify-center space-x-2">
-                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
-                    </svg>
-                    <span class="font-bold text-blue-600 text-center">Consent Letter</span>
-                </a>
-                <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-card p-6 flex items-center justify-center space-x-2">
-                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
-                    </svg>
-                    <span class="font-bold text-blue-600 text-center">JESIE Application</span>
-                </a>
-                <a href="https://qioffe.github.io/25_NORLAND_TRIP/cova_2013.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-card p-6 flex items-center justify-center space-x-2">
-                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
-                    </svg>
-                    <span class="font-bold text-blue-600 text-center">Visa Application Templates</span>
-                </a>
-                <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-card p-6 flex items-center justify-center space-x-2">
-                    <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
-                    </svg>
-                    <span class="font-bold text-blue-600 text-center">Where You Stay Form</span>
-                </a>
+        <!-- Video Modal -->
+        <div id="video-modal" class="video-overlay">
+            <div class="video-container">
+                <button id="close-btn" class="close-btn">&times;</button>
+                <iframe id="youtube-player" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
-        </div>
-
-    </div>
-
-    <!-- Video Modal -->
-    <div id="video-modal" class="video-overlay">
-        <div class="video-container">
-            <button id="close-btn" class="close-btn">&times;</button>
-            <iframe id="youtube-player" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </div>
 
@@ -635,7 +658,7 @@
                 return `
                     <div class="step-item" data-start="${step.start}" data-end="${step.end}">
                         <div class="step-icon">${index + 1}</div>
-                        <div class="step-content m3-card p-6">
+                        <div class="step-content m3-sub-card p-6">
                             <div class="flex justify-between items-center">
                                 <div class="flex flex-col">
                                     <span class="font-bold text-blue-600">${step.title}</span>
@@ -910,7 +933,7 @@
             setupCardInteractions();
             
             // Animate cards on load
-            const containers = document.querySelectorAll('.m3-container');
+            const containers = document.querySelectorAll('.main-container');
             containers.forEach((container, index) => {
                 setTimeout(() => {
                     container.classList.add('is-visible');
