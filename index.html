@@ -294,6 +294,9 @@
                 margin-left: 2rem; /* Reduced margin for content */
                 padding: 1rem;
             }
+            .tab-btn {
+                width: 100%;
+            }
         }
         
         @keyframes pulse-glow {
@@ -320,6 +323,7 @@
 
         <!-- Date on the left -->
         <div class="flex flex-col items-center lg:items-start w-full lg:w-2/3 z-10">
+            <span class="text-sm font-semibold text-gray-500 mb-2">2025 TRIP</span>
             <h1 class="expressive-title hero-title-gradient">NOV 22</h1>
         </div>
         
@@ -371,7 +375,7 @@
             <!-- Air Ticket Price Card -->
             <div id="ticket-price-card" class="m3-card p-6 flex flex-col items-start space-y-2">
                 <p id="ticket-price-number" class="text-6xl font-extrabold hero-title-gradient">...</p>
-                <p class="text-lg font-semibold text-gray-600">MIA-PVG</p>
+                <p id="route-info" class="text-lg font-semibold text-gray-600">Loading route...</p>
             </div>
         </div>
         <!-- Expressive Progress Bar -->
@@ -387,7 +391,7 @@
     <div class="bg-white p-10 w-full max-w-5xl mx-auto m3-container">
 
         <!-- Tabs Navigation -->
-        <div class="flex border-b border-gray-200 mb-8">
+        <div class="flex flex-wrap border-b border-gray-200 mb-8">
             <button id="timeline-tab-btn" class="tab-btn flex-1 py-3 px-4 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600" data-tab="timeline-tab">Application Progress</button>
             <button id="checklist-tab-btn" class="tab-btn flex-1 py-3 px-4 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600" data-tab="checklist-tab">Checklist</button>
             <button id="documents-tab-btn" class="tab-btn flex-1 py-3 px-4 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600" data-tab="documents-tab">Documents</button>
@@ -413,7 +417,7 @@
                 <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="py-4 px-6 rounded-2xl font-bold text-blue-600 text-center border-2 border-transparent transition-all duration-300 hover:border-blue-300 bg-gray-50 hover:bg-white">
                     Consent Letter
                 </a>
-                <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="py-4 px-6 rounded-2xl font-bold text-blue-600 text-center border-2 border-transparent transition-all duration-300 hover:border-blue-300 bg-gray-50 hover:bg-white">
+                <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="py-4 px-6 rounded-2xl font-bold text-blue-600 text-center border-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600">
                     JESIE Application
                 </a>
                 <a href="https://qioffe.github.io/25_NORLAND_TRIP/cova_2013.pdf" target="_blank" rel="noopener noreferrer" class="py-4 px-6 rounded-2xl font-bold text-blue-600 text-center border-2 border-transparent transition-all duration-300 hover:border-blue-300 bg-gray-50 hover:bg-white">
@@ -620,7 +624,8 @@
 
         const updateTicketPrice = async () => {
             const priceElement = document.getElementById('ticket-price-number');
-            if (!priceElement) return;
+            const routeElement = document.getElementById('route-info');
+            if (!priceElement || !routeElement) return;
 
             try {
                 // Add a unique timestamp to defeat browser caching
@@ -636,8 +641,16 @@
                     priceElement.textContent = "N/A";
                     console.error("No price found in data.json or API error:", data.status);
                 }
+
+                if (data.route_info) {
+                    routeElement.textContent = data.route_info;
+                } else {
+                    routeElement.textContent = "N/A";
+                }
+
             } catch (error) {
                 priceElement.textContent = "Error";
+                routeElement.textContent = "Error";
                 console.error("Failed to fetch ticket price from data.json:", error);
             }
         };
