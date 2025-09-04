@@ -5,25 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project Timeline</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-gray-50 flex flex-col items-center min-h-screen p-4 py-12 space-y-8">
 
   <div class="bg-white rounded-xl shadow-lg p-8 w-full max-w-5xl mx-auto space-y-12">
 
     <!-- Header -->
-    <div class="flex flex-col items-center mb-8">
-      <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 text-center mb-6">Project Timeline</h1>
-      <p class="text-base text-gray-600 text-center mb-6">A comprehensive schedule of key milestones for the visa application process.</p>
-      <a href="index.html" class="text-blue-600 hover:underline">← Back to Home</a>
+    <div class="flex flex-col items-center mb-8 space-y-4">
+      <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 text-center">Project Timeline</h1>
+      <p class="text-base text-gray-600 text-center">A comprehensive schedule of key milestones for the visa application process.</p>
+
+      <div class="flex space-x-4">
+        <a href="index.html" class="text-blue-600 hover:underline">← Back to Home</a>
+        <a href="checklist.html"
+           class="bg-green-600 text-white font-medium py-1 px-4 rounded-full shadow-md hover:bg-green-700 transition">
+          Go to Checklist
+        </a>
+      </div>
     </div>
 
-    <!-- Timeline -->
+    <!-- Timeline Content -->
     <div id="timeline-wrapper" class="relative pl-20 sm:pl-20">
       <ul class="space-y-6">
-        <!-- Week 1 -->
+        <!-- Example item -->
         <li class="cursor-pointer timeline-item">
-          <div class="flex justify-between items-center bg-gray-50 rounded-lg p-4 transition-all duration-300 ease-in-out hover:scale-[1.02] hover:bg-blue-50">
+          <div class="flex justify-between items-center bg-gray-50 rounded-lg p-4 transition hover:scale-[1.02] hover:bg-blue-50">
             <div class="flex flex-col">
               <span class="font-bold text-blue-600">Week 1: September 3 – 9</span>
               <span class="text-sm text-gray-500">Initial preparations</span>
@@ -33,47 +40,13 @@
           <div class="details-card">
             <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
               <h3 class="font-semibold text-gray-800 mb-2">Key Actions:</h3>
-              <p class="text-sm text-gray-700">Initial student information verification begins, communication updates, and official invitation letter issuance.</p>
+              <p class="text-sm text-gray-700">Initial student information verification begins.</p>
             </div>
           </div>
         </li>
-
-        <!-- Week 2 -->
-        <li class="cursor-pointer timeline-item">
-          <div class="flex justify-between items-center bg-gray-50 rounded-lg p-4 transition-all duration-300 ease-in-out hover:scale-[1.02] hover:bg-blue-50">
-            <div class="flex flex-col">
-              <span class="font-bold text-blue-600">Week 2: September 10 – 15</span>
-              <span class="text-sm text-gray-500">Visa application process</span>
-            </div>
-            <span class="expand-icon text-gray-400">&#9656;</span>
-          </div>
-          <div class="details-card">
-            <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
-              <h3 class="font-semibold text-gray-800 mb-2">Key Actions:</h3>
-              <p class="text-sm text-gray-700">Application finalization, document dispatch, air ticket quote, and visa collection.</p>
-            </div>
-          </div>
-        </li>
-
-        <!-- Future Payments -->
-        <li class="cursor-pointer timeline-item">
-          <div class="flex justify-between items-center bg-gray-50 rounded-lg p-4 transition-all duration-300 ease-in-out hover:scale-[1.02] hover:bg-blue-50">
-            <div class="flex flex-col">
-              <span class="font-bold text-blue-600">Future Payments</span>
-              <span class="text-sm text-gray-500">October & November</span>
-            </div>
-            <span class="expand-icon text-gray-400">&#9656;</span>
-          </div>
-          <div class="details-card">
-            <div class="bg-white rounded-lg p-4 mt-2 shadow-sm border border-gray-200">
-              <h3 class="font-semibold text-gray-800 mb-2">Payment Schedule:</h3>
-              <p class="text-sm text-gray-700">Second payment due in October, third in November.</p>
-            </div>
-          </div>
-        </li>
+        <!-- add other weeks like before -->
       </ul>
     </div>
-
   </div>
 
   <script src="script.js"></script>
