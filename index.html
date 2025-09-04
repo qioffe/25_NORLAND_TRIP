@@ -341,19 +341,19 @@
             }
             .step-item:not(:last-child)::after {
                 /* Perfect alignment with the center of the icon on mobile */
-                left: 0.75rem;
+                left: 1.25rem;
                 top: 1.5rem;
                 height: calc(100% - 2.5rem);
             }
             .step-icon {
-                width: 2rem;
-                height: 2rem;
+                width: 2.5rem;
+                height: 2.5rem;
                 font-size: 0.875rem;
                 left: 0;
             }
             .step-content {
                 /* Adjusted margin to create a consistent gutter, pushing content away from the timeline */
-                margin-left: 2.5rem;
+                margin-left: 3.5rem;
                 padding: 1rem;
             }
         }
@@ -404,97 +404,91 @@
         }
     </style>
 </head>
-<!-- Adjusted body padding to align with M3 principles of fluid spacing -->
 <body class="bg-gray-100 flex flex-col items-center min-h-screen p-4 sm:p-6 lg:p-8 py-12 space-y-8">
-    <!-- Main, Integrated Dashboard Container -->
-    <!-- Adjusted container padding to be more fluid across screen sizes -->
     <div class="main-container w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-10">
 
-        <!-- Updated Material 3 Expressive Hero Section -->
+        <!-- Updated Hero Section for Refined Mobile and Desktop Layouts -->
         <div class="hero-section group relative">
-            <!-- Desktop Play Button Overlay - Visible on hover on large screens -->
+            <!-- Desktop Play Button Overlay - visible on hover on large screens -->
             <button id="play-btn-desktop" class="hidden lg:flex absolute inset-0 z-50 items-center justify-center bg-white bg-opacity-70 backdrop-blur-md rounded-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-90 group-hover:scale-100">
                 <svg class="w-20 h-20 text-blue-600 transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8 5v14l11-7z"/>
                 </svg>
             </button>
 
-            <!-- Main content of the hero section -->
-            <div class="flex flex-col items-center lg:items-start w-full lg:w-2/3 z-10">
+            <!-- Mobile Layout -->
+            <div class="flex flex-col items-start w-full lg:hidden">
+                <!-- Chips are now visible on mobile at the top -->
+                <div class="flex flex-wrap justify-start gap-2 w-full mb-4">
+                    <div class="btn-gradient shadow-md">NORLAND</div>
+                    <div class="btn-gradient shadow-md">CRAFT</div>
+                    <div class="btn-gradient shadow-md">BAND</div>
+                    <div class="btn-gradient shadow-md">ARTS</div>
+                    <div class="btn-gradient shadow-md">DRAMA</div>
+                    <div class="btn-gradient shadow-md">CHORUS</div>
+                </div>
+
                 <span class="text-sm font-semibold text-gray-500 mb-2">2025 TRIP</span>
-                <div class="flex items-center gap-4">
+
+                <div class="flex items-center justify-between w-full">
                     <h1 class="expressive-title hero-title-gradient">NOV 22</h1>
-                    <!-- Mobile Play Button - Always visible on small screens -->
-                    <button id="play-btn-mobile" class="lg:hidden w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-full shadow-lg bg-gray-100 transition-transform duration-200 active:scale-95" style="animation: subtle-pulse 2s infinite;">
+                    <!-- Mobile Play Button, now aligned to the right -->
+                    <button id="play-btn-mobile" class="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-full shadow-lg bg-gray-100 transition-transform duration-200 active:scale-95" style="animation: subtle-pulse 2s infinite;">
                         <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8 5v14l11-7z"/>
                         </svg>
                     </button>
                 </div>
-                <!-- Location on Mobile -->
-                <div class="lg:hidden flex items-center space-x-2 p-3 bg-gray-100 text-gray-700 rounded-full shadow-inner mt-4">
-                    <!-- Location Icon -->
+
+                <div class="flex items-center space-x-2 p-3 bg-gray-100 text-gray-700 rounded-full shadow-inner mt-4">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24">
                         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
                     </svg>
                     <span class="font-medium">Jiangsu, China</span>
                 </div>
             </div>
-            
-            <!-- Buttons and location on the right (Desktop Only) -->
-            <div class="hidden lg:flex flex-col items-end space-y-4 w-full lg:w-1/3 z-10">
-                <div class="flex flex-wrap justify-end gap-2 w-full">
-                    <div class="btn-gradient shadow-md">
-                        NORLAND
-                    </div>
-                    <div class="btn-gradient shadow-md">
-                        CRAFT
-                    </div>
-                    <div class="btn-gradient shadow-md">
-                        BAND
-                    </div>
-                    <div class="btn-gradient shadow-md">
-                        ARTS
-                    </div>
-                    <div class="btn-gradient shadow-md">
-                        DRAMA
-                    </div>
-                    <div class="btn-gradient shadow-md">
-                        CHORUS
+
+            <!-- Desktop Layout -->
+            <div class="hidden lg:flex w-full justify-between items-center">
+                <div class="flex flex-col items-start w-2/3 z-10">
+                    <span class="text-sm font-semibold text-gray-500 mb-2">2025 TRIP</span>
+                    <h1 class="expressive-title hero-title-gradient">NOV 22</h1>
+                    <div class="flex items-center space-x-2 p-3 bg-gray-100 text-gray-700 rounded-full shadow-inner mt-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+                        </svg>
+                        <span class="font-medium">Jiangsu, China</span>
                     </div>
                 </div>
-                <div class="flex items-center space-x-2 p-3 bg-gray-100 text-gray-700 rounded-full shadow-inner">
-                    <!-- Location Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24">
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
-                    </svg>
-                    <span class="font-medium">Jiangsu, China</span>
+                
+                <div class="flex flex-col items-end space-y-4 w-1/3 z-10">
+                    <div class="flex flex-wrap justify-end gap-2 w-full">
+                        <div class="btn-gradient shadow-md">NORLAND</div>
+                        <div class="btn-gradient shadow-md">CRAFT</div>
+                        <div class="btn-gradient shadow-md">BAND</div>
+                        <div class="btn-gradient shadow-md">ARTS</div>
+                        <div class="btn-gradient shadow-md">DRAMA</div>
+                        <div class="btn-gradient shadow-md">CHORUS</div>
+                    </div>
                 </div>
             </div>
         </div>
         
-        <!-- Dashboard Content Area -->
-        <!-- Adjusted content padding for better mobile readability -->
         <div class="p-4 sm:p-6 lg:p-10">
-            <!-- New Dashboard Card -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
-                <!-- Days Left Card -->
                 <div id="days-left-card" class="m3-sub-card p-6 flex flex-col items-start space-y-2 cursor-pointer" data-state="deadline">
                     <p id="countdown-days" class="text-6xl font-extrabold hero-title-gradient">0</p>
                     <p id="countdown-label" class="text-lg font-semibold text-gray-600">DAYS TO DEADLINE</p>
                 </div>
-                <!-- Attendance Card -->
                 <div id="spots-left-card" class="m3-sub-card p-6 flex flex-col items-start space-y-2">
                     <p class="text-6xl font-extrabold hero-title-gradient">18</p>
                     <p class="text-lg font-semibold text-gray-600">SPOTS LEFT</p>
                 </div>
-                <!-- Air Ticket Price Card -->
                 <div id="ticket-price-card" class="m3-sub-card p-6 flex flex-col items-start space-y-2">
                     <p id="ticket-price-number" class="text-6xl font-extrabold hero-title-gradient">...</p>
                     <p id="route-info" class="text-lg font-semibold text-gray-600">Loading route...</p>
                 </div>
             </div>
-            <!-- Expressive Progress Bar -->
             <div class="w-full mt-8">
                 <div class="progress-container">
                     <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
@@ -503,32 +497,23 @@
             </div>
         </div>
         
-        <!-- Main Content Area with Tabs -->
-        <!-- Adjusted content padding for better mobile readability -->
         <div class="p-4 sm:p-6 lg:p-10">
-
-            <!-- Tabs Navigation -->
             <div class="tabs-container flex sm:justify-center mb-4 overflow-x-auto relative space-x-4 py-2">
                 <button id="timeline-tab-btn" class="tab-btn is-active" data-tab="timeline-tab">Application Progress</button>
                 <button id="checklist-tab-btn" class="tab-btn" data-tab="checklist-tab">Checklist</button>
                 <button id="documents-tab-btn" class="tab-btn" data-tab="documents-tab">Documents</button>
             </div>
             
-            <!-- Timeline View (Tab Content) -->
             <div id="timeline-tab" class="tab-content" style="display:block;">
                 <div id="timeline-container" class="step-container space-y-8">
-                    <!-- Timeline content will be dynamically generated here -->
                 </div>
             </div>
 
-            <!-- Checklist View (Tab Content) -->
             <div id="checklist-tab" class="tab-content" style="display:none;">
                 <div id="checklist-container" class="space-y-6">
-                    <!-- Checklist content will be dynamically generated here -->
                 </div>
             </div>
 
-            <!-- Documents View (Tab Content) -->
             <div id="documents-tab" class="tab-content" style="display:none;">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-sub-card p-6 flex flex-col items-center justify-center space-y-2">
@@ -560,7 +545,6 @@
 
         </div>
 
-        <!-- Video Modal -->
         <div id="video-modal" class="video-overlay">
             <div class="video-container">
                 <button id="close-btn" class="close-btn">&times;</button>
