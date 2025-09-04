@@ -17,17 +17,17 @@ if not serpapi_api_key:
         }, f, indent=4)
     exit()
 
-# Define the search parameters for the flight route
+# Define the search parameters for the flight route with 1 stop
 params = {
     "api_key": serpapi_api_key,
     "engine": "google_flights",
-    "q": "MIA to PVG flights",
     "hl": "en",
     "gl": "us",
     "currency": "USD",
-    "from_code": "MIA",
-    "to_code": "PVG",
-    "outbound_date": "2025-11-22"
+    "departure_id": "MIA",
+    "arrival_id": "PVG",
+    "outbound_date": "2025-11-22",
+    "stops": "1"
 }
 
 try:
@@ -48,8 +48,6 @@ try:
         best_price = None
         if "best_flights" in data and data["best_flights"]:
             best_price = data["best_flights"][0].get("price")
-        elif "other_flights" in data and data["other_flights"]:
-            best_price = data["other_flights"][0].get("price")
         
         output_data = {
             "price": best_price,
