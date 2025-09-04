@@ -418,16 +418,6 @@
 
             <!-- Mobile Layout -->
             <div class="flex flex-col items-start w-full lg:hidden">
-                <!-- Chips are now visible on mobile at the top -->
-                <div class="flex flex-wrap justify-start gap-2 w-full mb-4">
-                    <div class="btn-gradient shadow-md">NORLAND</div>
-                    <div class="btn-gradient shadow-md">CRAFT</div>
-                    <div class="btn-gradient shadow-md">BAND</div>
-                    <div class="btn-gradient shadow-md">ARTS</div>
-                    <div class="btn-gradient shadow-md">DRAMA</div>
-                    <div class="btn-gradient shadow-md">CHORUS</div>
-                </div>
-
                 <span class="text-sm font-semibold text-gray-500 mb-2">2025 TRIP</span>
 
                 <div class="flex items-center justify-between w-full">
@@ -445,6 +435,15 @@
                         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
                     </svg>
                     <span class="font-medium">Jiangsu, China</span>
+                </div>
+                <!-- Chips are now visible on mobile, positioned neatly under the location -->
+                <div class="flex flex-wrap justify-start gap-2 w-full mt-4">
+                    <div class="btn-gradient shadow-md">NORLAND</div>
+                    <div class="btn-gradient shadow-md">CRAFT</div>
+                    <div class="btn-gradient shadow-md">BAND</div>
+                    <div class="btn-gradient shadow-md">ARTS</div>
+                    <div class="btn-gradient shadow-md">DRAMA</div>
+                    <div class="btn-gradient shadow-md">CHORUS</div>
                 </div>
             </div>
 
@@ -498,7 +497,7 @@
         </div>
         
         <div class="p-4 sm:p-6 lg:p-10">
-            <div class="tabs-container flex sm:justify-center mb-4 overflow-x-auto relative space-x-4 py-2">
+            <div class="tabs-container flex sm:justify-center mb-4 overflow-x-auto relative space-x-3 py-2">
                 <button id="timeline-tab-btn" class="tab-btn is-active" data-tab="timeline-tab">Application Progress</button>
                 <button id="checklist-tab-btn" class="tab-btn" data-tab="checklist-tab">Checklist</button>
                 <button id="documents-tab-btn" class="tab-btn" data-tab="documents-tab">Documents</button>
