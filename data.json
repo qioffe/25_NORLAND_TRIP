@@ -1,5 +1,5 @@
 {
-    "price": null,
-    "last_updated": "2025-09-04T08:30:55.668423",
-    "status": "api_error: Google Flights hasn't returned any results for this query."
+    "price": 1263,
+    "last_updated": "2025-09-04T08:37:01.476100",
+    "status": "ok"
 }
