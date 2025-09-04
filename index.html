@@ -370,7 +370,7 @@
             </div>
             <!-- Air Ticket Price Card -->
             <div id="ticket-price-card" class="m3-card p-6 flex flex-col items-start space-y-2">
-                <p id="ticket-price-number" class="text-6xl font-extrabold hero-title-gradient">$1,460</p>
+                <p id="ticket-price-number" class="text-6xl font-extrabold hero-title-gradient">...</p>
                 <p class="text-lg font-semibold text-gray-600">MIA-PVG</p>
             </div>
         </div>
@@ -622,35 +622,23 @@
             const priceElement = document.getElementById('ticket-price-number');
             if (!priceElement) return;
 
-            /* This is the slot for your SerpAPI integration.
-              
-              To connect to SerpAPI, you need a backend server to protect your API key.
-              You will make a secure fetch request from this frontend code to your server,
-              and your server will then make the request to SerpAPI.
-
-              1. Set up a simple backend API (e.g., using Node.js, Python Flask, or similar).
-              2. Your backend will take a request, build the SerpAPI query, and use your
-                 private API key to fetch the real-time flight data.
-              3. The backend will return the final price to this frontend app.
-              4. Replace the code below with your fetch call.
-            */
-
-            // Example of how you would fetch from your own backend:
-            // try {
-            //   const response = await fetch('/api/ticket-price');
-            //   const data = await response.json();
-            //   if (data.price) {
-            //     priceElement.textContent = `$${data.price}`;
-            //   }
-            // } catch (error) {
-            //   console.error("Failed to fetch ticket price:", error);
-            // }
-
-            // Temporary simulated price for demonstration
-            const basePrice = 1460;
-            const fluctuation = Math.floor(Math.random() * 80) - 40; // Fluctuate by +/- $40
-            const newPrice = basePrice + fluctuation;
-            priceElement.textContent = `$${newPrice}`;
+            try {
+                const response = await fetch('data.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                if (data.price) {
+                    priceElement.textContent = `$${data.price}`;
+                } else {
+                    priceElement.textContent = "N/A";
+                    console.error("No price found in data.json or API error:", data.status);
+                }
+            } catch (error) {
+                priceElement.textContent = "Error";
+                console.error("Failed to fetch ticket price from data.json:", error);
+            }
         };
 
         const setupEventListeners = () => {
