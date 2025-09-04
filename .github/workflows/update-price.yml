@@ -18,6 +18,10 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Pull remote changes before running script
+        # This step is critical to prevent the rejected push error.
+        run: git pull origin main
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -30,10 +34,6 @@ jobs:
         run: python fetch_price.py
         env:
           SERPAPI_API_KEY: ${{ secrets.SERPAPI_API_KEY }}
-
-      - name: Pull remote changes before pushing
-        # This step is critical to prevent the rejected push error.
-        run: git pull origin main
 
       - name: Commit and push changes
         run: |
