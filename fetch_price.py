@@ -1,50 +1,63 @@
 import os
 import json
 import requests
+from datetime import datetime
 
-# This script fetches a new flight price and writes it to a JSON file.
-# It is designed to be run as part of a GitHub Action.
+# Get the API key from the environment variables
+serpapi_api_key = os.getenv('SERPAPI_API_KEY')
 
-# Get the SerpAPI key from the GitHub Actions environment variables
-# The key is securely stored as a GitHub Secret.
-serpapi_key = os.environ.get('SERPAPI_API_KEY')
-if not serpapi_key:
-    print("Error: SERPAPI_API_KEY environment variable not set.")
-    exit(1)
+if not serpapi_api_key:
+    print("SERPAPI_API_KEY environment variable is not set.")
+    exit()
 
-# Flight search parameters
-# You can change these to match your flight details
+# Define the search parameters for the flight route
 params = {
-  "api_key": serpapi_key,
-  "engine": "google_flights",
-  "hl": "en",
-  "departure_id": "MIA",
-  "arrival_id": "PVG",
-  "outbound_date": "2025-11-22"
+    "api_key": serpapi_api_key,
+    "engine": "google_flights",
+    "hl": "en",
+    "gl": "us",
+    "currency": "USD",
+    "from_code": "MIA",  # Updated to Miami International Airport
+    "to_code": "PVG",    # Updated to Shanghai Pudong International Airport
+    "outbound_date": "2025-11-22"
 }
 
 try:
-    # Make the request to the SerpAPI
-    response = requests.get("https://serpapi.com/search.json", params=params)
-    response.raise_for_status()  # Raise an exception for bad status codes
+    # Make the request to SerpAPI
+    response = requests.get("https://serpapi.com/search", params=params)
     data = response.json()
-
-    # Extract the lowest price from the best_flights results
-    lowest_price = data.get("best_flights")[0].get("price")
     
-    # Create a simple JSON object to store the price
-    price_data = {
-        "price": lowest_price
+    # Check for errors in the API response
+    if "error" in data:
+        print(f"Error from SerpAPI: {data['error']}")
+        exit()
+
+    # Find the best flight price
+    best_price = None
+    if "best_flights" in data and data["best_flights"]:
+        best_price = data["best_flights"][0].get("price")
+    elif "other_flights" in data and data["other_flights"]:
+        best_price = data["other_flights"][0].get("price")
+    
+    # Get the current time for the update timestamp
+    timestamp = datetime.now().isoformat()
+
+    # Prepare the data to be saved to data.json
+    output_data = {
+        "price": best_price,
+        "last_updated": timestamp
     }
     
-    # Write the data to a JSON file
+    # Save the data to a JSON file
     with open("data.json", "w") as f:
-        json.dump(price_data, f, indent=2)
+        json.dump(output_data, f, indent=4)
+        
+    print(f"Successfully updated data.json with price: ${best_price}")
 
-    print(f"Successfully fetched and updated price to: ${lowest_price}")
+except requests.exceptions.RequestException as e:
+    print(f"An error occurred while making the API request: {e}")
+    exit()
 
-except Exception as e:
-    print(f"An error occurred: {e}")
-    # Write an error message to the file to prevent the dashboard from breaking
-    with open("data.json", "w") as f:
-        json.dump({"error": "Failed to fetch price"}, f, indent=2)
+except (KeyError, IndexError) as e:
+    print(f"Could not parse the API response. Key missing: {e}")
+    exit()
