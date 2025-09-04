@@ -298,8 +298,9 @@
             .tabs-container {
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
-                padding: 0 1rem;
-                position: relative; /* Needed for the pseudo-elements */
+                position: relative; 
+                padding: 0.5rem; /* Add padding for a bit of space */
+                
                 /* Hide scrollbar for WebKit browsers */
                 -ms-overflow-style: none; /* IE and Edge */
                 scrollbar-width: none; /* Firefox */
@@ -309,31 +310,26 @@
             }
             .tab-btn {
                 flex-shrink: 0;
-                width: auto;
                 white-space: nowrap;
-                font-size: 0.875rem; /* Make font slightly smaller on mobile */
+                font-size: 0.875rem;
+                transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+                border-radius: 9999px; /* Pill shape */
+                padding: 0.5rem 1rem;
+                background-color: #E6EEF5; /* A light background for inactive tabs */
+                color: #6B7280;
+                border: none;
+                
             }
-
-            /* Fade-out effect for tabs */
-            .tabs-container::before,
-            .tabs-container::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                height: 100%;
-                width: 2rem;
-                pointer-events: none;
-                z-index: 10;
-            }
-
-            .tabs-container::before {
-                left: 0;
-                background: linear-gradient(to right, #F8FBFE, rgba(248, 251, 254, 0));
+            .tab-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px -2px rgba(0,0,0,0.05);
             }
             
-            .tabs-container::after {
-                right: 0;
-                background: linear-gradient(to left, #F8FBFE, rgba(248, 251, 254, 0));
+            /* Styles for the active tab pill */
+            .tab-btn.is-active {
+                background: linear-gradient(to right, #4299E1, #3B82F6, #1D4ED8);
+                color: white; /* White text for contrast */
+                box-shadow: 0 4px 12px -4px rgba(59, 130, 246, 0.4);
             }
         }
         
@@ -346,14 +342,23 @@
         .is-pulsing {
             animation: pulse-glow 2s infinite;
         }
+        .hero-play-btn {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        .hero-play-btn.is-visible {
+            opacity: 1;
+            transform: scale(1);
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex flex-col items-center min-h-screen p-8 py-16 space-y-12">
 
     <!-- Updated Material 3 Expressive Hero Card -->
-    <div id="hero-card" class="group p-10 w-full max-w-5xl mx-auto m3-container bg-white flex flex-col lg:flex-row items-center justify-between space-y-6 lg:space-y-0 relative">
+    <div id="hero-card" class="p-10 w-full max-w-5xl mx-auto m3-container bg-white flex flex-col lg:flex-row items-center justify-between space-y-6 lg:space-y-0 relative">
         <!-- Play Button Overlay -->
-        <button id="play-btn" class="absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-70 backdrop-blur-md rounded-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-90 group-hover:scale-100">
+        <button id="play-btn" class="hero-play-btn is-pulsing absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-70 backdrop-blur-md rounded-[40px]">
             <svg class="w-20 h-20 text-blue-600 transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M8 5v14l11-7z"/>
             </svg>
@@ -429,14 +434,12 @@
     <div class="bg-white p-10 w-full max-w-5xl mx-auto m3-container">
 
         <!-- Tabs Navigation -->
-        <div class="tabs-container flex border-b border-gray-200 mb-4 overflow-x-auto relative">
-            <button id="timeline-tab-btn" class="tab-btn py-3 px-4 flex-shrink-0 sm:flex-1 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600" data-tab="timeline-tab">Application Progress</button>
-            <button id="checklist-tab-btn" class="tab-btn py-3 px-4 flex-shrink-0 sm:flex-1 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600" data-tab="checklist-tab">Checklist</button>
-            <button id="documents-tab-btn" class="tab-btn py-3 px-4 flex-shrink-0 sm:flex-1 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600 hover:border-blue-600" data-tab="documents-tab">Documents</button>
+        <div class="tabs-container flex border-b-2 border-transparent mb-4 overflow-x-auto relative sm:justify-center">
+            <button id="timeline-tab-btn" class="tab-btn flex-shrink-0 sm:flex-1 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600" data-tab="timeline-tab">Application Progress</button>
+            <button id="checklist-tab-btn" class="tab-btn flex-shrink-0 sm:flex-1 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600" data-tab="checklist-tab">Checklist</button>
+            <button id="documents-tab-btn" class="tab-btn flex-shrink-0 sm:flex-1 text-center font-bold text-lg text-gray-600 border-b-2 border-transparent transition-all duration-300 hover:text-blue-600" data-tab="documents-tab">Documents</button>
         </div>
-        <p class="text-sm text-center text-gray-500 font-semibold mb-4 sm:hidden">
-            <span class="mr-1">&larr;</span>Swipe to see more options
-        </p>
+        
 
         <!-- Timeline View (Tab Content) -->
         <div id="timeline-tab" class="tab-content" style="display:none;">
@@ -690,15 +693,17 @@
         };
 
         const setupEventListeners = () => {
-            document.querySelectorAll('.tab-btn').forEach(button => {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
                     const tabId = e.currentTarget.dataset.tab;
-                    const tabButtons = document.querySelectorAll('.tab-btn');
-                    const tabContents = document.querySelectorAll('.tab-content');
+                    
 
                     tabButtons.forEach(btn => {
-                        btn.classList.remove('text-blue-600', 'border-blue-600');
-                        btn.classList.add('text-gray-600', 'border-transparent');
+                        btn.classList.remove('is-active', 'text-blue-600');
+                        btn.classList.add('text-gray-600');
                     });
 
                     tabContents.forEach(content => {
@@ -706,8 +711,8 @@
                     });
 
                     document.getElementById(tabId).style.display = 'block';
-                    e.currentTarget.classList.remove('text-gray-600', 'border-transparent');
-                    e.currentTarget.classList.add('text-blue-600', 'border-blue-600');
+                    e.currentTarget.classList.add('is-active', 'text-blue-600');
+                    e.currentTarget.classList.remove('text-gray-600');
                 });
             });
 
@@ -775,6 +780,17 @@
                         daysLeftCard.dataset.state = 'deadline';
                     }
                     updateCountdownAndProgress(); // Update display based on new state
+                });
+            }
+            
+            // New hover listeners for hero card play button
+            const heroCard = document.getElementById('hero-card');
+            if (heroCard && playButton) {
+                heroCard.addEventListener('mouseenter', () => {
+                    playButton.classList.add('is-visible');
+                });
+                heroCard.addEventListener('mouseleave', () => {
+                    playButton.classList.remove('is-visible');
                 });
             }
         };
