@@ -341,17 +341,25 @@
         }
         .hero-play-btn {
             transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        
+        /* New rules for a more reliable approach on mobile */
+        .is-mobile .hero-play-btn {
+            opacity: 1;
+            transform: scale(1);
+            animation: pulse-glow 2s infinite;
+        }
+        .is-desktop .hero-play-btn {
             opacity: 0;
             transform: scale(0.9);
         }
-        .hero-play-btn.is-visible {
+        .is-desktop .hero-play-btn:hover {
             opacity: 1;
             transform: scale(1);
         }
     </style>
 </head>
-<body class="bg-gray-100 flex flex-col items-center min-h-screen p-8 py-16 space-y-12">
-
+<body>
     <!-- Updated Material 3 Expressive Hero Card -->
     <div id="hero-card" class="p-10 w-full max-w-5xl mx-auto m3-container bg-white flex flex-col lg:flex-row items-center justify-between space-y-6 lg:space-y-0 relative">
         <!-- Play Button Overlay -->
@@ -797,6 +805,14 @@
         };
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Check for mobile and add appropriate class
+            const isMobile = window.matchMedia("(max-width: 640px)").matches;
+            if (isMobile) {
+                document.body.classList.add('is-mobile');
+            } else {
+                document.body.classList.add('is-desktop');
+            }
+
             renderTimeline();
             renderChecklist();
             setupEventListeners();
