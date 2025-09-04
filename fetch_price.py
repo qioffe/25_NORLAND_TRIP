@@ -12,12 +12,14 @@ if not serpapi_api_key:
     with open("data.json", "w") as f:
         json.dump({
             "price": None,
+            "departure_id": None,
+            "arrival_id": None,
             "last_updated": datetime.now().isoformat(),
             "status": "missing_api_key"
         }, f, indent=4)
     exit()
 
-# Define the search parameters for the flight route without specifying stops.
+# Define the search parameters for the flight route
 params = {
     "api_key": serpapi_api_key,
     "engine": "google_flights",
@@ -41,17 +43,29 @@ try:
         print(f"Error from SerpAPI: {data['error']}")
         output_data = {
             "price": None,
+            "departure_id": None,
+            "arrival_id": None,
             "last_updated": datetime.now().isoformat(),
             "status": f"api_error: {data['error']}"
         }
     else:
-        # Find the best flight price
         best_price = None
-        if "best_flights" in data and data["best_flights"]:
-            best_price = data["best_flights"][0].get("price")
+        departure_id = None
+        arrival_id = None
         
+        # Find the best flight price and airport IDs
+        if "best_flights" in data and data["best_flights"]:
+            best_flight = data["best_flights"][0]
+            best_price = best_flight.get("price")
+            
+            if best_flight.get("flights"):
+                departure_id = best_flight["flights"][0]["departure_airport"]["id"]
+                arrival_id = best_flight["flights"][-1]["arrival_airport"]["id"]
+
         output_data = {
             "price": best_price,
+            "departure_id": departure_id,
+            "arrival_id": arrival_id,
             "last_updated": datetime.now().isoformat(),
             "status": "ok" if best_price else "no_price_found"
         }
@@ -60,6 +74,8 @@ except requests.exceptions.RequestException as e:
     print(f"An error occurred while making the API request: {e}")
     output_data = {
         "price": None,
+        "departure_id": None,
+        "arrival_id": None,
         "last_updated": datetime.now().isoformat(),
         "status": f"request_exception: {str(e)}"
     }
@@ -68,6 +84,8 @@ except (KeyError, IndexError) as e:
     print(f"Could not parse the API response. Key missing: {e}")
     output_data = {
         "price": None,
+        "departure_id": None,
+        "arrival_id": None,
         "last_updated": datetime.now().isoformat(),
         "status": f"parse_error: {str(e)}"
     }
