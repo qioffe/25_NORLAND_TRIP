@@ -309,6 +309,24 @@
             .tab-btn {
                 font-size: 0.875rem;
             }
+            .step-container {
+                padding-left: 2rem;
+            }
+            .step-item:not(:last-child)::after {
+                left: 0.875rem; /* Aligned with icon center */
+                top: 1.5rem;
+                height: calc(100% - 2.5rem);
+            }
+            .step-icon {
+                width: 1.75rem;
+                height: 1.75rem;
+                font-size: 0.875rem;
+                left: 0; 
+            }
+            .step-content {
+                margin-left: 2rem;
+                padding: 1rem;
+            }
         }
 
         @keyframes pulse-glow {
@@ -336,7 +354,7 @@
     <!-- Updated Material 3 Expressive Hero Card -->
     <div id="hero-card" class="p-10 w-full max-w-5xl mx-auto m3-container bg-white flex flex-col lg:flex-row items-center justify-between space-y-6 lg:space-y-0 relative">
         <!-- Play Button Overlay -->
-        <button id="play-btn" class="hero-play-btn is-pulsing absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-70 backdrop-blur-md rounded-[40px]">
+        <button id="play-btn" class="hero-play-btn absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-70 backdrop-blur-md rounded-[40px]">
             <svg class="w-20 h-20 text-blue-600 transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M8 5v14l11-7z"/>
             </svg>
@@ -760,14 +778,19 @@
             
             // New hover listeners for hero card play button
             const heroCard = document.getElementById('hero-card');
-            if (heroCard && playButton) {
-                heroCard.addEventListener('mouseenter', () => {
-                    playButton.classList.add('is-visible');
-                });
-                heroCard.addEventListener('mouseleave', () => {
-                    playButton.classList.remove('is-visible');
-                });
+            const isMobile = window.matchMedia("(max-width: 640px)").matches;
+
+            if (isMobile) {
+                 playButton.classList.add('is-visible', 'is-pulsing');
+            } else {
+                 heroCard.addEventListener('mouseenter', () => {
+                     playButton.classList.add('is-visible');
+                 });
+                 heroCard.addEventListener('mouseleave', () => {
+                     playButton.classList.remove('is-visible');
+                 });
             }
+
         };
 
         const setupCardInteractions = () => {
