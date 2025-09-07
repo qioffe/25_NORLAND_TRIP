@@ -428,7 +428,7 @@
 <body class="bg-gray-100 flex flex-col items-center min-h-screen p-4 sm:p-6 lg:p-8 py-12 space-y-8">
     <div class="main-container w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-10">
 
-        <!-- Updated Hero Section for Refined Mobile and Desktop Layouts -->
+        <!-- This is the conceptual "index" or "hero" section -->
         <div class="hero-section group relative">
             <!-- Desktop Play Button Overlay - visible on hover on large screens -->
             <button id="play-btn-desktop" class="hidden lg:flex absolute inset-0 z-50 items-center justify-center bg-white bg-opacity-70 backdrop-blur-md rounded-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-90 group-hover:scale-100">
@@ -499,37 +499,41 @@
             </div>
         </div>
         
-        <div class="p-4 sm:p-6 lg:p-10">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
-                <div id="days-left-card" class="m3-sub-card p-6 flex flex-col items-start space-y-2 cursor-pointer" data-state="deadline">
-                    <p id="countdown-days" class="text-6xl font-extrabold hero-title-gradient">0</p>
-                    <p id="countdown-label" class="text-lg font-semibold text-gray-600">DAYS TO DEADLINE</p>
-                </div>
-                <div id="spots-left-card" class="m3-sub-card p-6 flex flex-col items-start space-y-2">
-                    <p class="text-6xl font-extrabold hero-title-gradient">18</p>
-                    <p class="text-lg font-semibold text-gray-600">SPOTS LEFT</p>
-                </div>
-                <div id="ticket-price-card" class="m3-sub-card p-6 flex flex-col items-start space-y-2">
-                    <p id="ticket-price-number" class="text-6xl font-extrabold hero-title-gradient">...</p>
-                    <p id="route-info" class="text-lg font-semibold text-gray-600">Loading route...</p>
-                </div>
-            </div>
-            <div class="w-full mt-8">
-                <div class="progress-container">
-                    <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
-                    <span id="progress-text" class="progress-text-inside"></span>
-                </div>
-            </div>
-        </div>
-        
+        <!-- The navigation tabs, allowing users to switch between sections -->
         <div class="p-4 sm:p-6 lg:p-10">
             <div class="tabs-container flex sm:justify-center mb-4 overflow-x-auto relative space-x-3 py-2">
-                <button id="timeline-tab-btn" class="tab-btn is-active" data-tab="timeline-tab">Application Progress</button>
+                <button id="dashboard-tab-btn" class="tab-btn is-active" data-tab="dashboard-tab">Dashboard</button>
+                <button id="timeline-tab-btn" class="tab-btn" data-tab="timeline-tab">Application Progress</button>
                 <button id="checklist-tab-btn" class="tab-btn" data-tab="checklist-tab">Checklist</button>
                 <button id="documents-tab-btn" class="tab-btn" data-tab="documents-tab">Documents</button>
             </div>
             
-            <div id="timeline-tab" class="tab-content" style="display:block;">
+            <!-- This is the conceptual "dashboard" subpage -->
+            <div id="dashboard-tab" class="tab-content" style="display:block;">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
+                    <div id="days-left-card" class="m3-sub-card p-6 flex flex-col items-start space-y-2 cursor-pointer" data-state="deadline">
+                        <p id="countdown-days" class="text-6xl font-extrabold hero-title-gradient">0</p>
+                        <p id="countdown-label" class="text-lg font-semibold text-gray-600">DAYS TO DEADLINE</p>
+                    </div>
+                    <div id="spots-left-card" class="m3-sub-card p-6 flex flex-col items-start space-y-2">
+                        <p class="text-6xl font-extrabold hero-title-gradient">18</p>
+                        <p class="text-lg font-semibold text-gray-600">SPOTS LEFT</p>
+                    </div>
+                    <div id="ticket-price-card" class="m3-sub-card p-6 flex flex-col items-start space-y-2">
+                        <p id="ticket-price-number" class="text-6xl font-extrabold hero-title-gradient">...</p>
+                        <p id="route-info" class="text-lg font-semibold text-gray-600">Loading route...</p>
+                    </div>
+                </div>
+                <div class="w-full mt-8">
+                    <div class="progress-container">
+                        <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
+                        <span id="progress-text" class="progress-text-inside"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- This is the conceptual "process step" subpage -->
+            <div id="timeline-tab" class="tab-content" style="display:none;">
                 <div id="timeline-container" class="step-container space-y-8">
                 </div>
             </div>
@@ -539,6 +543,7 @@
                 </div>
             </div>
 
+            <!-- This is the documents section -->
             <div id="documents-tab" class="tab-content" style="display:none;">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-sub-card p-6 flex flex-col items-center justify-center space-y-2">
@@ -570,6 +575,7 @@
 
         </div>
 
+        <!-- Video Modal -->
         <div id="video-modal" class="video-overlay">
             <div class="video-container">
                 <button id="close-btn" class="close-btn">&times;</button>
@@ -955,10 +961,10 @@
             updateTicketPrice();
             setInterval(updateTicketPrice, 5000); // Update ticket price every 5 seconds
 
-            // Show the timeline tab by default
-            const timelineButton = document.getElementById('timeline-tab-btn');
-            if (timelineButton) {
-                timelineButton.click();
+            // Show the dashboard tab by default
+            const dashboardButton = document.getElementById('dashboard-tab-btn');
+            if (dashboardButton) {
+                dashboardButton.click();
             }
         });
     </script>
