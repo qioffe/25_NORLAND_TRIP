@@ -14,7 +14,7 @@
         /**
          * @file Refactored and concise stylesheet for the travel dashboard with a dynamic background.
          * @author Q
-         * @version 2.0
+         * @version 3.8
          */
         :root {
             --md-sys-color-primary: #3B82F6;
@@ -33,9 +33,9 @@
             font-family: 'Inter', sans-serif; 
             color: #1e293b;
             /* Dynamic Fluid Background */
-            background: linear-gradient(-45deg, #e0e7ff, #eff6ff, #dbeafe, #c7d2fe);
+            background: linear-gradient(-45deg, #a7b7ff, #eff6ff, #dbeafe, #c1d4ff);
             background-size: 400% 400%;
-            animation: fluid-gradient 15s ease infinite;
+            animation: fluid-gradient 20s ease infinite;
         }
 
         /* --- Animations --- */
@@ -54,52 +54,85 @@
         /* --- Layout & Cards --- */
         .main-container { 
             border-radius: 24px; 
-            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
-            backdrop-filter: blur(12px); /* Frosted glass effect */
-            -webkit-backdrop-filter: blur(12px); /* Safari support */
-            box-shadow: 0 10px 20px -5px #00000014, 0 4px 8px -6px #0000000a; 
+            background-color: rgba(255, 255, 255, 0.55); /* More transparent for a glass effect */
+            backdrop-filter: blur(20px); /* Increased blur for glass effect */
+            -webkit-backdrop-filter: blur(20px); /* Safari support */
+            box-shadow: 0 10px 30px -5px rgba(0,0,0,0.07), 0 4px 15px -6px rgba(0,0,0,0.05); 
             transition: opacity 0.5s ease-in-out; 
             opacity: 0; 
             overflow: hidden; 
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5); /* Lighter border */
         }
         .main-container.is-visible { opacity: 1; }
         .m3-elevated-card { 
-            border-radius: 12px; 
-            background-color: var(--md-sys-color-surface); 
-            box-shadow: 0 1px 3px 0 #0000001a, 0 1px 2px 0 #0000000f; 
+            border-radius: 16px; /* Slightly larger radius */
+            background-color: rgba(248, 251, 254, 0.65); /* Added transparency */
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
             border: 1px solid var(--md-sys-color-outline); 
         }
-        .interactive-card:active { transform: scale(0.99); box-shadow: 0 1px 2px 0 #00000014; }
+        .interactive-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .interactive-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+        .interactive-card:active {
+            transform: scale(0.98);
+        }
 
         /* --- Tabs --- */
         .tabs-container { border-bottom: 1px solid var(--md-sys-color-outline); }
         .tab-list { display: flex; justify-content: center; }
-        .tab-btn { display: flex; align-items: center; justify-content: center; height: 48px; padding: 0 16px; font-size: 0.875rem; color: #475569; position: relative; flex-grow: 1; border: none; background-color: transparent; font-weight: 600; cursor: pointer; }
+        .tab-btn { display: flex; align-items: center; justify-content: center; height: 48px; padding: 0 24px; font-size: 0.9rem; color: #475569; position: relative; flex-grow: 1; border: none; background-color: transparent; font-weight: 600; cursor: pointer; transition: background-color 0.2s; }
         .tab-btn::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 3px; background-color: var(--md-sys-color-primary); border-radius: 3px 3px 0 0; transform: scaleX(0); transition: transform 0.3s ease; }
-        .tab-btn:hover { background-color: #0000000a; }
+        .tab-btn:hover { background-color: rgba(0,0,0,0.04); }
         .tab-btn.is-active { color: var(--md-sys-color-primary); }
         .tab-btn.is-active::after { transform: scaleX(1); }
 
         /* --- Document List & Instructions --- */
-        .document-list-item, .instruction-card, .instruction-link { display: flex; text-decoration: none; color: inherit; border-radius: 12px; transition: background-color 0.1s, transform 0.1s; }
+        .document-list-item, .instruction-card, .instruction-link { display: flex; text-decoration: none; color: inherit; border-radius: 12px; transition: background-color 0.2s, transform 0.2s; }
         .document-list-item { align-items: center; padding: 1rem; }
         .document-list-item:not(:last-child) { border-bottom: 1px solid var(--md-sys-color-outline); }
-        .instruction-card, .instruction-link { align-items: flex-start; gap: 0.75rem; padding: 0.75rem; border: 1px solid var(--md-sys-color-outline); background-color: #F7FAFC; }
-        .instruction-card:active, .instruction-link:active, .document-list-item:active { background-color: var(--md-sys-color-primary-container); }
-        .instruction-card:active, .instruction-link:active { transform: scale(0.98); }
-        .document-list-item:active { transform: scale(0.99); }
+        .instruction-card, .instruction-link { align-items: flex-start; gap: 0.75rem; padding: 0.75rem; border: 1px solid var(--md-sys-color-outline); background-color: rgba(247, 250, 252, 0.7); }
+        .instruction-card:hover, .instruction-link:hover { background-color: var(--md-sys-color-primary-container); transform: scale(1.02); }
+        .instruction-card:active, .instruction-link:active { transform: scale(0.99); transition-duration: 0.1s; } /* Press effect */
+        .document-list-item:hover { background-color: var(--md-sys-color-primary-container); }
         .document-list-icon, .instruction-icon-container { flex-shrink: 0; }
         .document-list-icon { margin-right: 1rem; color: var(--md-sys-color-primary); }
-        .instruction-icon-container { width: 2rem; height: 2rem; border-radius: 9999px; background-color: var(--md-sys-color-primary-container); color: var(--md-sys-color-primary); display: flex; align-items: center; justify-content: center; }
+        .instruction-icon-container { 
+            width: 3rem; /* Increased size */
+            height: 3rem; /* Increased size */
+            border-radius: 9999px; 
+            background-color: var(--md-sys-color-primary-container); 
+            color: var(--md-sys-color-primary); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
         .document-list-text, .instruction-content { flex-grow: 1; }
         .document-list-action { flex-shrink: 0; margin-left: 1rem; color: var(--md-sys-color-primary); font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; }
 
         /* --- Stepper --- */
-        .stepper-container { display: flex; justify-content: space-between; margin: 0 auto 2.5rem; max-width: 42rem; }
+        .stepper-container { display: flex; justify-content: space-between; margin: 0 auto 2.5rem; max-width: 56rem; }
         .stepper-item { display: flex; flex-direction: column; align-items: center; flex-grow: 1; position: relative; cursor: pointer; }
         .stepper-item:not(:last-child)::after { content: ''; position: absolute; top: 1.25rem; left: 50%; width: 100%; height: 2px; background-color: var(--md-sys-color-outline); z-index: 1; transition: background-color 0.3s; }
-        .stepper-icon { width: 2.5rem; height: 2.5rem; border-radius: 9999px; display: flex; align-items: center; justify-content: center; background-color: #DDE8F4; color: #4B5563; font-weight: 600; z-index: 2; transition: all 0.3s; border: 4px solid var(--md-sys-color-surface); position: relative; }
+        .stepper-icon { 
+            width: 3rem; /* Increased size to 48px */
+            height: 3rem; /* Increased size to 48px */
+            border-radius: 9999px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background-color: #DDE8F4; 
+            color: #4B5563; 
+            font-weight: 600; 
+            z-index: 2; 
+            transition: all 0.3s; 
+            border: 4px solid var(--md-sys-color-surface); 
+            position: relative; 
+        }
         .stepper-icon .step-number, .stepper-icon .step-checkmark { transition: opacity 0.3s ease-in-out; position: absolute; }
         .stepper-icon .step-checkmark { opacity: 0; }
         .stepper-label { margin-top: 0.5rem; font: 500 0.875rem/1.25rem sans-serif; color: #64748B; text-align: center; transition: color 0.3s, font-weight 0.3s; }
@@ -123,19 +156,14 @@
         .action-tag { background-color: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600; display: inline-block; margin: 0.25rem 0; }
         .m3-divider { height: 1px; background-color: var(--md-sys-color-outline); border: none; }
         .text-gradient-primary { background: linear-gradient(to right, var(--md-sys-color-primary), var(--md-sys-color-primary-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .progress-ring { transform: rotate(-90deg); }
-        .progress-ring-circle { transition: stroke-dashoffset 0.5s ease; }
-        .flight-visuals.placeholder { filter: blur(4px); opacity: 0.6; }
         
-        /* --- Flight Path --- */
-        /* REMOVED OLD FLIGHT PATH STYLES */
-        
-        /* --- NEW: Redesigned Flight Card --- */
+        /* --- Flight Card --- */
         .flight-card-v2 {
-            border-radius: 12px;
-            background: linear-gradient(135deg, #ffffff 0%, #f8fbfe 100%);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(248,251,254,0.7) 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 16px rgba(17, 24, 39, 0.05);
+            border: 1px solid var(--md-sys-color-outline);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             overflow: hidden;
             position: relative;
@@ -147,7 +175,7 @@
 
         .flight-card-v2:hover {
             transform: translateY(-6px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08);
         }
         
         .flight-price-container {
@@ -192,15 +220,6 @@
             margin: 0 1rem;
         }
         
-        .flight-path-animated .flight-icon-animated {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%) rotate(90deg);
-            color: var(--md-sys-color-primary);
-            animation: flight-move 3s linear infinite;
-        }
-        
         @keyframes flight-move {
             from { left: 0; }
             to { left: calc(100% - 24px); } /* 24px is icon size */
@@ -218,76 +237,97 @@
         }
 
         .flight-card-v2.placeholder {
-            /* This single class will control the placeholder state */
             filter: blur(4px);
             opacity: 0.6;
             background: #f8fafc;
         }
 
-        /* --- Responsive --- */
-        @media (max-width: 640px) {
-            .tab-btn .material-symbols-outlined { display: none; }
-            .document-list-item { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-            .document-list-action { margin-left: 0; width: 100%; justify-content: center; background-color: var(--md-sys-color-primary-container); }
-            .stepper-label { display: none; }
+        /* --- NEW Date Card Styles --- */
+        #date-card {
+            border-radius: 1.5rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(248, 251, 254, 0.75) 100%);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            min-height: auto;
+        }
+        #date-card:hover {
+            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+            transform: translateY(-4px);
+        }
+        #date-card:active {
+            transform: scale(0.98);
+            transition-duration: 0.05s;
+        }
+
+        .date-view, .countdown-view {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .main-number {
+            font-size: 3.5rem; /* 56px */
+            line-height: 1;
+        }
+        .label-text {
+            font-size: 1.125rem; /* 18px */
         }
     </style>
 </head>
-<body class="flex flex-col items-center min-h-screen py-12 px-2 sm:px-6 lg:px-8">
-    <div class="main-container w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-12">
+<body class="flex flex-col items-center min-h-screen py-8 px-4">
+    <div class="main-container w-full max-w-7xl mx-auto p-6 sm:p-8">
         <!-- Dashboard Section -->
-        <section id="dashboard-section" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <!-- FLL to PVG Flight Card -->
-                <div id="flight-card-fll" class="flight-card-v2 placeholder">
-                    <div class="flight-price-container">
-                        <p class="flight-price-value"><span class="currency">$</span>----</p>
-                    </div>
-                    <div class="flight-main-route">
-                        <p class="flight-airport-code departure">FLL</p>
-                        <div class="flight-path-animated">
-                            <span class="material-symbols-outlined flight-icon-animated">flight</span>
-                        </div>
-                        <p class="flight-airport-code arrival">PVG</p>
-                    </div>
-                    <div class="flight-details">
-                        <p class="flight-route-info">Fetching route...</p>
-                        <p class="flight-last-updated">Updating...</p>
-                    </div>
+        <section id="dashboard-section" class="grid grid-cols-1 md:grid-cols-[2fr,2fr,1fr] gap-8">
+            <div id="flight-card-fll" class="flight-card-v2 placeholder interactive-card">
+                <div class="flight-price-container">
+                    <p class="flight-price-value"><span class="currency">$</span>----</p>
                 </div>
-                <!-- MIA to PVG Flight Card -->
-                <div id="flight-card-mia" class="flight-card-v2 placeholder">
-                    <div class="flight-price-container">
-                        <p class="flight-price-value"><span class="currency">$</span>----</p>
+                <div class="flight-main-route">
+                    <p class="flight-airport-code departure">FLL</p>
+                    <div class="flight-path-animated">
+                        <span class="material-symbols-outlined flight-icon-animated">flight</span>
                     </div>
-                    <div class="flight-main-route">
-                        <p class="flight-airport-code departure">MIA</p>
-                        <div class="flight-path-animated">
-                            <span class="material-symbols-outlined flight-icon-animated">flight</span>
-                        </div>
-                        <p class="flight-airport-code arrival">PVG</p>
+                    <p class="flight-airport-code arrival">PVG</p>
+                </div>
+                <div class="flight-details">
+                    <p class="flight-route-info">Fetching route...</p>
+                    <p class="flight-last-updated">Updating...</p>
+                </div>
+            </div>
+            <div id="flight-card-mia" class="flight-card-v2 placeholder interactive-card">
+                <div class="flight-price-container">
+                    <p class="flight-price-value"><span class="currency">$</span>----</p>
+                </div>
+                <div class="flight-main-route">
+                    <p class="flight-airport-code departure">MIA</p>
+                    <div class="flight-path-animated">
+                        <span class="material-symbols-outlined flight-icon-animated">flight</span>
                     </div>
-                    <div class="flight-details">
-                        <p class="flight-route-info">Fetching route...</p>
-                        <p class="flight-last-updated">Updating...</p>
-                    </div>
+                    <p class="flight-airport-code arrival">PVG</p>
+                </div>
+                <div class="flight-details">
+                    <p class="flight-route-info">Fetching route...</p>
+                    <p class="flight-last-updated">Updating...</p>
                 </div>
             </div>
             <!-- Date & Countdown Card -->
-            <div id="date-card" class="interactive-card rounded-xl cursor-pointer flex flex-col justify-center text-center items-center overflow-hidden p-6 relative bg-white/50">
-                <svg class="progress-ring absolute inset-0 w-full h-full p-2" viewBox="0 0 120 120">
-                    <circle class="text-gray-200" stroke-width="8" stroke="currentColor" fill="transparent" r="52" cx="60" cy="60"/>
-                    <circle id="progress-ring-circle" class="text-blue-500" stroke-width="8" stroke="currentColor" fill="transparent" r="52" cx="60" cy="60" stroke-linecap="round"/>
-                </svg>
-                <div class="relative">
-                    <div id="date-view" class="dashboard-card-content">
-                        <p class="text-6xl lg:text-7xl font-extrabold text-gradient-primary leading-none">22</p>
-                        <p class="text-lg font-bold text-gray-600 tracking-wider">NOV</p>
-                    </div>
-                    <div id="countdown-view" class="dashboard-card-content hidden">
-                        <p id="countdown-days" class="text-6xl lg:text-7xl font-extrabold text-gradient-primary leading-none">0</p>
-                        <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider mt-1">Days Left</p>
-                    </div>
+            <div id="date-card" class="interactive-card rounded-2xl cursor-pointer flex flex-col justify-center items-center text-center overflow-hidden p-4 relative bg-white/50" role="button" aria-label="Toggle date and countdown view">
+                <p class="text-sm font-semibold text-gray-500 mb-2 uppercase tracking-wider relative z-10">DEPARTURE</p>
+                <div id="date-view" class="date-view">
+                    <p class="main-number font-extrabold text-gradient-primary">22</p>
+                    <p class="label-text font-bold text-gray-600 tracking-wider">NOV</p>
+                </div>
+                <div id="countdown-view" class="countdown-view hidden">
+                    <p id="countdown-days" class="main-number font-extrabold text-gradient-primary">0</p>
+                    <p class="label-text font-bold text-gray-600 tracking-wider">DAYS LEFT</p>
                 </div>
             </div>
         </section>
@@ -296,18 +336,18 @@
         
         <header class="flex justify-between items-center pb-8">
             <div>
-                <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Application Guideline</h2>
+                <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Application Guideline</h1>
             </div>
-            <button class="w-12 h-12 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100 active:bg-gray-200 transition flex-shrink-0">
+            <button class="w-12 h-12 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100 active:bg-gray-200 transition flex-shrink-0" aria-label="Share">
                 <span class="material-symbols-outlined">share</span>
             </button>
         </header>
 
         <!-- Navigation Tabs -->
-        <nav class="tabs-container max-w-xl mx-auto">
+        <nav class="tabs-container max-w-3xl mx-auto">
             <div class="tab-list" role="tablist">
-                <button class="tab-btn is-active" data-tab="process-tab" role="tab" aria-selected="true">Application Process</button>
-                <button class="tab-btn" data-tab="documents-tab" role="tab" aria-selected="false">Downloadable Forms</button>
+                <button class="tab-btn is-active" data-tab="process-tab" role="tab" aria-selected="true" tabindex="0">Application Process</button>
+                <button class="tab-btn" data-tab="documents-tab" role="tab" aria-selected="false" tabindex="0">Downloadable Forms</button>
             </div>
         </nav>
         
@@ -317,19 +357,19 @@
             <div id="process-tab" class="tab-content" style="display:block;">
                 <div id="stepper-ui-container">
                     <div class="stepper stepper-container">
-                        <div class="stepper-item is-active" data-step="1">
+                        <div class="stepper-item is-active" data-step="1" tabindex="0">
                             <div class="stepper-icon"><span class="step-number">1</span><span class="material-symbols-outlined step-checkmark">check</span></div>
                             <div class="stepper-label">Invitation</div>
                         </div>
-                        <div class="stepper-item" data-step="2">
+                        <div class="stepper-item" data-step="2" tabindex="0">
                             <div class="stepper-icon"><span class="step-number">2</span><span class="material-symbols-outlined step-checkmark">check</span></div>
                             <div class="stepper-label">Documents</div>
                         </div>
-                        <div class="stepper-item" data-step="3">
+                        <div class="stepper-item" data-step="3" tabindex="0">
                             <div class="stepper-icon"><span class="step-number">3</span><span class="material-symbols-outlined step-checkmark">check</span></div>
                             <div class="stepper-label">Application</div>
                         </div>
-                        <div class="stepper-item" data-step="4">
+                        <div class="stepper-item" data-step="4" tabindex="0">
                             <div class="stepper-icon"><span class="step-number">4</span><span class="material-symbols-outlined step-checkmark">check</span></div>
                             <div class="stepper-label">Submission</div>
                         </div>
@@ -350,7 +390,7 @@
             <div id="documents-tab" class="tab-content" style="display:none;">
                 <div class="m3-elevated-card p-4 space-y-2">
                     <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">Consent Letter</h3><p class="text-sm text-gray-600">A notarized form for minors.</p></div><div class="document-list-action"><span>Download</span></div></a>
-                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">JESIE Application</h3><p class="text-sm text-gray-600">The main program application form.</p></div><div class="document-list-action"><span>Download</span></div></a>
+                    <a href="https://qioffe.github.io.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">JESIE Application</h3><p class="text-sm text-gray-600">The main program application form.</p></div><div class="document-list-action"><span>Download</span></div></a>
                     <a href="https://qioffe.github.io/25_NORLAND_TRIP/cova_2013.pdf" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">Visa Application Templates (COVA)</h3><p class="text-sm text-gray-600">A guide for the official COVA form.</p></div><div class="document-list-action"><span>Download</span></div></a>
                     <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">Where You Stay Form (WYS)</h3><p class="text-sm text-gray-600">A supplementary visa office form.</p></div><div class="document-list-action"><span>Download</span></div></a>
                 </div>
@@ -362,7 +402,7 @@
         /**
          * @file Modern, event-driven UI script for a travel dashboard.
          * @author Q
-         * @version 2.5
+         * @version 3.1
          */
         document.addEventListener('DOMContentLoaded', () => {
             const mainContainer = document.querySelector('.main-container');
@@ -379,7 +419,7 @@
                                 <h4 class="font-semibold text-gray-800 text-sm">Complete the JESIS Form</h4>
                                 <p class="text-xs text-gray-600 mt-1">Once submitted, we will issue the Official Invitation Letter.</p>
                             </div>
-                            <span class="material-symbols-outlined text-base text-gray-400 flex-shrink-0">open_in_new</span>
+                            <span class="material-symbols-outlined text-base text-gray-400">open_in_new</span>
                         </a>
                     </div>`,
                 2: `
@@ -447,14 +487,10 @@
         /** Loads flight data and updates UI cards. */
         async function loadFlightData() {
             try {
-                // --- FIX ---
-                // Reverted to fetching the JSON file from the repository.
-                // A relative path works when the HTML file and JSON file are in the same repo.
                 const response = await fetch(`flights_data.json?v=${Date.now()}`);
                 if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 const data = await response.json();
                 
-                // Update UI with the fetched data
                 updateFlightCard('flight-card-fll', data['FLL-PVG']);
                 updateFlightCard('flight-card-mia', data['MIA-PVG']);
             } catch (error) {
@@ -470,10 +506,8 @@
             const el = (selector) => card.querySelector(selector);
             const isSuccess = data?.status === 'ok' && data.price;
 
-            // Toggle placeholder class on the main card
             card.classList.toggle('placeholder', !isSuccess);
 
-            // Update Price
             const priceEl = el('.flight-price-value');
             if (priceEl) {
                 priceEl.innerHTML = isSuccess 
@@ -481,7 +515,6 @@
                     : `<span class="currency">$</span>----`;
             }
 
-            // Update Route Stops Info
             const routeInfoEl = el('.flight-route-info');
             if (routeInfoEl) {
                 routeInfoEl.textContent = isSuccess 
@@ -489,7 +522,6 @@
                     : (data?.status || 'error').replace(/_/g, ' ');
             }
 
-            // Update Last Updated Time
             const lastUpdatedEl = el('.flight-last-updated');
             if (lastUpdatedEl) {
                 lastUpdatedEl.textContent = isSuccess && data.last_updated
@@ -497,7 +529,6 @@
                     : 'Update Failed';
             }
 
-            // Update Airport Codes (this ensures they are correct even if HTML changes)
             const departureCode = cardId === 'flight-card-fll' ? 'FLL' : 'MIA';
             el('.flight-airport-code.departure').textContent = departureCode;
             el('.flight-airport-code.arrival').textContent = 'PVG';
@@ -559,24 +590,35 @@
         function setupDashboard() {
             const card = document.getElementById('date-card');
             if (!card) return;
-            const ring = document.getElementById('progress-ring-circle');
-            const start = new Date('2025-09-01T00:00:00');
-            const end = new Date('2025-11-22T00:00:00');
-            const now = new Date();
-            
-            const progress = Math.max(0, Math.min(1, (now - start) / (end - start)));
-            const circumference = 2 * Math.PI * ring.r.baseVal.value;
-            ring.style.strokeDasharray = `${circumference}`;
-            ring.style.strokeDashoffset = circumference * (1 - progress);
 
+            const dateView = document.getElementById('date-view');
+            const countdownView = document.getElementById('countdown-view');
+            const daysEl = document.getElementById('countdown-days');
+            
+            // Define the trip start and end dates
+            const startDate = new Date('2025-08-01T00:00:00'); 
+            const tripDate = new Date('2025-11-22T00:00:00');
+            
+            // Function to update the days left
+            const updateCountdown = () => {
+                const now = new Date();
+                const timeLeftMs = tripDate.getTime() - now.getTime();
+                
+                const daysLeft = Math.max(0, Math.ceil(timeLeftMs / (1000 * 60 * 60 * 24)));
+                
+                daysEl.textContent = daysLeft;
+            };
+
+            // Set up initial state and update interval
+            updateCountdown();
+            setInterval(updateCountdown, 1000 * 60 * 60); // Update every hour
+
+            // Add click listener to toggle views
             card.addEventListener('click', () => {
-                const daysLeft = Math.max(0, Math.ceil((end - now) / 864e5));
-                document.getElementById('countdown-days').textContent = daysLeft;
-                document.getElementById('date-view').classList.toggle('hidden');
-                document.getElementById('countdown-view').classList.toggle('hidden');
+                dateView.classList.toggle('hidden');
+                countdownView.classList.toggle('hidden');
             });
         }
     </script>
 </body>
 </html>
-
