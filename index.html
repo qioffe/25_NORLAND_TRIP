@@ -278,6 +278,7 @@
             cursor: pointer;
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
             min-height: auto;
+            position: relative;
         }
         #date-card:hover {
             box-shadow: 0 12px 24px rgba(0,0,0,0.08);
@@ -286,6 +287,20 @@
         #date-card:active {
             transform: scale(0.98);
             transition-duration: 0.05s;
+        }
+
+        .highlight-tag {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #FBBF24;
+            color: #78350F;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0 1.5rem 0 1rem;
+            transform: translate(0, 0);
+            z-index: 10;
         }
 
         .date-view, .countdown-view {
@@ -357,12 +372,13 @@
         
         <hr class="m3-divider my-12">
         
-        <header class="flex justify-between items-center pb-8">
-            <div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Your Trip to China</h1>
-            </div>
-            <button class="w-12 h-12 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100 active:bg-gray-200 transition flex-shrink-0" aria-label="Share">
-                <span class="material-symbols-outlined">share</span>
+        <header class="flex items-center justify-between pb-8 relative">
+            <button class="w-12 h-12 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100 active:bg-gray-200 transition" aria-label="Previous milestone">
+                <span class="material-symbols-outlined">arrow_back_ios_new</span>
+            </button>
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 text-center flex-grow">Your Visa & Application</h1>
+            <button class="w-12 h-12 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100 active:bg-gray-200 transition" aria-label="Next milestone">
+                <span class="material-symbols-outlined">arrow_forward_ios</span>
             </button>
         </header>
 
