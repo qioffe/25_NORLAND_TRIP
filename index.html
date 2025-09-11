@@ -334,6 +334,50 @@
         .progress-ring-circle {
             transition: stroke-dashoffset 0.5s ease;
         }
+        
+        .flight-visuals.placeholder {
+            filter: blur(4px);
+            opacity: 0.6;
+        }
+        
+        .flight-path-container {
+            position: relative;
+            height: 24px; /* For vertical alignment of the plane */
+        }
+        .flight-icon {
+            position: absolute;
+            top: 50%;
+            left: 0%;
+            transform: translateY(-50%) rotate(90deg);
+            color: var(--md-sys-color-primary);
+            animation: fly-across 4s ease-in-out infinite;
+            text-shadow: 0 0 5px rgba(255,255,255,0.7);
+            font-size: 1.125rem; /* ~18px */
+        }
+        @keyframes fly-across {
+            0% {
+                left: 0%;
+                transform: translateY(-50%) rotate(90deg);
+            }
+            49% {
+                transform: translateY(-50%) rotate(90deg);
+            }
+            50% {
+                left: 100%;
+                transform: translateY(-50%) rotate(90deg);
+            }
+            51% {
+                /* Flip direction */
+                transform: translateY(-50%) rotate(-90deg);
+            }
+            99% {
+                transform: translateY(-50%) rotate(-90deg);
+            }
+            100% {
+                left: 0%;
+                transform: translateY(-50%) rotate(-90deg);
+            }
+        }
 
         @media (max-width: 640px) {
              .tab-btn .material-symbols-outlined {
@@ -360,54 +404,45 @@
     <div class="main-container w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-12">
         <!-- Dashboard Section -->
         <section id="dashboard-section" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div id="flight-card" class="m3-elevated-card interactive-card md:col-span-2 p-6 cursor-pointer flex flex-col justify-between">
-                <div>
+             <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- FLL to PVG Flight Card -->
+                <div id="flight-card-fll" class="m3-elevated-card flight-card p-6 flex flex-col justify-between">
                     <div class="flex justify-between items-start">
-                        <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">Flight Details</p>
-                        <p class="text-xl font-bold text-gray-700">$1,350</p>
+                        <p class="flight-title text-sm font-semibold text-slate-500 uppercase tracking-wider">FLL → PVG</p>
+                        <p class="flight-price text-xl font-bold text-gray-700">$----</p>
                     </div>
-                    <div id="flight-view-1" class="dashboard-card-content mt-4">
-                        <div class="flex items-center justify-between">
-                            <div class="text-center">
-                                <p class="text-3xl font-bold text-gradient-primary">BOS</p>
-                                <p class="text-sm text-gray-500">10:30 PM</p>
+                    <div class="mt-4">
+                        <div class="flight-visuals flex items-center justify-between placeholder">
+                            <div class="text-center"><p class="text-3xl font-bold text-gradient-primary">FLL</p></div>
+                            <div class="flight-path-container flex-grow mx-4">
+                                <div class="w-full border-t-2 border-dashed border-gray-300"></div>
+                                <span class="material-symbols-outlined flight-icon">flight</span>
                             </div>
-                            <div class="flex-grow flex items-center text-gray-400">
-                                <span class="material-symbols-outlined">flight_takeoff</span>
-                                <div class="flex-grow border-t-2 border-dashed mx-4"></div>
-                                <span class="text-sm">1 Stop</span>
-                                <div class="flex-grow border-t-2 border-dashed mx-4"></div>
-                                <span class="material-symbols-outlined">flight_land</span>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-3xl font-bold text-gradient-primary">HGH</p>
-                                <p class="text-sm text-gray-500">05:00 AM <span class="text-red-500 font-semibold">+2</span></p>
-                            </div>
+                            <div class="text-center"><p class="text-3xl font-bold text-gradient-primary">PVG</p></div>
                         </div>
-                         <p class="text-xs text-gray-500 text-center mt-4">Departure / Flight UA123</p>
+                         <p class="flight-route text-xs text-gray-500 text-center mt-4">Fetching route...</p>
                     </div>
-                     <div id="flight-view-2" class="dashboard-card-content mt-4 hidden">
-                         <div class="flex items-center justify-between">
-                            <div class="text-center">
-                                <p class="text-3xl font-bold text-gradient-primary">HGH</p>
-                                <p class="text-sm text-gray-500">09:00 AM</p>
+                </div>
+                <!-- MIA to PVG Flight Card -->
+                <div id="flight-card-mia" class="m3-elevated-card flight-card p-6 flex flex-col justify-between">
+                     <div class="flex justify-between items-start">
+                        <p class="flight-title text-sm font-semibold text-slate-500 uppercase tracking-wider">MIA → PVG</p>
+                        <p class="flight-price text-xl font-bold text-gray-700">$----</p>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flight-visuals flex items-center justify-between placeholder">
+                            <div class="text-center"><p class="text-3xl font-bold text-gradient-primary">MIA</p></div>
+                            <div class="flight-path-container flex-grow mx-4">
+                                <div class="w-full border-t-2 border-dashed border-gray-300"></div>
+                                <span class="material-symbols-outlined flight-icon">flight</span>
                             </div>
-                            <div class="flex-grow flex items-center text-gray-400">
-                                <span class="material-symbols-outlined">flight_takeoff</span>
-                                <div class="flex-grow border-t-2 border-dashed mx-4"></div>
-                                <span class="text-sm">2 Stops</span>
-                                <div class="flex-grow border-t-2 border-dashed mx-4"></div>
-                                <span class="material-symbols-outlined">flight_land</span>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-3xl font-bold text-gradient-primary">BOS</p>
-                                <p class="text-sm text-gray-500">04:30 PM <span class="text-red-500 font-semibold">+1</span></p>
-                            </div>
+                            <div class="text-center"><p class="text-3xl font-bold text-gradient-primary">PVG</p></div>
                         </div>
-                        <p class="text-xs text-gray-500 text-center mt-4">Return / Flight UA456</p>
+                         <p class="flight-route text-xs text-gray-500 text-center mt-4">Fetching route...</p>
                     </div>
                 </div>
             </div>
+
             <div id="date-card" class="interactive-card rounded-xl cursor-pointer flex flex-col justify-center text-center items-center overflow-hidden p-6 relative">
                  <svg class="progress-ring absolute inset-0 w-full h-full p-2" viewBox="0 0 120 120">
                     <circle class="text-gray-200" stroke-width="8" stroke="currentColor" fill="transparent" r="52" cx="60" cy="60"/>
@@ -624,7 +659,72 @@
 
     <script>
         /**
-         * Initializes the tab functionality, allowing users to switch between main content areas.
+         * Populates a flight card with data from the JSON file.
+         */
+        function updateFlightCard(cardId, flightData) {
+            const card = document.getElementById(cardId);
+            if (!card || !flightData) {
+                console.error(`Card or data missing for ${cardId}`);
+                if (card) card.innerHTML = "<p class='text-red-500 p-4'>Could not load flight data.</p>";
+                return;
+            }
+
+            const priceEl = card.querySelector('.flight-price');
+            const routeEl = card.querySelector('.flight-route');
+            const visualEl = card.querySelector('.flight-visuals');
+            const titleEl = card.querySelector('.flight-title');
+
+            if (flightData.status === 'ok' && flightData.price) {
+                priceEl.textContent = `$${flightData.price}`;
+                routeEl.textContent = flightData.route_info || 'Route not available';
+                if(visualEl) visualEl.classList.remove('placeholder');
+
+                if (titleEl && flightData.last_updated) {
+                    const updatedDate = new Date(flightData.last_updated);
+                    const formattedTime = updatedDate.toLocaleTimeString('en-US', {
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true
+                    });
+                    titleEl.textContent = `Updated: ${formattedTime}`;
+                }
+            } else {
+                priceEl.textContent = 'N/A';
+                routeEl.textContent = flightData.status.replace(/_/g, ' ');
+                if(visualEl && !visualEl.classList.contains('placeholder')) {
+                   visualEl.classList.add('placeholder');
+                }
+                if (titleEl) {
+                    titleEl.textContent = 'Update Failed';
+                }
+            }
+        }
+        
+        /**
+         * Fetches flight data from the JSON file and updates the UI.
+         */
+        async function loadFlightData() {
+            try {
+                // Using a cache-busting query parameter to get the freshest data
+                const response = await fetch(`flights_data.json?v=${new Date().getTime()}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                updateFlightCard('flight-card-fll', data['FLL-PVG']);
+                updateFlightCard('flight-card-mia', data['MIA-PVG']);
+
+            } catch (error) {
+                console.error("Failed to load flight data:", error);
+                // Update UI to show a general error message
+                updateFlightCard('flight-card-fll', { status: 'failed_to_load_data' });
+                updateFlightCard('flight-card-mia', { status: 'failed_to_load_data' });
+            }
+        }
+
+        /**
+         * Initializes the tab functionality.
          */
         function setupTabs() {
             const tabButtons = document.querySelectorAll('.tab-btn');
@@ -672,25 +772,16 @@
                 });
 
                 prevBtn.disabled = currentStep === 1;
-                if (currentStep === stepperItems.length) {
-                    nextBtn.textContent = 'Finish';
-                } else {
-                    nextBtn.textContent = 'Next Step';
-                }
+                nextBtn.textContent = (currentStep === stepperItems.length) ? 'Finish' : 'Next Step';
             };
             
-            const resetStepper = () => {
-                currentStep = 1;
-                updateStepper();
-            };
-
             nextBtn.addEventListener('click', () => {
-                if (nextBtn.textContent === 'Finish') {
-                    resetStepper();
-                } else if (currentStep < stepperItems.length) {
+                if (currentStep < stepperItems.length) {
                     currentStep++;
-                    updateStepper();
+                } else {
+                    currentStep = 1; // Reset on Finish
                 }
+                updateStepper();
             });
 
             prevBtn.addEventListener('click', () => {
@@ -699,14 +790,14 @@
                     updateStepper();
                 }
             });
-
-            stepperItems.forEach(item => {
+            
+             stepperItems.forEach(item => {
                 item.addEventListener('click', () => {
-                    const step = parseInt(item.dataset.step);
-                    currentStep = step;
+                    currentStep = parseInt(item.dataset.step);
                     updateStepper();
                 });
             });
+
 
             updateStepper(); // Initial state
         }
@@ -721,53 +812,26 @@
             const countdownDays = document.getElementById('countdown-days');
             const progressRing = document.getElementById('progress-ring-circle');
             
-            const flightCard = document.getElementById('flight-card');
-            const flightView1 = document.getElementById('flight-view-1');
-            const flightView2 = document.getElementById('flight-view-2');
-            
-            const tripStartDate = new Date('2025-09-01T00:00:00'); // Assume process starts Sept 1
+            const tripStartDate = new Date('2025-09-01T00:00:00'); 
             const tripDate = new Date('2025-11-22T00:00:00');
             const now = new Date();
 
-            const totalDuration = (tripDate.getTime() - tripStartDate.getTime()) / (1000 * 60 * 60 * 24);
-            const daysElapsed = (now.getTime() - tripStartDate.getTime()) / (1000 * 60 * 60 * 24);
+            const totalDuration = (tripDate.getTime() - tripStartDate.getTime()) / (1000 * 3600 * 24);
+            const daysElapsed = (now.getTime() - tripStartDate.getTime()) / (1000 * 3600 * 24);
             const progress = Math.max(0, Math.min(1, daysElapsed / totalDuration));
 
             const radius = progressRing.r.baseVal.value;
             const circumference = radius * 2 * Math.PI;
             progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
-            const offset = circumference - progress * circumference;
-            progressRing.style.strokeDashoffset = offset;
+            progressRing.style.strokeDashoffset = circumference - progress * circumference;
 
             dateCard.addEventListener('click', () => {
-                const isCountdownVisible = !countdownView.classList.contains('hidden');
+                const isDateVisible = !dateView.classList.contains('hidden');
+                const daysToTrip = Math.ceil((tripDate.getTime() - now.getTime()) / (1000 * 3600 * 24));
+                countdownDays.textContent = daysToTrip > 0 ? daysToTrip : 0;
                 
-                dateView.style.transition = 'opacity 0.3s ease-in-out';
-                countdownView.style.transition = 'opacity 0.3s ease-in-out';
-
-                if (isCountdownVisible) {
-                    countdownView.classList.add('opacity-0');
-                    setTimeout(() => {
-                        countdownView.classList.add('hidden');
-                        dateView.classList.remove('hidden');
-                        dateView.classList.remove('opacity-0');
-                    }, 300);
-                } else {
-                    const daysToTrip = Math.ceil((tripDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-                    countdownDays.textContent = daysToTrip > 0 ? daysToTrip : 0;
-                    
-                    dateView.classList.add('opacity-0');
-                     setTimeout(() => {
-                        dateView.classList.add('hidden');
-                        countdownView.classList.remove('hidden');
-                        countdownView.classList.remove('opacity-0');
-                    }, 300);
-                }
-            });
-            
-            flightCard.addEventListener('click', () => {
-                 flightView1.classList.toggle('hidden');
-                 flightView2.classList.toggle('hidden');
+                dateView.classList.toggle('hidden');
+                countdownView.classList.toggle('hidden');
             });
         }
 
@@ -781,7 +845,9 @@
             setupTabs();
             setupStepper();
             setupDashboard();
+            loadFlightData();
         });
     </script>
 </body>
 </html>
+
