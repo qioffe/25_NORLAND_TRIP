@@ -128,10 +128,102 @@
         .flight-visuals.placeholder { filter: blur(4px); opacity: 0.6; }
         
         /* --- Flight Path --- */
-        .flight-path-container { position: relative; display: flex; align-items: center; justify-content: center; flex-grow: 1; margin: 0 1rem; }
-        .flight-icon { color: var(--md-sys-color-primary); text-shadow: 0 0 5px #ffffffb3; font-size: 1.125rem; transform: rotate(90deg); }
-        .flight-path-line { position: absolute; width: 100%; border-top: 2px dashed #E5E7EB; z-index: -1; }
+        /* REMOVED OLD FLIGHT PATH STYLES */
         
+        /* --- NEW: Redesigned Flight Card --- */
+        .flight-card-v2 {
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbfe 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            position: relative;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .flight-card-v2:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.07), 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .flight-price-container {
+            text-align: right;
+        }
+        
+        .flight-price-value {
+            font-size: 2.5rem; /* 40px */
+            font-weight: 800;
+            line-height: 1;
+            color: #1e293b;
+            display: inline-block;
+        }
+        
+        .flight-price-value .currency {
+            font-size: 1.5rem;
+            font-weight: 600;
+            vertical-align: top;
+            margin-right: 2px;
+            color: #64748b;
+        }
+        
+        .flight-main-route {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 1.5rem 0;
+        }
+        
+        .flight-airport-code {
+            font-size: 2.25rem; /* 36px */
+            font-weight: 900;
+            color: var(--md-sys-color-primary);
+        }
+        
+        .flight-path-animated {
+            flex-grow: 1;
+            height: 2px;
+            background-image: linear-gradient(to right, var(--md-sys-color-primary) 50%, transparent 50%);
+            background-size: 10px 2px;
+            position: relative;
+            margin: 0 1rem;
+        }
+        
+        .flight-path-animated .flight-icon-animated {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%) rotate(90deg);
+            color: var(--md-sys-color-primary);
+            animation: flight-move 3s linear infinite;
+        }
+        
+        @keyframes flight-move {
+            from { left: 0; }
+            to { left: calc(100% - 24px); } /* 24px is icon size */
+        }
+        
+        .flight-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem; /* 12px */
+            color: #64748b;
+            border-top: 1px solid var(--md-sys-color-outline);
+            padding-top: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .flight-card-v2.placeholder {
+            /* This single class will control the placeholder state */
+            filter: blur(4px);
+            opacity: 0.6;
+            background: #f8fafc;
+        }
+
         /* --- Responsive --- */
         @media (max-width: 640px) {
             .tab-btn .material-symbols-outlined { display: none; }
@@ -147,39 +239,37 @@
         <section id="dashboard-section" class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <!-- FLL to PVG Flight Card -->
-                <div id="flight-card-fll" class="m3-elevated-card flight-card p-6 flex flex-col justify-between">
-                    <div class="flex justify-between items-start">
-                        <p class="flight-title text-sm font-semibold text-slate-500 uppercase tracking-wider">FLL → PVG</p>
-                        <p class="flight-price text-xl font-bold text-gray-700">$----</p>
+                <div id="flight-card-fll" class="flight-card-v2 placeholder">
+                    <div class="flight-price-container">
+                        <p class="flight-price-value"><span class="currency">$</span>----</p>
                     </div>
-                    <div class="mt-4">
-                        <div class="flight-visuals flex items-center justify-between placeholder">
-                            <div class="text-center"><p class="text-3xl font-bold text-gradient-primary">FLL</p></div>
-                            <div class="flight-path-container">
-                                <span class="material-symbols-outlined flight-icon">flight</span>
-                                <div class="flight-path-line"></div>
-                            </div>
-                            <div class="text-center"><p class="text-3xl font-bold text-gradient-primary">PVG</p></div>
+                    <div class="flight-main-route">
+                        <p class="flight-airport-code departure">FLL</p>
+                        <div class="flight-path-animated">
+                            <span class="material-symbols-outlined flight-icon-animated">flight</span>
                         </div>
-                        <p class="flight-route text-xs text-gray-500 text-center mt-4">Fetching route...</p>
+                        <p class="flight-airport-code arrival">PVG</p>
+                    </div>
+                    <div class="flight-details">
+                        <p class="flight-route-info">Fetching route...</p>
+                        <p class="flight-last-updated">Updating...</p>
                     </div>
                 </div>
                 <!-- MIA to PVG Flight Card -->
-                <div id="flight-card-mia" class="m3-elevated-card flight-card p-6 flex flex-col justify-between">
-                    <div class="flex justify-between items-start">
-                        <p class="flight-title text-sm font-semibold text-slate-500 uppercase tracking-wider">MIA → PVG</p>
-                        <p class="flight-price text-xl font-bold text-gray-700">$----</p>
+                <div id="flight-card-mia" class="flight-card-v2 placeholder">
+                    <div class="flight-price-container">
+                        <p class="flight-price-value"><span class="currency">$</span>----</p>
                     </div>
-                    <div class="mt-4">
-                        <div class="flight-visuals flex items-center justify-between placeholder">
-                            <div class="text-center"><p class="text-3xl font-bold text-gradient-primary">MIA</p></div>
-                            <div class="flight-path-container">
-                                <span class="material-symbols-outlined flight-icon">flight</span>
-                                <div class="flight-path-line"></div>
-                            </div>
-                            <div class="text-center"><p class="text-3xl font-bold text-gradient-primary">PVG</p></div>
+                    <div class="flight-main-route">
+                        <p class="flight-airport-code departure">MIA</p>
+                        <div class="flight-path-animated">
+                            <span class="material-symbols-outlined flight-icon-animated">flight</span>
                         </div>
-                        <p class="flight-route text-xs text-gray-500 text-center mt-4">Fetching route...</p>
+                        <p class="flight-airport-code arrival">PVG</p>
+                    </div>
+                    <div class="flight-details">
+                        <p class="flight-route-info">Fetching route...</p>
+                        <p class="flight-last-updated">Updating...</p>
                     </div>
                 </div>
             </div>
@@ -272,7 +362,7 @@
         /**
          * @file Modern, event-driven UI script for a travel dashboard.
          * @author Q
-         * @version 2.2
+         * @version 2.5
          */
         document.addEventListener('DOMContentLoaded', () => {
             const mainContainer = document.querySelector('.main-container');
@@ -354,13 +444,17 @@
             setupDashboard();
         });
 
-        /** Fetches flight data and updates UI cards. */
+        /** Loads flight data and updates UI cards. */
         async function loadFlightData() {
             try {
-                // Add a cache-busting parameter to ensure fresh data
-                const response = await fetch(`https://gist.githubusercontent.com/qioffe/6c233633d6438d2f5b61e0e849ec96c3/raw/flights_data.json?v=${Date.now()}`);
+                // --- FIX ---
+                // Reverted to fetching the JSON file from the repository.
+                // A relative path works when the HTML file and JSON file are in the same repo.
+                const response = await fetch(`flights_data.json?v=${Date.now()}`);
                 if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 const data = await response.json();
+                
+                // Update UI with the fetched data
                 updateFlightCard('flight-card-fll', data['FLL-PVG']);
                 updateFlightCard('flight-card-mia', data['MIA-PVG']);
             } catch (error) {
@@ -376,16 +470,37 @@
             const el = (selector) => card.querySelector(selector);
             const isSuccess = data?.status === 'ok' && data.price;
 
-            el('.flight-price').textContent = isSuccess ? `$${data.price}` : 'N/A';
-            el('.flight-route').textContent = isSuccess ? data.route_info || 'Route unavailable' : (data?.status || 'error').replace(/_/g, ' ');
-            el('.flight-visuals')?.classList.toggle('placeholder', !isSuccess);
+            // Toggle placeholder class on the main card
+            card.classList.toggle('placeholder', !isSuccess);
 
-            const titleEl = el('.flight-title');
-            if (titleEl) {
-                titleEl.textContent = isSuccess && data.last_updated 
+            // Update Price
+            const priceEl = el('.flight-price-value');
+            if (priceEl) {
+                priceEl.innerHTML = isSuccess 
+                    ? `<span class="currency">$</span>${data.price}` 
+                    : `<span class="currency">$</span>----`;
+            }
+
+            // Update Route Stops Info
+            const routeInfoEl = el('.flight-route-info');
+            if (routeInfoEl) {
+                routeInfoEl.textContent = isSuccess 
+                    ? data.route_info || 'Route unavailable' 
+                    : (data?.status || 'error').replace(/_/g, ' ');
+            }
+
+            // Update Last Updated Time
+            const lastUpdatedEl = el('.flight-last-updated');
+            if (lastUpdatedEl) {
+                lastUpdatedEl.textContent = isSuccess && data.last_updated
                     ? `Updated: ${new Date(data.last_updated).toLocaleDateString('en-US', { day: 'numeric', month: 'short' })}`
                     : 'Update Failed';
             }
+
+            // Update Airport Codes (this ensures they are correct even if HTML changes)
+            const departureCode = cardId === 'flight-card-fll' ? 'FLL' : 'MIA';
+            el('.flight-airport-code.departure').textContent = departureCode;
+            el('.flight-airport-code.arrival').textContent = 'PVG';
         }
 
         /** Sets up tabbed navigation. */
@@ -464,3 +579,4 @@
     </script>
 </body>
 </html>
+
