@@ -3,19 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Norland Trip Dashboard</title>
+    <title>Norland Trip Application Guide</title>
     <link rel="icon" type="image/x-icon" href="https://placehold.co/16x16/3B82F6/ffffff?text=N">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts Material Symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #E6EEF5; /* Softer, expressive background */
+            background-color: #F0F4F8;
+            --md-sys-color-primary: #3B82F6;
+            --md-sys-color-primary-light: #60A5FA;
+            --md-sys-color-primary-container: #EFF6FF;
+            --md-sys-color-on-primary: #FFFFFF;
+            --md-sys-color-secondary-container: #E0E7FF;
+            --md-sys-color-on-secondary-container: #3730A3;
+            --md-sys-color-surface: #F8FBFE;
+            --md-sys-color-outline: #DDE8F4;
+            --md-sys-color-pulse: rgba(59, 130, 246, 0.4);
         }
         
-        /* New gradient animation */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 var(--md-sys-color-pulse); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+        
         @keyframes gradient-shift {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -23,9 +39,9 @@
         }
 
         .main-container {
-            border-radius: 40px;
-            background-color: #F8FBFE;
-            box-shadow: 0 12px 24px -6px rgba(0,0,0,0.1), 0 6px 12px -6px rgba(0,0,0,0.05);
+            border-radius: 24px;
+            background-color: var(--md-sys-color-surface);
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.08), 0 4px 8px -6px rgba(0,0,0,0.04);
             transition: opacity 0.5s ease-in-out;
             opacity: 0;
             overflow: hidden;
@@ -34,852 +50,563 @@
         .main-container.is-visible {
             opacity: 1;
         }
-
-        .m3-sub-card {
-            border-radius: 28px;
-            background-color: #F8FBFE; /* Soft, almost white card background */
-            box-shadow: 0 4px 8px -2px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            cursor: pointer;
-        }
-
-        .m3-sub-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px -4px rgba(0,0,0,0.08);
-        }
         
-        .m3-sub-card.is-pressed {
-            transform: scale(0.98);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .progress-container {
-            height: 28px;
-            background-color: #DDE8F4;
-            border-radius: 9999px;
-            overflow: hidden;
-            position: relative;
-        }
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(to right, #3B82F6, #4CAF50, #1D4ED8);
-            background-size: 200% 100%;
-            animation: gradient-shift 4s ease-in-out infinite;
-            transition: width 0.5s ease-in-out;
-        }
-        .progress-text-inside {
-            position: absolute;
-            top: 50%;
-            right: 1.5rem;
-            transform: translateY(-50%);
-            white-space: nowrap;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #334155;
-            z-index: 20;
-            transition: color 0.5s ease-in-out;
-        }
-
-        /* New class for when the progress bar is full */
-        .progress-text-full {
-            color: white;
-        }
-
-        .expressive-title {
-            font-weight: 900;
-            font-size: 4rem;
-            line-height: 1;
-        }
-        
-        /* Responsive scaling */
-        @media (min-width: 640px) {
-            .expressive-title {
-                font-size: 7rem;
-            }
-        }
-        
-        .hero-title-gradient {
-            background-image: linear-gradient(to bottom right, #3B82F6, #1D4ED8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .btn-gradient {
-            background-image: linear-gradient(to right, #4CAF50, #3B82F6, #1D4ED8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-            padding: 0.5rem 1.5rem;
-            border-radius: 9999px;
-            background-color: #DDE8F4;
-            box-shadow: 0 4px 8px -2px rgba(0,0,0,0.05);
-        }
-
-        /* Expressive Step Progress Styles */
-        .step-container {
-            position: relative;
-            padding-left: 5rem;
-        }
-        .step-item {
-            position: relative;
-        }
-        .step-item:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            left: 1.5rem;
-            top: 2rem;
-            height: calc(100% - 2.5rem);
-            width: 4px;
-            background-color: #CBD5E1;
-            z-index: 5;
-        }
-        .step-icon {
-            position: absolute;
-            left: 0;
-            top: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 3rem;
-            height: 3rem;
-            border-radius: 9999px;
-            background-color: #DDE8F4;
-            color: #4B5563;
-            font-weight: bold;
-            transition: all 0.3s ease-in-out;
-            z-index: 10;
-        }
-        .step-item.is-active .step-icon {
-            background-color: #00BCD4; /* A vivid cyan for the active state */
-            color: white;
-            box-shadow: 0 0 15px 5px rgba(0, 188, 212, 0.5);
-            animation: pulse-glow 2s infinite;
-        }
-        .step-item.is-completed .step-icon {
-            background-color: #1D4ED8; /* A darker shade of blue for completed state */
-            color: white;
-            box-shadow: 0 0 15px 5px rgba(29, 78, 216, 0.5);
-        }
-        .step-content {
-            margin-left: 5rem;
-        }
-        
-        .details-card {
-            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
-            overflow: hidden;
-            max-height: 0;
-            opacity: 0;
-        }
-        .details-card.is-visible {
-            max-height: 500px;
-            opacity: 1;
-        }
-        .expand-icon {
-            transition: transform 0.3s ease-in-out;
-        }
-        .expand-icon.rotate-90 {
-            transform: rotate(90deg);
-        }
-
-        /* Expressive Checklist Styles */
-        .checklist-item {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            background-color: #F8FBFE;
-            border-radius: 28px;
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
-            box-shadow: 0 4px 8px -2px rgba(0,0,0,0.05);
-        }
-
-        .checklist-item:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px -4px rgba(0,0,0,0.08);
-        }
-
-        .checklist-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
-
-        .checklist-item.is-completed {
-            background-color: #DDE8F4;
-            color: #6B7280;
-            transition: all 0.5s ease-in-out;
-        }
-
-        .checklist-item.is-completed .checklist-item-header {
-            opacity: 0.7;
-        }
-
-        .checklist-icon-completed {
-            display: none;
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            width: 2rem;
-            height: 2rem;
-            background-color: #3B82F6;
-            border-radius: 9999px;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            transition: all 0.5s ease-in-out;
-        }
-
-        /* Show the completed icon when the checklist item is completed */
-        .checklist-item.is-completed .checklist-icon-completed {
-            display: flex;
-        }
-        
-        .checklist-content {
-            padding-top: 1rem;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
-            opacity: 0;
-            width: 100%;
-        }
-
-        .checklist-content.is-expanded {
-            max-height: 500px;
-            opacity: 1;
-        }
-
-        .checklist-expand-icon {
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .checklist-expand-icon.rotate-90 {
-            transform: rotate(90deg);
-        }
-        .video-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.75);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            transition: opacity 0.3s ease-in-out;
-            opacity: 0;
-            visibility: hidden;
-        }
-        .video-overlay.is-visible {
-            opacity: 1;
-            visibility: visible;
-        }
-        .video-container {
-            position: relative;
-            width: 90%;
-            max-width: 800px;
-            height: 0;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            background: white;
+        .m3-elevated-card {
             border-radius: 12px;
-            overflow: hidden;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .close-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: white;
-            color: #333;
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 9999px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 1001;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: var(--md-sys-color-surface);
+            box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+            transition: transform 0.1s, box-shadow 0.1s;
         }
         
-        /* Common Tab Styles */
         .tabs-container {
-            -ms-overflow-style: none; /* IE and Edge */
-            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
         .tabs-container::-webkit-scrollbar {
             display: none;
         }
         .tab-btn {
             white-space: nowrap;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.5rem;
             border-radius: 9999px;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s, color 0.3s;
-            font-weight: bold;
-            font-size: 1.125rem;
-            line-height: 1.75rem;
-            color: #6B7280;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #475569;
         }
         .tab-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px -2px rgba(0,0,0,0.05);
+            background-color: #E6EEF5;
         }
         .tab-btn.is-active {
-            background: linear-gradient(to right, #4CAF50, #3B82F6, #1D4ED8);
+            background: linear-gradient(to right, var(--md-sys-color-primary), var(--md-sys-color-primary-light), var(--md-sys-color-primary));
             background-size: 200% 100%;
-            animation: gradient-shift 4s ease-in-out infinite;
-            color: white;
-            box-shadow: 4px 4px 12px -4px rgba(59, 130, 246, 0.4);
+            color: var(--md-sys-color-on-primary);
+            box-shadow: 0 4px 12px -4px var(--md-sys-color-pulse);
+            animation: gradient-shift 4s ease infinite;
         }
         
-        /* Mobile Specific Tab Styles - Re-evaluated for M3 principles */
-        @media (max-width: 640px) {
-            .tab-btn {
-                font-size: 0.875rem;
-            }
-            .step-container {
-                /* Reduced padding to bring the timeline closer to the edge on mobile */
-                padding-left: 0.5rem;
-            }
-            .step-item:not(:last-child)::after {
-                /* Perfect alignment with the center of the icon on mobile */
-                left: 1.25rem;
-                top: 1.5rem;
-                height: calc(100% - 2.5rem);
-            }
-            .step-icon {
-                width: 2.5rem;
-                height: 2.5rem;
-                font-size: 0.875rem;
-                left: 0;
-            }
-            .step-content {
-                /* Adjusted margin to create a consistent gutter, pushing content away from the timeline */
-                margin-left: 3.5rem;
-                padding: 1rem;
-            }
-        }
-        @keyframes subtle-pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        .action-tag {
+            background-color: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            display: inline-block;
+            margin: 0.25rem 0;
+            font-size: 0.875rem;
         }
         
-        .is-pulsing {
-            animation: pulse-glow 2s infinite;
+        .m3-divider {
+            border: none;
+            height: 1px;
+            background-color: var(--md-sys-color-outline);
+            margin-top: 1.25rem;
+            margin-bottom: 1.25rem;
         }
 
-        .document-link {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        .document-list-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            text-decoration: none;
+            color: inherit;
+            border-radius: 12px;
+            transition: background-color 0.1s, transform 0.1s;
         }
-        .document-link:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px -4px rgba(0,0,0,0.08);
+        .document-list-item:not(:last-child) {
+            border-bottom: 1px solid var(--md-sys-color-outline);
         }
-
-        .hero-section {
+        .document-list-item:active {
+            transform: scale(0.99);
+            background-color: var(--md-sys-color-primary-container);
+        }
+        .document-list-icon {
+            flex-shrink: 0;
+            margin-right: 1rem;
+            color: var(--md-sys-color-primary);
+        }
+        .document-list-text {
+            flex-grow: 1;
+        }
+        .document-list-action {
+            flex-shrink: 0;
+            margin-left: 1rem;
+            color: var(--md-sys-color-primary);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .stepper-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+        }
+        .stepper-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 2.5rem;
-            border-bottom: 2px solid rgba(221, 232, 244, 0.5);
-            margin-bottom: 2.5rem;
-        }
-        @media (min-width: 640px) {
-            .hero-section {
-                flex-direction: row;
-                justify-content: space-between;
-            }
-        }
-        
-        .mobile-video-card-container {
+            flex-grow: 1;
             position: relative;
-            height: 14rem;
+            cursor: pointer;
+        }
+        .stepper-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 1.25rem;
+            left: 50%;
+            height: 2px;
             width: 100%;
-            overflow: hidden;
-            transition: all 0.5s ease-in-out;
+            background-color: var(--md-sys-color-outline);
+            z-index: 1;
+            transition: background-color 0.3s;
+        }
+        .stepper-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #DDE8F4;
+            color: #4B5563;
+            font-weight: 600;
+            z-index: 2;
+            transition: all 0.3s;
+            border: 4px solid var(--md-sys-color-surface);
+            position: relative;
+        }
+        .stepper-icon .step-number, .stepper-icon .step-checkmark {
+            transition: opacity 0.3s ease-in-out;
+            position: absolute;
+        }
+        .stepper-icon .step-checkmark {
             opacity: 0;
         }
-        .mobile-video-card-container.is-visible {
+        .stepper-label {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #64748B;
+            text-align: center;
+            transition: color 0.3s, font-weight 0.3s;
+        }
+        .stepper-item.is-active .stepper-icon {
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            animation: pulse-glow 2s infinite;
+        }
+        .stepper-item.is-active .stepper-label {
+            color: var(--md-sys-color-primary);
+            font-weight: 700;
+        }
+        .stepper-item.is-completed .stepper-icon {
+            background-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+        .stepper-item.is-completed .stepper-icon .step-number {
+            opacity: 0;
+        }
+         .stepper-item.is-completed .stepper-icon .step-checkmark {
             opacity: 1;
         }
-        .mobile-video-card-container iframe {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            transform: translate(-50%, -50%);
-            object-fit: cover;
+        .stepper-item.is-completed:not(:last-child)::after {
+            background-color: var(--md-sys-color-primary);
+        }
+
+        .step-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .step-content.is-active {
+            display: block;
+        }
+        
+        .instruction-card, .instruction-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--md-sys-color-outline);
+            background-color: #F7FAFC;
+            transition: transform 0.1s, background-color 0.1s;
+            text-decoration: none;
+            color: inherit;
+        }
+        .instruction-card:active, .instruction-link:active {
+            transform: scale(0.98);
+            background-color: var(--md-sys-color-primary-container);
+        }
+        .instruction-icon-container {
+            flex-shrink: 0;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            background-color: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .instruction-text {
+            flex-grow: 1;
+            color: #334155;
+        }
+        
+        .instruction-card-sm, .instruction-link-sm {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 12px;
+            border: 1px solid var(--md-sys-color-outline);
+            background-color: #F7FAFC;
+            transition: transform 0.1s, background-color 0.1s;
+            text-decoration: none;
+            color: inherit;
+        }
+        .instruction-card-sm:active, .instruction-link-sm:active {
+            transform: scale(0.98);
+            background-color: var(--md-sys-color-primary-container);
+        }
+        .instruction-icon-container-sm {
+             flex-shrink: 0;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 9999px;
+            background-color: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+         .instruction-content-sm {
+            flex-grow: 1;
+        }
+
+        .stepper-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--md-sys-color-outline);
+        }
+
+        .stepper-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .stepper-btn.primary {
+            background: linear-gradient(to right, var(--md-sys-color-primary), var(--md-sys-color-primary-light), var(--md-sys-color-primary));
+            background-size: 200% 100%;
+            color: var(--md-sys-color-on-primary);
+            animation: gradient-shift 4s ease infinite;
+        }
+        .stepper-btn.secondary {
+            background-color: #E6EEF5;
+            color: #475569;
+        }
+        .stepper-btn:disabled {
+            background-color: #E6EEF5;
+            background-image: none;
+            color: #94A3B8;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 640px) {
+            .tab-btn {
+                font-size: 0.875rem;
+                padding: 0.5rem 1rem;
+            }
+            .document-list-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+            .document-list-action {
+                margin-left: 0;
+                width: 100%;
+                justify-content: center;
+                background-color: var(--md-sys-color-primary-container);
+            }
+            .stepper-label {
+                display: none;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-100 flex flex-col items-center min-h-screen p-4 sm:p-6 lg:p-8 py-12 space-y-8">
-    <div class="main-container w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-10">
+<body class="flex flex-col items-center min-h-screen p-4 sm:p-6 lg:p-8 py-12">
+    <div class="main-container w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-12">
+        <!-- Page Header Removed -->
+        
 
-        <!-- This is the conceptual "index" or "hero" section -->
-        <div class="hero-section group relative">
-            <!-- Desktop Play Button Overlay - visible on hover on large screens -->
-            <button id="play-btn-desktop" class="hidden lg:flex absolute inset-0 z-50 items-center justify-center bg-white bg-opacity-70 backdrop-blur-md rounded-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform scale-90 group-hover:scale-100">
-                <svg class="w-20 h-20 text-blue-600 transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 5v14l11-7z"/>
-                </svg>
-            </button>
-
-            <!-- Mobile Layout -->
-            <div id="mobile-hero-content" class="flex flex-col items-start w-full lg:hidden">
-                <span class="text-sm font-semibold text-gray-500 mb-2">2025 TRIP</span>
-
-                <div class="flex items-center justify-between w-full">
-                    <h1 class="expressive-title hero-title-gradient">NOV 22</h1>
-                    <!-- Mobile Play Button, now aligned to the right -->
-                    <button id="play-btn-mobile" class="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-full shadow-lg bg-gray-100 transition-transform duration-200 active:scale-95" style="animation: subtle-pulse 2s infinite;">
-                        <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M8 5v14l11-7z"/>
-                        </svg>
-                    </button>
-                </div>
-
-                <div class="flex items-center space-x-2 p-3 bg-gray-100 text-gray-700 rounded-full shadow-inner mt-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24">
-                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
-                    </svg>
-                    <span class="font-medium">Jiangsu, China</span>
-                </div>
-                <!-- Chips are now visible on mobile, positioned neatly under the location -->
-                <div class="flex flex-wrap justify-start gap-2 w-full mt-4">
-                    <div class="btn-gradient shadow-md">NORLAND</div>
-                    <div class="btn-gradient shadow-md">CRAFT</div>
-                    <div class="btn-gradient shadow-md">BAND</div>
-                    <div class="btn-gradient shadow-md">ARTS</div>
-                    <div class="btn-gradient shadow-md">DRAMA</div>
-                    <div class="btn-gradient shadow-md">CHORUS</div>
-                </div>
-            </div>
-
-            <!-- New mobile video player container with number card styling -->
-            <div id="mobile-video-player" class="m3-sub-card relative p-0 hidden mobile-video-card-container">
-                <iframe id="youtube-player-mobile" class="absolute inset-0 w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-
-            <!-- Desktop Layout -->
-            <div class="hidden lg:flex w-full justify-between items-center">
-                <div class="flex flex-col items-start w-2/3 z-10">
-                    <span class="text-sm font-semibold text-gray-500 mb-2">2025 TRIP</span>
-                    <h1 class="expressive-title hero-title-gradient">NOV 22</h1>
-                    <div class="flex items-center space-x-2 p-3 bg-gray-100 text-gray-700 rounded-full shadow-inner mt-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5" viewBox="0 0 24 24">
-                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
-                        </svg>
-                        <span class="font-medium">Jiangsu, China</span>
-                    </div>
-                </div>
-                
-                <div class="flex flex-col items-end space-y-4 w-1/3 z-10">
-                    <div class="flex flex-wrap justify-end gap-2 w-full">
-                        <div class="btn-gradient shadow-md">NORLAND</div>
-                        <div class="btn-gradient shadow-md">CRAFT</div>
-                        <div class="btn-gradient shadow-md">BAND</div>
-                        <div class="btn-gradient shadow-md">ARTS</div>
-                        <div class="btn-gradient shadow-md">DRAMA</div>
-                        <div class="btn-gradient shadow-md">CHORUS</div>
-                    </div>
-                </div>
-            </div>
+        <!-- Navigation Tabs -->
+        <div class="tabs-container flex sm:justify-center mb-10 overflow-x-auto relative space-x-3 py-2">
+            <button class="tab-btn is-active" data-tab="process-tab">Application Process</button>
+            <button class="tab-btn" data-tab="documents-tab">Downloadable Forms</button>
         </div>
         
-        <!-- The navigation tabs, allowing users to switch between sections -->
-        <div class="p-4 sm:p-6 lg:p-10">
-            <div class="tabs-container flex sm:justify-center mb-8 overflow-x-auto relative space-x-3 py-2">
-                <button id="dashboard-tab-btn" class="tab-btn is-active" data-tab="dashboard-tab" data-step="1">Trip Overview</button>
-                <button id="documents-tab-btn" class="tab-btn" data-tab="documents-tab" data-step="2">Documents</button>
-                <button id="timeline-tab-btn" class="tab-btn" data-tab="timeline-tab" data-step="3">Application Timeline</button>
-                <button id="checklist-tab-btn" class="tab-btn" data-tab="checklist-tab" data-step="4">Checklist</button>
-            </div>
-            
-            <!-- Added vertical spacing below the tabs -->
-            <div class="w-full my-8">
-                <div class="progress-container">
-                    <div id="progress-bar" class="progress-bar" style="width: 0%;"></div>
-                    <span id="progress-text" class="progress-text-inside">Stage 0 of 4:</span>
-                </div>
-            </div>
-
-            <!-- This is the conceptual "dashboard" subpage -->
-            <div id="dashboard-tab" class="tab-content" style="display:block;">
-                <p class="text-sm font-medium text-gray-600 mb-6">Welcome to the official dashboard for the 2025 Norland Arts Trip. This portal provides all the essential information you'll need, from key dates to required documentation and a step-by-step guide to the application process. We're excited to have you on board!</p>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full mt-8">
-                    <div id="days-left-card" class="m3-sub-card p-6 flex flex-col items-start space-y-2 is-pulsing">
-                        <p id="countdown-days" class="text-6xl font-extrabold hero-title-gradient">0</p>
-                        <p id="countdown-label" class="text-lg font-semibold text-gray-600">DAYS TO DEPARTURE</p>
+        <!-- Tab Content -->
+        <div class="mt-10">
+            <!-- Process Stepper Tab -->
+            <div id="process-tab" class="tab-content" style="display:block;">
+                <div id="stepper-ui-container">
+                    <div class="stepper-container">
+                        <div class="stepper-item is-active" data-step="1">
+                            <div class="stepper-icon"><span class="step-number">1</span><span class="material-symbols-outlined step-checkmark">check</span></div>
+                            <div class="stepper-label">Invitation</div>
+                        </div>
+                        <div class="stepper-item" data-step="2">
+                             <div class="stepper-icon"><span class="step-number">2</span><span class="material-symbols-outlined step-checkmark">check</span></div>
+                            <div class="stepper-label">Documents</div>
+                        </div>
+                        <div class="stepper-item" data-step="3">
+                             <div class="stepper-icon"><span class="step-number">3</span><span class="material-symbols-outlined step-checkmark">check</span></div>
+                            <div class="stepper-label">Application</div>
+                        </div>
+                        <div class="stepper-item" data-step="4">
+                             <div class="stepper-icon"><span class="step-number">4</span><span class="material-symbols-outlined step-checkmark">check</span></div>
+                            <div class="stepper-label">Submission</div>
+                        </div>
                     </div>
-                    <div id="spots-left-card" class="m3-sub-card p-6 flex flex-col items-start space-y-2">
-                        <p class="text-6xl font-extrabold hero-title-gradient">18</p>
-                        <p class="text-lg font-semibold text-gray-600">SPOTS LEFT</p>
+
+                    <div class="step-content-container">
+                        <!-- Step 1 Content -->
+                        <div class="step-content is-active" data-step-content="1">
+                            <div class="m3-elevated-card p-6">
+                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Obtain Official Invitation Letter</h2>
+                                <p class="text-gray-600 mb-6">Your first action is to complete the form provided by your program to receive the mandatory invitation letter.</p>
+                                 <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="instruction-link">
+                                    <div class="instruction-icon-container">
+                                        <span class="material-symbols-outlined">description</span>
+                                    </div>
+                                    <p class="instruction-text flex-grow"><span class="action-tag">Complete the JESIS form</span>. Once submitted, we will issue the Official Invitation Letter.</p>
+                                    <span class="material-symbols-outlined text-gray-400 flex-shrink-0">open_in_new</span>
+                                 </a>
+                            </div>
+                        </div>
+                        <!-- Step 2 Content -->
+                        <div class="step-content" data-step-content="2">
+                            <div class="m3-elevated-card p-6">
+                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Gather Required Documents</h2>
+                                <p class="text-gray-600">With the invitation letter, <span class="action-tag">collect the following items</span>. This is the most important step.</p>
+                                <hr class="m3-divider">
+                                <div class="space-y-6">
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Personal & Guardian Documents</h3>
+                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div class="instruction-card-sm"><div class="instruction-icon-container-sm"><span class="material-symbols-outlined text-xl">contact_page</span></div><div class="instruction-content-sm"><h4 class="font-semibold text-gray-800 text-sm">Original Passport</h4><p class="text-xs text-gray-600 mt-1">Must have at least six months of validity and two blank pages.</p></div></div>
+                                            <div class="instruction-card-sm"><div class="instruction-icon-container-sm"><span class="material-symbols-outlined text-xl">badge</span></div><div class="instruction-content-sm"><h4 class="font-semibold text-gray-800 text-sm">Passport Bio-Data Page</h4><p class="text-xs text-gray-600 mt-1">A clear photocopy of the page with photo and biographical info.</p></div></div>
+                                            <div class="instruction-card-sm"><div class="instruction-icon-container-sm"><span class="material-symbols-outlined text-xl">account_box</span></div><div class="instruction-content-sm"><h4 class="font-semibold text-gray-800 text-sm">Guardian's Photo ID</h4><p class="text-xs text-gray-600 mt-1">A clear photocopy of a valid, government-issued photo ID.</p></div></div>
+                                            <div class="instruction-card-sm"><div class="instruction-icon-container-sm"><span class="material-symbols-outlined text-xl">home</span></div><div class="instruction-content-sm"><h4 class="font-semibold text-gray-800 text-sm">Proof of Address</h4><p class="text-xs text-gray-600 mt-1">Utility bill or bank statement if address is not on photo ID.</p></div></div>
+                                            <div class="instruction-card-sm"><div class="instruction-icon-container-sm"><span class="material-symbols-outlined text-xl">family_restroom</span></div><div class="instruction-content-sm"><h4 class="font-semibold text-gray-800 text-sm">Proof of Relationship</h4><p class="text-xs text-gray-600 mt-1">Original birth certificate (for parents) or court order (for guardians).</p></div></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Program & Visa Forms</h3>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="instruction-link-sm"><div class="instruction-icon-container-sm"><span class="material-symbols-outlined text-xl">gavel</span></div><div class="instruction-content-sm flex-grow"><h4 class="font-semibold text-gray-800 text-sm">Notarized Consent Form</h4><p class="text-xs text-gray-600 mt-1">Must be signed by the parent or legal guardian and officially notarized.</p></div><span class="material-symbols-outlined text-base text-gray-400 flex-shrink-0">open_in_new</span></a>
+                                            <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf" target="_blank" rel="noopener noreferrer" class="instruction-link-sm"><div class="instruction-icon-container-sm"><span class="material-symbols-outlined text-xl">apartment</span></div><div class="instruction-content-sm flex-grow"><h4 class="font-semibold text-gray-800 text-sm">"Where You Stay" Form</h4><p class="text-xs text-gray-600 mt-1">Must be signed by hand by a parent or legal guardian.</p></div><span class="material-symbols-outlined text-base text-gray-400 flex-shrink-0">open_in_new</span></a>
+                                            <div class="instruction-card-sm"><div class="instruction-icon-container-sm"><span class="material-symbols-outlined text-xl">mail</span></div><div class="instruction-content-sm"><h4 class="font-semibold text-gray-800 text-sm">Official Invitation Letter</h4><p class="text-xs text-gray-600 mt-1">The official invitation issued by the program in Step 1.</p></div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Step 3 Content -->
+                        <div class="step-content" data-step-content="3">
+                            <div class="m3-elevated-card p-6">
+                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Complete the Online Application</h2>
+                                <p class="text-gray-600">A parent or guardian must <span class="action-tag">fill out the form online</span>. Follow these required actions:</p>
+                                <hr class="m3-divider">
+                                <div class="space-y-4">
+                                    <a href="https://cova.mfa.gov.cn/qzCoCommonController.do?show&pageId=index&locale=en_US" target="_blank" rel="noopener noreferrer" class="instruction-link">
+                                        <div class="instruction-icon-container">
+                                            <span class="material-symbols-outlined">language</span>
+                                        </div>
+                                        <p class="instruction-text flex-grow">Go to the official Chinese visa website and select your application location (North America -> Washington, D.C.).</p>
+                                        <span class="material-symbols-outlined text-gray-400 flex-shrink-0">open_in_new</span>
+                                    </a>
+                                    <div class="instruction-card">
+                                        <div class="instruction-icon-container">
+                                           <span class="material-symbols-outlined">edit_document</span>
+                                        </div>
+                                        <p class="instruction-text">Fill out the form completely and accurately, following the on-screen prompts.</p>
+                                    </div>
+                                    <div class="instruction-card">
+                                        <div class="instruction-icon-container">
+                                            <span class="material-symbols-outlined">print</span>
+                                        </div>
+                                        <p class="instruction-text">Save your application number and print all pages of the form (typically 8-9 pages).</p>
+                                    </div>
+                                    <div class="instruction-card">
+                                        <div class="instruction-icon-container">
+                                            <span class="material-symbols-outlined">draw</span>
+                                        </div>
+                                        <p class="instruction-text"><span class="action-tag">Sign the printed form</span>. A parent or guardian must sign the confirmation page and Section 9.1. The person who filled out the form must also sign the "Application Preparer" section.</p>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-red-600 mt-6"><strong>Important</strong>: The minor should not sign any part of the application.</p>
+                            </div>
+                        </div>
+                        <!-- Step 4 Content -->
+                        <div class="step-content" data-step-content="4">
+                            <div class="m3-elevated-card p-6">
+                                 <h2 class="text-2xl font-bold text-gray-800 mb-2">Final Review & Submission</h2>
+                                 <p class="text-gray-600">Your final action is to ensure your complete packet is ready for our team. Here is the handoff process:</p>
+                                 <hr class="m3-divider">
+                                 <div class="space-y-4">
+                                    <div class="instruction-card">
+                                        <div class="instruction-icon-container">
+                                            <span class="material-symbols-outlined">checklist</span>
+                                        </div>
+                                        <p class="instruction-text"><strong>Our Final Review</strong>: We'll <span class="action-tag">review your complete folder</span> to ensure all documents are correct, signed, and notarized.</p>
+                                    </div>
+                                    <div class="instruction-card">
+                                        <div class="instruction-icon-container">
+                                           <span class="material-symbols-outlined">send</span>
+                                        </div>
+                                        <p class="instruction-text"><strong>Submission</strong>: We will <span class="action-tag">submit the complete application</span> to the visa office on your behalf.</p>
+                                    </div>
+                                    <div class="instruction-card">
+                                        <div class="instruction-icon-container">
+                                            <span class="material-symbols-outlined">notifications</span>
+                                        </div>
+                                        <p class="instruction-text"><strong>Notification</strong>: You will be notified when the passport and visa are ready for pickup (typically <strong>3 to 4 business days</strong>).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div id="ticket-price-card" class="m3-sub-card p-6 flex flex-col items-start space-y-2">
-                        <!-- Hardcoded since no data.json file exists -->
-                        <p id="ticket-price-number" class="text-6xl font-extrabold hero-title-gradient">$1,350</p>
-                        <p id="route-info" class="text-lg font-semibold text-gray-600">BOS-HGH</p>
+
+                    <div class="stepper-nav">
+                        <button id="prev-step-btn" class="stepper-btn secondary">Previous</button>
+                        <button id="next-step-btn" class="stepper-btn primary">Next Step</button>
                     </div>
                 </div>
             </div>
 
-            <!-- This is the conceptual "process step" subpage -->
-            <div id="timeline-tab" class="tab-content" style="display:none;">
-                <p class="text-sm font-medium text-gray-600 mb-6">This timeline details the key phases of the application and preparation process. Follow each stage to ensure all major milestones are met on time.</p>
-                <div id="timeline-container" class="step-container space-y-8 mt-8">
-                </div>
-            </div>
-
-            <div id="checklist-tab" class="tab-content" style="display:none;">
-                 <p class="text-sm font-medium text-gray-600 mb-6">This checklist outlines every document you'll need for your application and travel. Click on each item to see more details and ensure nothing is missed.</p>
-                <div id="checklist-container" class="space-y-6 mt-8">
-                </div>
-            </div>
-
-            <!-- This is the documents section -->
+            <!-- Documents Tab -->
             <div id="documents-tab" class="tab-content" style="display:none;">
-                <p class="text-sm font-medium text-gray-600 mb-6">Here you will find all the official documents related to the trip, available for download. It is essential to review and complete these forms as part of your application process.</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
-                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-sub-card p-6 flex flex-col items-center justify-center space-y-2">
-                        <svg class="w-12 h-12 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
-                        </svg>
-                        <span class="font-bold text-blue-600 text-center">Consent Letter</span>
-                    </a>
-                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-sub-card p-6 flex flex-col items-center justify-center space-y-2">
-                        <svg class="w-12 h-12 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
-                        </svg>
-                        <span class="font-bold text-blue-600 text-center">JESIE Application</span>
-                    </a>
-                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/cova_2013.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-sub-card p-6 flex flex-col items-center justify-center space-y-2">
-                        <svg class="w-12 h-12 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
-                        </svg>
-                        <span class="font-bold text-blue-600 text-center">Visa Application Templates</span>
-                    </a>
-                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf" target="_blank" rel="noopener noreferrer" class="document-link m3-sub-card p-6 flex flex-col items-center justify-center space-y-2">
-                        <svg class="w-12 h-12 text-blue-600" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
-                        </svg>
-                        <span class="font-bold text-blue-600 text-center">Where You Stay Form</span>
-                    </a>
+                <div class="m3-elevated-card p-4">
+                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">Consent Letter</h3><p class="text-sm text-gray-600">A notarized form required for minors travelling without both parents.</p></div><div class="document-list-action"><span>Download</span></div></a>
+                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">JESIE Application</h3><p class="text-sm text-gray-600">The main application form for the exchange program.</p></div><div class="document-list-action"><span>Download</span></div></a>
+                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/cova_2013.pdf" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">Visa Application Templates (COVA)</h3><p class="text-sm text-gray-600">A guide to help you fill out the official COVA form correctly.</p></div><div class="document-list-action"><span>Download</span></div></a>
+                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">Where You Stay Form (WYS)</h3><p class="text-sm text-gray-600">A supplementary form required by the visa office.</p></div><div class="document-list-action"><span>Download</span></div></a>
                 </div>
-            </div>
-
-        </div>
-
-        <!-- Video Modal -->
-        <div id="video-modal" class="video-overlay">
-            <div class="video-container">
-                <button id="close-btn" class="close-btn">&times;</button>
-                <iframe id="youtube-player-desktop" width="560" height="315" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>
     </div>
 
     <script>
-        const timelineData = [
-            {
-                title: "Embarking on the Journey",
-                dates: "First Stage",
-                start: "2025-10-01",
-                end: "2025-10-15",
-                details: "This initial phase focuses on the essential steps for your visa application. We will first verify all student information and establish communication with parents. Upon completion, we will issue the official invitation letter, which is a key document for your visa packet.",
-                milestones: [
-                    "Complete student information verification.",
-                    "Official invitation letters are issued and final data is compiled."
-                ]
-            },
-            {
-                title: "Securing Your Passage",
-                dates: "Second Stage",
-                start: "2025-10-16",
-                end: "2025-10-31",
-                details: "This is the critical phase where we finalize all visa-related paperwork. We'll work closely with parents to gather signatures and submit the complete visa packet. The goal is to collect the stamped passport by the end of this period.",
-                milestones: [
-                    "Final visa application forms are signed and submitted.",
-                    "The visa packet is dispatched to Washington, D.C.",
-                    "The stamped visa passport is collected."
-                ]
-            },
-            {
-                title: "Finalizing Your Preparations",
-                dates: "Third Stage",
-                start: "2025-11-01",
-                end: "2025-11-30",
-                details: "The final stages of preparation focus on logistics and finance. We will complete the last two payments, ensuring everything is in place for a smooth and worry-free departure.",
-                milestones: [
-                    "The second payment is due.",
-                    "The third and final payment is due."
-                ]
-            }
-        ];
-
-        const checklistData = [
-            {
-                title: "Notarized Consent Letter",
-                content: "A notarized consent letter is required if a parent is not accompanying the minor."
-            },
-            {
-                title: "Passport & Identification",
-                content: "<ul><li>Passport – valid for at least six (6) months, with a minimum of two (2) blank visa pages.</li><li>Photocopy of passport bio-page.</li><li>Birth Certificate for minor applicant.</li></ul>"
-            },
-            {
-                title: "COVA Visa Form",
-                content: 'Completed online at <a href="https://cova.mfa.gov.cn/qzCoCommonController.do?show&pageId=index&locale=en_US" target="_blank" class="text-blue-600 hover:underline" rel="noopener noreferrer">COVA Form</a>, printed in full (8–9 pages).'
-            },
-            {
-                title: "Supporting Documentation",
-                content: '<ul><li>Photocopy of most recent Chinese visa or residence permit, if applicable.</li><li>Proof of residence in the United States.</li><li>Completed “Where You Stay” Form.</li></ul>'
-            },
-            {
-                title: "Invitation Letter",
-                content: "Includes minor’s full name, purpose of visit, intended dates, places to visit, inviter info, official seal/signature, and date of issuance."
-            }
-        ];
-
-        // Renders the timeline from the data
-        const renderTimeline = () => {
-            const container = document.getElementById('timeline-container');
-            container.innerHTML = timelineData.map((step, index) => {
-                const milestonesHtml = step.milestones.map(m => `<li>${m}</li>`).join('');
-                return `
-                    <div class="step-item" data-start="${step.start}" data-end="${step.end}" data-index="${index}">
-                        <div class="step-icon">${index + 1}</div>
-                        <div class="step-content m3-sub-card p-6">
-                            <div class="flex justify-between items-center">
-                                <div class="flex flex-col">
-                                    <span class="font-bold text-blue-600">${step.title}</span>
-                                    <span class="text-sm text-gray-500">${step.dates}</span>
-                                </div>
-                                <span class="expand-icon text-gray-400">&#9656;</span>
-                            </div>
-                            <div class="details-card">
-                                <div class="p-4 mt-2">
-                                    <p class="text-sm text-gray-700 mb-2">${step.details}</p>
-                                    <h3 class="font-semibold text-gray-800 mb-2">Key Milestones:</h3>
-                                    <ul class="list-disc list-inside space-y-1 text-sm text-gray-700">
-                                        ${milestonesHtml}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        };
-
-        // Renders the checklist from the data
-        const renderChecklist = () => {
-            const container = document.getElementById('checklist-container');
-            container.innerHTML = checklistData.map(item => `
-                <div class="checklist-item" data-expanded="false">
-                    <button class="checklist-icon-completed" aria-label="Mark as complete">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                    </button>
-                    <div class="checklist-item-header">
-                        <span class="font-bold text-blue-600">${item.title}</span>
-                        <span class="expand-icon text-gray-400 checklist-expand-icon">&#9656;</span>
-                    </div>
-                    <div class="checklist-content">
-                        <p class="leading-relaxed text-gray-700">${item.content}</p>
-                    </div>
-                </div>
-            `).join('');
-        };
-        
-        // Updates the progress bar based on the active tab
-        const updateProgressBarByTab = (step) => {
-            const totalSteps = 4;
-            const progressPercentage = (step / totalSteps) * 100;
-            const progressDescriptions = [
-                "Beginning Your Journey",
-                "Gathering Your Documents",
-                "Mapping Your Timeline",
-                "Finalizing Your Checklist"
-            ];
-            const currentProgressText = progressDescriptions[step - 1] || "Getting Started";
-
-            const progressBar = document.getElementById('progress-bar');
-            const progressTextElement = document.getElementById('progress-text');
-            
-            if (progressBar && progressTextElement) {
-                progressBar.style.width = `${progressPercentage}%`;
-                progressTextElement.textContent = `Stage ${step} of ${totalSteps}: ${currentProgressText}`;
-                
-                // Change text color for readability when progress is full
-                if (progressPercentage === 100) {
-                    progressTextElement.classList.add('progress-text-full');
-                } else {
-                    progressTextElement.classList.remove('progress-text-full');
-                }
-            }
-        };
-
-        // Updates the main countdown and hardcoded dashboard metrics
-        const updateDashboardMetrics = () => {
-            const tripDate = new Date('2025-11-22T00:00:00');
-            const now = new Date();
-            const daysToTrip = Math.ceil((tripDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-            
-            const countdownElement = document.getElementById('countdown-days');
-            if (countdownElement) {
-                countdownElement.textContent = daysToTrip > 0 ? daysToTrip : 0;
-            }
-        };
-
-        // Sets up all event listeners for interactivity
-        const setupEventListeners = () => {
+        /**
+         * Initializes the tab functionality, allowing users to switch between main content areas.
+         */
+        function setupTabs() {
             const tabButtons = document.querySelectorAll('.tab-btn');
             const tabContents = document.querySelectorAll('.tab-content');
 
             tabButtons.forEach(button => {
                 button.addEventListener('click', (e) => {
                     const tabId = e.currentTarget.dataset.tab;
-                    const step = parseInt(e.currentTarget.dataset.step);
-
                     tabButtons.forEach(btn => btn.classList.remove('is-active'));
-                    tabContents.forEach(content => content.style.display = 'none');
-                    document.getElementById(tabId).style.display = 'block';
                     e.currentTarget.classList.add('is-active');
-
-                    updateProgressBarByTab(step);
-                });
-            });
-
-            // Timeline accordion and highlight based on click
-            document.addEventListener('click', (e) => {
-                const timelineItem = e.target.closest('.step-item');
-                if (timelineItem) {
-                    // Remove active state from all timeline items
-                    document.querySelectorAll('.step-item').forEach(item => {
-                        item.classList.remove('is-active', 'is-completed');
+                    tabContents.forEach(content => {
+                        content.style.display = 'none';
                     });
-
-                    // Add active state to the clicked item
-                    timelineItem.classList.add('is-active');
-
-                    const detailsCard = timelineItem.querySelector('.details-card');
-                    const expandIcon = timelineItem.querySelector('.expand-icon');
-                    if (detailsCard && expandIcon) {
-                        const isVisible = detailsCard.classList.toggle('is-visible');
-                        expandIcon.classList.toggle('rotate-90', isVisible);
-                    }
-                }
-
-                // Checklist accordion
-                const checklistItem = e.target.closest('.checklist-item');
-                if (checklistItem) {
-                    // Check if the click was on the item itself, not the nested button
-                    if (!e.target.closest('.checklist-icon-completed')) {
-                        const content = checklistItem.querySelector('.checklist-content');
-                        const isExpanded = content.classList.toggle('is-expanded');
-                        checklistItem.querySelector('.checklist-expand-icon').classList.toggle('rotate-90', isExpanded);
-                    } else {
-                        checklistItem.classList.toggle('is-completed');
-                    }
-                }
-            });
-
-            // Video player functionality
-            const playButtonDesktop = document.getElementById('play-btn-desktop');
-            const playButtonMobile = document.getElementById('play-btn-mobile');
-            const videoModal = document.getElementById('video-modal');
-            const closeButton = document.getElementById('close-btn');
-            const youtubePlayerDesktop = document.getElementById('youtube-player-desktop');
-            const youtubePlayerMobile = document.getElementById('youtube-player-mobile');
-            const mobileHeroContent = document.getElementById('mobile-hero-content');
-            const mobileVideoContainer = document.getElementById('mobile-video-player');
-            const videoUrl = 'https://www.youtube.com/embed/UsciZfWn2ig';
-
-            if (playButtonDesktop) {
-                playButtonDesktop.addEventListener('click', () => {
-                    youtubePlayerDesktop.src = videoUrl + '?autoplay=1';
-                    videoModal.classList.add('is-visible');
+                    document.getElementById(tabId).style.display = 'block';
                 });
-            }
+            });
+        }
 
-            if (playButtonMobile) {
-                playButtonMobile.addEventListener('click', () => {
-                    if (mobileVideoContainer.classList.contains('is-visible')) {
-                        mobileVideoContainer.classList.remove('is-visible');
-                        mobileHeroContent.classList.remove('hidden');
-                        youtubePlayerMobile.src = '';
-                    } else {
-                        mobileHeroContent.classList.add('hidden');
-                        mobileVideoContainer.classList.remove('hidden');
-                        mobileVideoContainer.classList.add('is-visible');
-                        youtubePlayerMobile.src = videoUrl + '?autoplay=1';
+        /**
+         * Initializes the stepper functionality for the application process.
+         */
+        function setupStepper() {
+            const stepperItems = document.querySelectorAll('.stepper-item');
+            const stepContents = document.querySelectorAll('.step-content');
+            const nextBtn = document.getElementById('next-step-btn');
+            const prevBtn = document.getElementById('prev-step-btn');
+            let currentStep = 1;
+
+            const updateStepper = () => {
+                stepperItems.forEach(item => {
+                    const step = parseInt(item.dataset.step);
+                    item.classList.remove('is-active', 'is-completed');
+                    if (step < currentStep) {
+                        item.classList.add('is-completed');
+                    } else if (step === currentStep) {
+                        item.classList.add('is-active');
                     }
                 });
-            }
 
-            closeButton.addEventListener('click', () => {
-                youtubePlayerDesktop.src = ''; // Stop the video
-                videoModal.classList.remove('is-visible');
-            });
+                stepContents.forEach(content => {
+                    content.classList.remove('is-active');
+                    if (parseInt(content.dataset.stepContent) === currentStep) {
+                        content.classList.add('is-active');
+                    }
+                });
 
-            videoModal.addEventListener('click', (event) => {
-                if (event.target === videoModal) {
-                    youtubePlayerDesktop.src = '';
-                    videoModal.classList.remove('is-visible');
+                prevBtn.disabled = currentStep === 1;
+                if (currentStep === stepperItems.length) {
+                    nextBtn.textContent = 'Finish';
+                } else {
+                    nextBtn.textContent = 'Next Step';
                 }
-            });
-
-            // Card press interaction
-            const addPressListeners = (card) => {
-                if (!card) return;
-                card.addEventListener('mousedown', () => card.classList.add('is-pressed'));
-                card.addEventListener('mouseup', () => card.classList.remove('is-pressed'));
-                card.addEventListener('mouseleave', () => card.classList.remove('is-pressed'));
-                card.addEventListener('touchstart', () => card.classList.add('is-pressed'), { passive: true });
-                card.addEventListener('touchend', () => card.classList.remove('is-pressed'));
             };
             
-            addPressListeners(document.getElementById('spots-left-card'));
-            addPressListeners(document.getElementById('ticket-price-card'));
-        };
+            const resetStepper = () => {
+                currentStep = 1;
+                updateStepper();
+            };
 
-        // Main entry point for the application
-        document.addEventListener('DOMContentLoaded', () => {
-            renderTimeline();
-            renderChecklist();
-            setupEventListeners();
-            
-            // Animate cards on load
-            document.querySelectorAll('.main-container').forEach(container => {
-                container.classList.add('is-visible');
+            nextBtn.addEventListener('click', () => {
+                if (nextBtn.textContent === 'Finish') {
+                    resetStepper();
+                } else if (currentStep < stepperItems.length) {
+                    currentStep++;
+                    updateStepper();
+                }
             });
-            
-            updateDashboardMetrics();
-            setInterval(updateDashboardMetrics, 1000 * 60); // Update countdown every minute
 
-            // Show the dashboard tab by default and initialize the progress bar and timeline
-            const dashboardButton = document.getElementById('dashboard-tab-btn');
-            if (dashboardButton) {
-                dashboardButton.click();
-            }
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 1) {
+                    currentStep--;
+                    updateStepper();
+                }
+            });
+
+            stepperItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const step = parseInt(item.dataset.step);
+                    currentStep = step;
+                    updateStepper();
+                });
+            });
+
+            updateStepper(); // Initial state
+        }
+
+        /**
+         * Main entry point for the application script.
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            const mainContainer = document.querySelector('.main-container');
+            mainContainer.classList.add('is-visible');
+            
+            setupTabs();
+            setupStepper();
         });
     </script>
 </body>
