@@ -1,7 +1,7 @@
 name: Update Flight Price
 
 on:
-  workflow_dispatch:  # Allows manual triggering from the GitHub UI
+  workflow_dispatch:  # Allows manual triggering from GitHub UI
   schedule:
     # Runs at 1 AM UTC every day
     - cron: '0 1 * * *'
@@ -17,10 +17,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Pull remote changes before running script
-        # This step is critical to prevent the rejected push error.
-        run: git pull origin main
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -39,6 +35,15 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Add changes
           git add flights_data.json
-          git commit -m "Update flight price data via scheduled action" || echo "No changes to commit"
-          git push
+          
+          # Commit only if there are changes
+          git diff --cached --quiet || git commit -m "Update flight price data via scheduled action"
+          
+          # Pull latest changes with rebase to avoid push rejection
+          git pull --rebase origin main || echo "Nothing to rebase"
+          
+          # Push changes
+          git push origin main
