@@ -463,10 +463,10 @@
             <!-- Documents Tab -->
             <div id="documents-tab" class="tab-content" style="display:none;">
                 <div class="m3-elevated-card p-4 space-y-2">
-                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf?v=1763073010255" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">Consent Letter</h3><p class="text-sm text-gray-600">A notarized form for minors.</p></div><div class="document-list-action"><span>Download</span></div></a>
-                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf?v=1763073410253" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">JESIE Application</h3><p class="text-sm text-gray-600">The main program application form.</p></div><div class="document-list-action"><span>Download</span></div></a>
-                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/cova_2013.pdf?v=1763077010255" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">Visa Application Templates (COVA)</h3><p class="text-sm text-gray-600">A guide for the official COVA form.</p></div><div class="document-list-action"><span>Download</span></div></a>
-                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf?v=1764073010255" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">Where You Stay Form (WYS)</h3><p class="text-sm text-gray-600">A supplementary visa office form.</p></div><div class="document-list-action"><span>Download</span></div></a>
+                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf?v=random" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">Consent Letter</h3><p class="text-sm text-gray-600">A notarized form for minors.</p></div><div class="document-list-action"><span>Download</span></div></a>
+                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf?v=random" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">JESIE Application</h3><p class="text-sm text-gray-600">The main program application form.</p></div><div class="document-list-action"><span>Download</span></div></a>
+                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/cova_2013.pdf?v=random" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">Visa Application Templates (COVA)</h3><p class="text-sm text-gray-600">A guide for the official COVA form.</p></div><div class="document-list-action"><span>Download</span></div></a>
+                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf?v=random" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">Where You Stay Form (WYS)</h3><p class="text-sm text-gray-600">A supplementary visa office form.</p></div><div class="document-list-action"><span>Download</span></div></a>
                 </div>
             </div>
         </div>
@@ -482,13 +482,19 @@
             const mainContainer = document.querySelector('.main-container');
             mainContainer.classList.add('is-visible');
 
+            // Note: The user requested a random version parameter for all URLs.
+            // We apply this to local or known static asset URLs to prevent caching issues.
+            // External URLs to third-party services (like Google Forms or official visa sites)
+            // are left as-is to avoid breaking their functionality.
+            const randomVersion = Math.random().toString(36).substring(2, 8);
+
             const stepContents = {
                 1: `
                     <div class="m3-elevated-card p-6">
                         <h2 class="text-2xl font-bold text-gray-800 mb-3">Obtain Your Official Invitation Letter</h2>
                         <p class="text-gray-600 mb-8">First, <span class="action-tag">complete the JESIS form</span> required by your program and submit a photocopy of the minor's passport bio-data page to receive your official invitation letter.</p>
                         <div class="space-y-4">
-                            <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf?v=1763073410253" target="_blank" rel="noopener noreferrer" class="instruction-link">
+                            <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf?v=${randomVersion}" target="_blank" rel="noopener noreferrer" class="instruction-link">
                                 <div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">description</span></div>
                                 <div class="instruction-content">
                                     <h4 class="font-semibold text-gray-800 text-sm">Fill and E-sign the Application</h4>
@@ -503,6 +509,7 @@
                                     <p class="text-xs text-gray-600 mt-1">A clear photocopy of the minor's passport page to be uploaded.</p>
                                 </div>
                             </div>
+                            <!-- Note: External Google Forms URL is not modified to ensure it works correctly. -->
                             <a href="https://docs.google.com/forms/d/e/1FAIpQLSeAEjP6zcOug4Rq-XMpgnx90A1rWJwgqUmcueusZNjw3Cbn-g/viewform" target="_blank" rel="noopener noreferrer" class="instruction-link highlight-card">
                                 <div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">file_upload</span></div>
                                 <div class="instruction-content">
@@ -530,8 +537,8 @@
                             <div>
                                 <h3 class="text-lg font-semibold text-gray-700 mb-4">Program & Visa Forms</h3>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf?v=1763073410253" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">gavel</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Notarized Consent for Visa Application</h4><p class="text-xs text-gray-600 mt-1">This form must be signed by the guardian and officially notarized.</p></div><span class="material-symbols-outlined text-base text-gray-400">open_in_new</span></a>
-                                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf?v=176307341034" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">apartment</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">"Where You Stay" Form</h4><p class="text-xs text-gray-600 mt-1">Must be signed by a parent or guardian by hand.</p></div><span class="material-symbols-outlined text-base text-gray-400">open_in_new</span></a>
+                                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf?v=${randomVersion}" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">gavel</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Notarized Consent for Visa Application</h4><p class="text-xs text-gray-600 mt-1">This form must be signed by the guardian and officially notarized.</p></div><span class="material-symbols-outlined text-base text-gray-400">open_in_new</span></a>
+                                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf?v=${randomVersion}" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">apartment</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">"Where You Stay" Form</h4><p class="text-xs text-gray-600 mt-1">Must be signed by a parent or guardian by hand.</p></div><span class="material-symbols-outlined text-base text-gray-400">open_in_new</span></a>
                                     <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">mail</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Official Invitation Letter</h4><p class="text-xs text-gray-600 mt-1">The letter you received in STEP1.</p></div></div>
                                 </div>
                             </div>
@@ -543,6 +550,7 @@
                         <p class="text-gray-600 mb-8">Now, a parent or guardian must fill out the online form. Please follow these key actions. You can also use the <span class="action-tag">visa application templates we provide</span>.</p>
                         <div class="space-y-4">
                             <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">photo_camera</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Prepare a Visa-Ready Photo</h4><p class="text-xs text-gray-600 mt-1">Make sure you have a visa-ready photo to upload.</p></div></div>
+                            <!-- Note: The official visa website URL is not modified to ensure it works correctly. -->
                             <a href="https://cova.mfa.gov.cn/qzCoCommonController.do?show&pageId=index&locale=en_US" target="_blank" rel="noopener noreferrer" class="instruction-link">
                                 <div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">language</span></div>
                                 <div class="instruction-content">
@@ -596,16 +604,17 @@
                     </div>`
             };
 
-            loadFlightData();
+            loadFlightData(randomVersion);
             setupTabs();
             setupStepper(stepContents);
             setupDashboard();
         });
 
         /** Loads flight data and updates UI cards. */
-        async function loadFlightData() {
+        async function loadFlightData(randomVersion) {
             try {
-                const response = await fetch(`flights_data.json?v=${Date.now()}`);
+                // Appending a random version to prevent caching of the JSON file.
+                const response = await fetch(`flights_data.json?v=${randomVersion}`);
                 if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 const data = await response.json();
                 
