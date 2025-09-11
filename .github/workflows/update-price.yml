@@ -28,7 +28,7 @@ jobs:
           python-version: '3.10'
 
       - name: Install dependencies
-        run: pip install requests
+        run: pip install requests google-search-results
 
       - name: Run script to update flight data
         run: python flight_checker.py
