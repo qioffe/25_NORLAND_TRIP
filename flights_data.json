@@ -1,14 +1,14 @@
 {
     "FLL-PVG": {
-        "price": null,
-        "route_info": null,
-        "last_updated": "2025-09-11T08:10:30.523119",
-        "status": "api_error: `return_date` is required if `type` is `1` (Round trip)."
+        "price": 1288,
+        "route_info": "FLL\u2192YUL\u2192YVR\u2192PVG",
+        "last_updated": "2025-09-11T08:13:50.964901",
+        "status": "ok"
     },
     "MIA-PVG": {
-        "price": null,
-        "route_info": null,
-        "last_updated": "2025-09-11T08:10:30.585177",
-        "status": "api_error: `return_date` is required if `type` is `1` (Round trip)."
+        "price": 1402,
+        "route_info": "MIA\u2192IST\u2192PVG",
+        "last_updated": "2025-09-11T08:13:53.076152",
+        "status": "ok"
     }
 }
