@@ -1,788 +1,118 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Norland Trip Application Guide</title>
-    <link rel="icon" type="image/x-icon" href="https://placehold.co/16x16/3B82F6/ffffff?text=N">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Google Fonts Material Symbols -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F0F4F8;
-            --md-sys-color-primary: #3B82F6;
-            --md-sys-color-primary-light: #60A5FA;
-            --md-sys-color-primary-container: #EFF6FF;
-            --md-sys-color-on-primary: #FFFFFF;
-            --md-sys-color-secondary-container: #E0E7FF;
-            --md-sys-color-on-secondary-container: #3730A3;
-            --md-sys-color-surface: #F8FBFE;
-            --md-sys-color-outline: #DDE8F4;
-            --md-sys-color-pulse: rgba(59, 130, 246, 0.4);
-        }
-        
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 0 0 var(--md-sys-color-pulse); }
-            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
-        }
-        
-        @keyframes gradient-shift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+import os
+import json
+from datetime import datetime
+from serpapi import GoogleSearch
 
-        .main-container {
-            border-radius: 24px;
-            background-color: var(--md-sys-color-surface);
-            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.08), 0 4px 8px -6px rgba(0,0,0,0.04);
-            transition: opacity 0.5s ease-in-out;
-            opacity: 0;
-            overflow: hidden;
-        }
+def get_flight_data(departure_id, arrival_id, date, api_key):
+    """
+    Fetches flight data for a given route and date using the SerpAPI Google Flights API.
 
-        .main-container.is-visible {
-            opacity: 1;
-        }
-        
-        .m3-elevated-card {
-            border-radius: 12px;
-            background-color: var(--md-sys-color-surface);
-            box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
-            border: 1px solid var(--md-sys-color-outline);
-        }
+    Args:
+        departure_id (str): The departure airport code (e.g., "FLL").
+        arrival_id (str): The arrival airport code (e.g., "PVG").
+        date (str): The outbound date in YYYY-MM-DD format.
+        api_key (str): The SerpAPI API key.
 
-        .interactive-card {
-             transition: transform 0.1s, box-shadow 0.1s;
-        }
+    Returns:
+        dict: A dictionary containing the flight information or an error status.
+    """
+    print(f"Fetching flight data for {departure_id} to {arrival_id} on {date}...")
+    params = {
+        "engine": "google_flights",
+        "departure_id": departure_id,
+        "arrival_id": arrival_id,
+        "outbound_date": date,
+        "api_key": api_key,
+        "currency": "USD",
+        "hl": "en"
+    }
 
-        .interactive-card:active {
-            transform: scale(0.99);
-            box-shadow: 0 1px 2px 0 rgba(0,0,0,0.08);
-        }
-        
-        .tabs-container {
-            border-bottom: 1px solid var(--md-sys-color-outline);
-        }
-        .tab-list {
-            display: flex;
-            justify-content: center;
-        }
-        .tab-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 48px; 
-            padding: 0 16px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.875rem;
-            color: #475569;
-            position: relative;
-            background-color: transparent;
-            border: none;
-            flex-grow: 1;
-        }
-        .tab-btn::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background-color: var(--md-sys-color-primary);
-            border-radius: 3px 3px 0 0;
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-        .tab-btn:hover {
-            background-color: rgba(0,0,0,0.04);
-        }
-        .tab-btn.is-active {
-            color: var(--md-sys-color-primary);
-        }
-        .tab-btn.is-active::after {
-            transform: scaleX(1);
-        }
-        
-        .action-tag {
-            background-color: var(--md-sys-color-secondary-container);
-            color: var(--md-sys-color-on-secondary-container);
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            display: inline-block;
-            margin: 0.25rem 0;
-            font-size: 0.875rem;
-        }
-        
-        .m3-divider {
-            border: none;
-            height: 1px;
-            background-color: var(--md-sys-color-outline);
-        }
+    try:
+        search = GoogleSearch(params)
+        data = search.get_dict()
 
-        .document-list-item {
-            display: flex;
-            align-items: center;
-            padding: 1rem;
-            text-decoration: none;
-            color: inherit;
-            border-radius: 12px;
-            transition: background-color 0.1s, transform 0.1s;
-        }
-        .document-list-item:not(:last-child) {
-            border-bottom: 1px solid var(--md-sys-color-outline);
-        }
-        .document-list-item:active {
-            transform: scale(0.99);
-            background-color: var(--md-sys-color-primary-container);
-        }
-        .document-list-icon {
-            flex-shrink: 0;
-            margin-right: 1rem;
-            color: var(--md-sys-color-primary);
-        }
-        .document-list-text {
-            flex-grow: 1;
-        }
-        .document-list-action {
-            flex-shrink: 0;
-            margin-left: 1rem;
-            color: var(--md-sys-color-primary);
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .stepper-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 2.5rem;
-            max-width: 42rem;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .stepper-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex-grow: 1;
-            position: relative;
-            cursor: pointer;
-        }
-        .stepper-item:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            top: 1.25rem;
-            left: 50%;
-            height: 2px;
-            width: 100%;
-            background-color: var(--md-sys-color-outline);
-            z-index: 1;
-            transition: background-color 0.3s;
-        }
-        .stepper-icon {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 9999px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #DDE8F4;
-            color: #4B5563;
-            font-weight: 600;
-            z-index: 2;
-            transition: all 0.3s;
-            border: 4px solid var(--md-sys-color-surface);
-            position: relative;
-        }
-        .stepper-icon .step-number, .stepper-icon .step-checkmark {
-            transition: opacity 0.3s ease-in-out;
-            position: absolute;
-        }
-        .stepper-icon .step-checkmark {
-            opacity: 0;
-        }
-        .stepper-label {
-            margin-top: 0.5rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #64748B;
-            text-align: center;
-            transition: color 0.3s, font-weight 0.3s;
-        }
-        .stepper-item.is-active .stepper-icon {
-            background-color: var(--md-sys-color-primary);
-            color: var(--md-sys-color-on-primary);
-            animation: pulse-glow 2s infinite;
-        }
-        .stepper-item.is-active .stepper-label {
-            color: var(--md-sys-color-primary);
-            font-weight: 700;
-        }
-        .stepper-item.is-completed .stepper-icon {
-            background-color: var(--md-sys-color-primary);
-            color: var(--md-sys-color-on-primary);
-        }
-        .stepper-item.is-completed .stepper-icon .step-number {
-            opacity: 0;
-        }
-         .stepper-item.is-completed .stepper-icon .step-checkmark {
-            opacity: 1;
-        }
-        .stepper-item.is-completed:not(:last-child)::after {
-            background-color: var(--md-sys-color-primary);
-        }
-
-        .step-content {
-            display: none;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .step-content.is-active {
-            display: block;
-        }
-        
-        .instruction-card, .instruction-link {
-            display: flex;
-            align-items: flex-start;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            border-radius: 12px;
-            border: 1px solid var(--md-sys-color-outline);
-            background-color: #F7FAFC;
-            transition: transform 0.1s, background-color 0.1s;
-            text-decoration: none;
-            color: inherit;
-        }
-        .instruction-card:active, .instruction-link:active {
-            transform: scale(0.98);
-            background-color: var(--md-sys-color-primary-container);
-        }
-        .instruction-icon-container {
-             flex-shrink: 0;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 9999px;
-            background-color: var(--md-sys-color-primary-container);
-            color: var(--md-sys-color-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-         .instruction-content {
-            flex-grow: 1;
-        }
-
-        .stepper-nav {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--md-sys-color-outline);
-        }
-
-        .stepper-btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .stepper-btn.primary {
-            background: linear-gradient(to right, var(--md-sys-color-primary), var(--md-sys-color-primary-light), var(--md-sys-color-primary));
-            background-size: 200% 100%;
-            color: var(--md-sys-color-on-primary);
-            animation: gradient-shift 4s ease infinite;
-        }
-        .stepper-btn.secondary {
-            background-color: #E6EEF5;
-            color: #475569;
-        }
-        .stepper-btn:disabled {
-            background-color: #E6EEF5;
-            background-image: none;
-            color: #94A3B8;
-            cursor: not-allowed;
-        }
-        
-        .dashboard-card-content {
-            transition: opacity 0.3s ease-in-out;
-        }
-        
-        .text-gradient-primary {
-            background: linear-gradient(to right, var(--md-sys-color-primary), var(--md-sys-color-primary-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .progress-ring {
-            transform: rotate(-90deg);
-        }
-        .progress-ring-circle {
-            transition: stroke-dashoffset 0.5s ease;
-        }
-
-        @media (max-width: 640px) {
-             .tab-btn .material-symbols-outlined {
-                display: none;
+        # Handle API errors returned in the response
+        if "error" in data:
+            print(f"Error from SerpAPI: {data['error']}")
+            return {
+                "price": None,
+                "route_info": None,
+                "last_updated": datetime.now().isoformat(),
+                "status": f"api_error: {data['error']}"
             }
-            .document-list-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.75rem;
-            }
-            .document-list-action {
-                margin-left: 0;
-                width: 100%;
-                justify-content: center;
-                background-color: var(--md-sys-color-primary-container);
-            }
-            .stepper-label {
-                display: none;
-            }
-        }
-    </style>
-</head>
-<body class="flex flex-col items-center min-h-screen py-12 px-2 sm:px-6 lg:px-8">
-    <div class="main-container w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-12">
-        <!-- Dashboard Section -->
-        <section id="dashboard-section" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div id="flight-card" class="m3-elevated-card interactive-card md:col-span-2 p-6 cursor-pointer flex flex-col justify-between">
-                <div>
-                    <div class="flex justify-between items-start">
-                        <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">Flight Details</p>
-                        <p class="text-xl font-bold text-gray-700">$1,350</p>
-                    </div>
-                    <div id="flight-view-1" class="dashboard-card-content mt-4">
-                        <div class="flex items-center justify-between">
-                            <div class="text-center">
-                                <p class="text-3xl font-bold text-gradient-primary">BOS</p>
-                                <p class="text-sm text-gray-500">10:30 PM</p>
-                            </div>
-                            <div class="flex-grow flex items-center text-gray-400">
-                                <span class="material-symbols-outlined">flight_takeoff</span>
-                                <div class="flex-grow border-t-2 border-dashed mx-4"></div>
-                                <span class="text-sm">1 Stop</span>
-                                <div class="flex-grow border-t-2 border-dashed mx-4"></div>
-                                <span class="material-symbols-outlined">flight_land</span>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-3xl font-bold text-gradient-primary">HGH</p>
-                                <p class="text-sm text-gray-500">05:00 AM <span class="text-red-500 font-semibold">+2</span></p>
-                            </div>
-                        </div>
-                         <p class="text-xs text-gray-500 text-center mt-4">Departure / Flight UA123</p>
-                    </div>
-                     <div id="flight-view-2" class="dashboard-card-content mt-4 hidden">
-                         <div class="flex items-center justify-between">
-                            <div class="text-center">
-                                <p class="text-3xl font-bold text-gradient-primary">HGH</p>
-                                <p class="text-sm text-gray-500">09:00 AM</p>
-                            </div>
-                            <div class="flex-grow flex items-center text-gray-400">
-                                <span class="material-symbols-outlined">flight_takeoff</span>
-                                <div class="flex-grow border-t-2 border-dashed mx-4"></div>
-                                <span class="text-sm">2 Stops</span>
-                                <div class="flex-grow border-t-2 border-dashed mx-4"></div>
-                                <span class="material-symbols-outlined">flight_land</span>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-3xl font-bold text-gradient-primary">BOS</p>
-                                <p class="text-sm text-gray-500">04:30 PM <span class="text-red-500 font-semibold">+1</span></p>
-                            </div>
-                        </div>
-                        <p class="text-xs text-gray-500 text-center mt-4">Return / Flight UA456</p>
-                    </div>
-                </div>
-            </div>
-            <div id="date-card" class="interactive-card bg-white rounded-xl cursor-pointer flex flex-col justify-center text-center items-center overflow-hidden p-6 relative">
-                 <svg class="progress-ring absolute inset-0 w-full h-full p-2" viewBox="0 0 120 120">
-                    <circle class="text-gray-200" stroke-width="8" stroke="currentColor" fill="transparent" r="52" cx="60" cy="60"/>
-                    <circle id="progress-ring-circle" class="text-blue-500" stroke-width="8" stroke="currentColor" fill="transparent" r="52" cx="60" cy="60" stroke-linecap="round"/>
-                </svg>
-                <div class="relative">
-                    <div id="date-view" class="dashboard-card-content">
-                        <p class="text-6xl lg:text-7xl font-extrabold text-gradient-primary leading-none">22</p>
-                        <p class="text-lg font-bold text-gray-600 tracking-wider">NOV</p>
-                    </div>
-                    <div id="countdown-view" class="dashboard-card-content hidden">
-                        <p id="countdown-days" class="text-6xl lg:text-7xl font-extrabold text-gradient-primary leading-none">0</p>
-                        <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider mt-1">Days Left</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <hr class="m3-divider my-12">
-        
-        <header class="flex justify-between items-center pb-8">
-            <div>
-                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Application & Forms Guideline</h2>
-            </div>
-            <button class="w-12 h-12 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100 active:bg-gray-200 transition flex-shrink-0">
-                <span class="material-symbols-outlined">share</span>
-            </button>
-        </header>
 
-        <!-- Navigation Tabs -->
-        <nav class="tabs-container max-w-xl mx-auto">
-            <div class="tab-list" role="tablist">
-                <button class="tab-btn is-active" data-tab="process-tab" role="tab" aria-selected="true">
-                    Application Process
-                </button>
-                <button class="tab-btn" data-tab="documents-tab" role="tab" aria-selected="false">
-                    Downloadable Forms
-                </button>
-            </div>
-        </nav>
-        
-        <!-- Tab Content -->
-        <div class="mt-12">
-            <!-- Process Stepper Tab -->
-            <div id="process-tab" class="tab-content" style="display:block;">
-                <div id="stepper-ui-container">
-                    <div class="stepper-container">
-                        <div class="stepper-item is-active" data-step="1">
-                            <div class="stepper-icon"><span class="step-number">1</span><span class="material-symbols-outlined step-checkmark">check</span></div>
-                            <div class="stepper-label">Invitation</div>
-                        </div>
-                        <div class="stepper-item" data-step="2">
-                             <div class="stepper-icon"><span class="step-number">2</span><span class="material-symbols-outlined step-checkmark">check</span></div>
-                            <div class="stepper-label">Documents</div>
-                        </div>
-                        <div class="stepper-item" data-step="3">
-                             <div class="stepper-icon"><span class="step-number">3</span><span class="material-symbols-outlined step-checkmark">check</span></div>
-                            <div class="stepper-label">Application</div>
-                        </div>
-                        <div class="stepper-item" data-step="4">
-                             <div class="stepper-icon"><span class="step-number">4</span><span class="material-symbols-outlined step-checkmark">check</span></div>
-                            <div class="stepper-label">Submission</div>
-                        </div>
-                    </div>
-
-                    <div class="step-content-container">
-                        <!-- Step 1 Content -->
-                        <div class="step-content is-active" data-step-content="1">
-                            <div class="m3-elevated-card p-6">
-                                <h2 class="text-2xl font-bold text-gray-800 mb-3">Obtain Official Invitation Letter</h2>
-                                <p class="text-gray-600 mb-8">Your first action is to complete the form provided by your program to receive the mandatory invitation letter.</p>
-                                 <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="instruction-link">
-                                    <div class="instruction-icon-container">
-                                        <span class="material-symbols-outlined text-xl">description</span>
-                                    </div>
-                                    <div class="instruction-content">
-                                        <h4 class="font-semibold text-gray-800 text-sm">Complete the JESIS Form</h4>
-                                        <p class="text-xs text-gray-600 mt-1">Once submitted, we will issue the Official Invitation Letter.</p>
-                                    </div>
-                                    <span class="material-symbols-outlined text-base text-gray-400 flex-shrink-0">open_in_new</span>
-                                 </a>
-                            </div>
-                        </div>
-                        <!-- Step 2 Content -->
-                        <div class="step-content" data-step-content="2">
-                            <div class="m3-elevated-card p-6">
-                                <h2 class="text-2xl font-bold text-gray-800 mb-3">Gather Required Documents</h2>
-                                <p class="text-gray-600 mb-8">With the invitation letter, <span class="action-tag">collect the following items</span>. This is the most important step.</p>
-                                <div class="space-y-6">
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Personal & Guardian Documents</h3>
-                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">contact_page</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Original Passport</h4><p class="text-xs text-gray-600 mt-1">Must have at least six months of validity and two blank pages.</p></div></div>
-                                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">badge</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Passport Bio-Data Page</h4><p class="text-xs text-gray-600 mt-1">A clear photocopy of the page with photo and biographical info.</p></div></div>
-                                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">account_box</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Guardian's Photo ID</h4><p class="text-xs text-gray-600 mt-1">A clear photocopy of a valid, government-issued photo ID.</p></div></div>
-                                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">home</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Proof of Address</h4><p class="text-xs text-gray-600 mt-1">Utility bill or bank statement if address is not on photo ID.</p></div></div>
-                                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">family_restroom</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Proof of Relationship</h4><p class="text-xs text-gray-600 mt-1">Original birth certificate (for parents) or court order (for guardians).</p></div></div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Program & Visa Forms</h3>
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">gavel</span></div><div class="instruction-content flex-grow"><h4 class="font-semibold text-gray-800 text-sm">Notarized Consent Form</h4><p class="text-xs text-gray-600 mt-1">Must be signed by the parent or legal guardian and officially notarized.</p></div><span class="material-symbols-outlined text-base text-gray-400 flex-shrink-0">open_in_new</span></a>
-                                            <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">apartment</span></div><div class="instruction-content flex-grow"><h4 class="font-semibold text-gray-800 text-sm">"Where You Stay" Form</h4><p class="text-xs text-gray-600 mt-1">Must be signed by hand by a parent or legal guardian.</p></div><span class="material-symbols-outlined text-base text-gray-400 flex-shrink-0">open_in_new</span></a>
-                                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">mail</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Official Invitation Letter</h4><p class="text-xs text-gray-600 mt-1">The official invitation issued by the program in Step 1.</p></div></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Step 3 Content -->
-                        <div class="step-content" data-step-content="3">
-                            <div class="m3-elevated-card p-6">
-                                <h2 class="text-2xl font-bold text-gray-800 mb-3">Complete the Online Application</h2>
-                                <p class="text-gray-600 mb-8">A parent or guardian must <span class="action-tag">fill out the form online</span>. Follow these required actions:</p>
-                                <div class="space-y-4">
-                                    <a href="https://cova.mfa.gov.cn/qzCoCommonController.do?show&pageId=index&locale=en_US" target="_blank" rel="noopener noreferrer" class="instruction-link">
-                                        <div class="instruction-icon-container">
-                                            <span class="material-symbols-outlined text-xl">language</span>
-                                        </div>
-                                        <div class="instruction-content">
-                                            <h4 class="font-semibold text-gray-800 text-sm">Go to the Official Visa Website</h4>
-                                            <p class="text-xs text-gray-600 mt-1">Select application location: North America -> Washington, D.C.</p>
-                                        </div>
-                                        <span class="material-symbols-outlined text-base text-gray-400 flex-shrink-0">open_in_new</span>
-                                    </a>
-                                    <div class="instruction-card">
-                                        <div class="instruction-icon-container">
-                                           <span class="material-symbols-outlined text-xl">edit_document</span>
-                                        </div>
-                                        <div class="instruction-content">
-                                            <h4 class="font-semibold text-gray-800 text-sm">Fill Out the Form</h4>
-                                            <p class="text-xs text-gray-600 mt-1">Complete all sections accurately, following the on-screen prompts.</p>
-                                        </div>
-                                    </div>
-                                    <div class="instruction-card">
-                                        <div class="instruction-icon-container">
-                                            <span class="material-symbols-outlined text-xl">print</span>
-                                        </div>
-                                        <div class="instruction-content">
-                                            <h4 class="font-semibold text-gray-800 text-sm">Save & Print</h4>
-                                            <p class="text-xs text-gray-600 mt-1">Save your application number and print all pages of the form.</p>
-                                        </div>
-                                    </div>
-                                    <div class="instruction-card">
-                                        <div class="instruction-icon-container">
-                                            <span class="material-symbols-outlined text-xl">draw</span>
-                                        </div>
-                                        <div class="instruction-content">
-                                            <h4 class="font-semibold text-gray-800 text-sm">Sign the Printed Form</h4>
-                                            <p class="text-xs text-gray-600 mt-1">A guardian must sign the confirmation page and Section 9.1.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="text-sm text-red-600 mt-6"><strong>Important</strong>: The minor should not sign any part of the application.</p>
-                            </div>
-                        </div>
-                        <!-- Step 4 Content -->
-                        <div class="step-content" data-step-content="4">
-                            <div class="m3-elevated-card p-6">
-                                 <h2 class="text-2xl font-bold text-gray-800 mb-3">Final Review & Submission</h2>
-                                 <p class="text-gray-600 mb-8">Your final action is to ensure your complete packet is ready for our team. Here is the handoff process:</p>
-                                 <div class="space-y-4">
-                                    <div class="instruction-card">
-                                        <div class="instruction-icon-container">
-                                            <span class="material-symbols-outlined text-xl">checklist</span>
-                                        </div>
-                                        <div class="instruction-content">
-                                            <h4 class="font-semibold text-gray-800 text-sm">Our Final Review</h4>
-                                            <p class="text-xs text-gray-600 mt-1">We will review your complete folder for accuracy and completion.</p>
-                                        </div>
-                                    </div>
-                                    <div class="instruction-card">
-                                        <div class="instruction-icon-container">
-                                           <span class="material-symbols-outlined text-xl">send</span>
-                                        </div>
-                                        <div class="instruction-content">
-                                            <h4 class="font-semibold text-gray-800 text-sm">Submission</h4>
-                                            <p class="text-xs text-gray-600 mt-1">We submit the complete application to the visa office on your behalf.</p>
-                                        </div>
-                                    </div>
-                                    <div class="instruction-card">
-                                        <div class="instruction-icon-container">
-                                            <span class="material-symbols-outlined text-xl">notifications</span>
-                                        </div>
-                                        <div class="instruction-content">
-                                            <h4 class="font-semibold text-gray-800 text-sm">Notification</h4>
-                                            <p class="text-xs text-gray-600 mt-1">You will be notified when the visa is ready (typically 3-4 business days).</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="stepper-nav">
-                        <button id="prev-step-btn" class="stepper-btn secondary">Previous</button>
-                        <button id="next-step-btn" class="stepper-btn primary">Next Step</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Documents Tab -->
-            <div id="documents-tab" class="tab-content" style="display:none;">
-                <div class="m3-elevated-card p-4">
-                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">Consent Letter</h3><p class="text-sm text-gray-600">A notarized form required for minors travelling without both parents.</p></div><div class="document-list-action"><span>Download</span></div></a>
-                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">JESIE Application</h3><p class="text-sm text-gray-600">The main application form for the exchange program.</p></div><div class="document-list-action"><span>Download</span></div></a>
-                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/cova_2013.pdf" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">Visa Application Templates (COVA)</h3><p class="text-sm text-gray-600">A guide to help you fill out the official COVA form correctly.</p></div><div class="document-list-action"><span>Download</span></div></a>
-                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf" target="_blank" rel="noopener noreferrer" class="document-list-item"><div class="document-list-icon"><span class="material-symbols-outlined text-4xl">description</span></div><div class="document-list-text"><h3 class="font-semibold text-gray-800">Where You Stay Form (WYS)</h3><p class="text-sm text-gray-600">A supplementary form required by the visa office.</p></div><div class="document-list-action"><span>Download</span></div></a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        /**
-         * Initializes the tab functionality, allowing users to switch between main content areas.
-         */
-        function setupTabs() {
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-
-            tabButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const tabId = e.currentTarget.dataset.tab;
-                    tabButtons.forEach(btn => btn.classList.remove('is-active'));
-                    e.currentTarget.classList.add('is-active');
-                    tabContents.forEach(content => {
-                        content.style.display = 'none';
-                    });
-                    document.getElementById(tabId).style.display = 'block';
-                });
-            });
-        }
-
-        /**
-         * Initializes the stepper functionality for the application process.
-         */
-        function setupStepper() {
-            const stepperItems = document.querySelectorAll('.stepper-item');
-            const stepContents = document.querySelectorAll('.step-content');
-            const nextBtn = document.getElementById('next-step-btn');
-            const prevBtn = document.getElementById('prev-step-btn');
-            let currentStep = 1;
-
-            const updateStepper = () => {
-                stepperItems.forEach(item => {
-                    const step = parseInt(item.dataset.step);
-                    item.classList.remove('is-active', 'is-completed');
-                    if (step < currentStep) {
-                        item.classList.add('is-completed');
-                    } else if (step === currentStep) {
-                        item.classList.add('is-active');
-                    }
-                });
-
-                stepContents.forEach(content => {
-                    content.classList.remove('is-active');
-                    if (parseInt(content.dataset.stepContent) === currentStep) {
-                        content.classList.add('is-active');
-                    }
-                });
-
-                prevBtn.disabled = currentStep === 1;
-                if (currentStep === stepperItems.length) {
-                    nextBtn.textContent = 'Finish';
-                } else {
-                    nextBtn.textContent = 'Next Step';
-                }
-            };
+        # Check for best flights and extract information
+        if "best_flights" in data and data["best_flights"]:
+            best_flight = data["best_flights"][0]
+            price = best_flight.get("price")
             
-            const resetStepper = () => {
-                currentStep = 1;
-                updateStepper();
-            };
-
-            nextBtn.addEventListener('click', () => {
-                if (nextBtn.textContent === 'Finish') {
-                    resetStepper();
-                } else if (currentStep < stepperItems.length) {
-                    currentStep++;
-                    updateStepper();
-                }
-            });
-
-            prevBtn.addEventListener('click', () => {
-                if (currentStep > 1) {
-                    currentStep--;
-                    updateStepper();
-                }
-            });
-
-            stepperItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    const step = parseInt(item.dataset.step);
-                    currentStep = step;
-                    updateStepper();
-                });
-            });
-
-            updateStepper(); // Initial state
-        }
-        
-        /**
-         * Initializes the dashboard card functionality.
-         */
-        function setupDashboard() {
-            const dateCard = document.getElementById('date-card');
-            const dateView = document.getElementById('date-view');
-            const countdownView = document.getElementById('countdown-view');
-            const countdownDays = document.getElementById('countdown-days');
-            const progressRing = document.getElementById('progress-ring-circle');
-            
-            const flightCard = document.getElementById('flight-card');
-            const flightView1 = document.getElementById('flight-view-1');
-            const flightView2 = document.getElementById('flight-view-2');
-            
-            const tripStartDate = new Date('2025-09-01T00:00:00'); // Assume process starts Sept 1
-            const tripDate = new Date('2025-11-22T00:00:00');
-            const now = new Date();
-
-            const totalDuration = (tripDate.getTime() - tripStartDate.getTime()) / (1000 * 60 * 60 * 24);
-            const daysElapsed = (now.getTime() - tripStartDate.getTime()) / (1000 * 60 * 60 * 24);
-            const progress = Math.max(0, Math.min(1, daysElapsed / totalDuration));
-
-            const radius = progressRing.r.baseVal.value;
-            const circumference = radius * 2 * Math.PI;
-            progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
-            const offset = circumference - progress * circumference;
-            progressRing.style.strokeDashoffset = offset;
-
-            dateCard.addEventListener('click', () => {
-                const isCountdownVisible = !countdownView.classList.contains('hidden');
+            # Construct the full route information string (e.g., FLL-JFK-PVG)
+            if best_flight.get("flights"):
+                all_flights = best_flight["flights"]
+                airport_ids = [flight["departure_airport"]["id"] for flight in all_flights]
+                airport_ids.append(all_flights[-1]["arrival_airport"]["id"])
+                route_info = "-".join(airport_ids)
                 
-                dateView.style.transition = 'opacity 0.3s ease-in-out';
-                countdownView.style.transition = 'opacity 0.3s ease-in-out';
-
-                if (isCountdownVisible) {
-                    countdownView.classList.add('opacity-0');
-                    setTimeout(() => {
-                        countdownView.classList.add('hidden');
-                        dateView.classList.remove('hidden');
-                        dateView.classList.remove('opacity-0');
-                    }, 300);
-                } else {
-                    const daysToTrip = Math.ceil((tripDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-                    countdownDays.textContent = daysToTrip > 0 ? daysToTrip : 0;
-                    
-                    dateView.classList.add('opacity-0');
-                     setTimeout(() => {
-                        dateView.classList.add('hidden');
-                        countdownView.classList.remove('hidden');
-                        countdownView.classList.remove('opacity-0');
-                    }, 300);
+                print(f"Found best price: ${price} with route: {route_info}")
+                return {
+                    "price": price,
+                    "route_info": route_info,
+                    "last_updated": datetime.now().isoformat(),
+                    "status": "ok"
                 }
-            });
-            
-            flightCard.addEventListener('click', () => {
-                 flightView1.classList.toggle('hidden');
-                 flightView2.classList.toggle('hidden');
-            });
+        
+        # Handle cases where no flights are found
+        print("No flights found for this route.")
+        return {
+            "price": None,
+            "route_info": None,
+            "last_updated": datetime.now().isoformat(),
+            "status": "no_flights_found"
         }
 
-        /**
-         * Main entry point for the application script.
-         */
-        document.addEventListener('DOMContentLoaded', () => {
-            const mainContainer = document.querySelector('.main-container');
-            mainContainer.classList.add('is-visible');
-            
-            setupTabs();
-            setupStepper();
-            setupDashboard();
-        });
-    </script>
-</body>
-</html>
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        return {
+            "price": None,
+            "route_info": None,
+            "last_updated": datetime.now().isoformat(),
+            "status": f"request_exception: {str(e)}"
+        }
 
+def main():
+    """
+    Main function to run the flight data fetching process for multiple routes.
+    """
+    # It's best practice to store your API key in an environment variable
+    # You can get one from https://serpapi.com/
+    api_key = os.getenv("SERPAPI_API_KEY")
+
+    if not api_key:
+        print("Error: SERPAPI_API_KEY environment variable not set.")
+        output_data = {
+            "FLL-PVG": {"status": "missing_api_key"},
+            "MIA-PVG": {"status": "missing_api_key"},
+            "last_updated": datetime.now().isoformat()
+        }
+    else:
+        # Based on the HTML, the trip date is November 22nd. We'll use 2025.
+        flight_date = "2025-11-22"
+        routes = [("FLL", "PVG"), ("MIA", "PVG")]
+        
+        all_flight_data = {}
+        for dep_id, arr_id in routes:
+            route_key = f"{dep_id}-{arr_id}"
+            flight_info = get_flight_data(dep_id, arr_id, flight_date, api_key)
+            all_flight_data[route_key] = flight_info
+        
+        output_data = all_flight_data
+
+    # Save the collected data to a JSON file
+    output_filename = "flights_data.json"
+    with open(output_filename, "w") as f:
+        json.dump(output_data, f, indent=4)
+
+    print(f"\nFlight data has been saved to {output_filename}")
+
+if __name__ == "__main__":
+    main()
