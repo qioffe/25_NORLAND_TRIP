@@ -55,10 +55,18 @@
             border-radius: 12px;
             background-color: var(--md-sys-color-surface);
             box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
-            transition: transform 0.1s, box-shadow 0.1s;
+            border: 1px solid var(--md-sys-color-outline);
+        }
+
+        .interactive-card {
+             transition: transform 0.1s, box-shadow 0.1s;
+        }
+
+        .interactive-card:active {
+            transform: scale(0.99);
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,0.08);
         }
         
-        /* NEW: M3 Primary Tab Styles */
         .tabs-container {
             border-bottom: 1px solid var(--md-sys-color-outline);
         }
@@ -68,10 +76,9 @@
         }
         .tab-btn {
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 64px; /* M3 Spec for icon + label */
+            height: 48px; 
             padding: 0 16px;
             cursor: pointer;
             font-weight: 600;
@@ -81,9 +88,6 @@
             background-color: transparent;
             border: none;
             flex-grow: 1;
-        }
-        .tab-btn .tab-label {
-            margin-top: 4px;
         }
         .tab-btn::after {
             content: '';
@@ -122,8 +126,6 @@
             border: none;
             height: 1px;
             background-color: var(--md-sys-color-outline);
-            margin-top: 1.25rem;
-            margin-bottom: 1.25rem;
         }
 
         .document-list-item {
@@ -165,6 +167,9 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 2.5rem;
+            max-width: 42rem;
+            margin-left: auto;
+            margin-right: auto;
         }
         .stepper-item {
             display: flex;
@@ -312,13 +317,27 @@
             color: #94A3B8;
             cursor: not-allowed;
         }
+        
+        .dashboard-card-content {
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .text-gradient-primary {
+            background: linear-gradient(to right, var(--md-sys-color-primary), var(--md-sys-color-primary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.5s ease;
+        }
 
         @media (max-width: 640px) {
-            .tab-btn {
-                height: 48px; /* M3 Spec for label-only tabs */
-            }
              .tab-btn .material-symbols-outlined {
-                display: none; /* Hide icons on mobile for space */
+                display: none;
             }
             .document-list-item {
                 flex-direction: column;
@@ -339,22 +358,99 @@
 </head>
 <body class="flex flex-col items-center min-h-screen py-12 px-2 sm:px-6 lg:px-8">
     <div class="main-container w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-12">
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div id="flight-card" class="m3-elevated-card interactive-card md:col-span-2 p-6 cursor-pointer flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-start">
+                        <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider">Flight Details</p>
+                        <p class="text-xl font-bold text-gray-700">$1,350</p>
+                    </div>
+                    <div id="flight-view-1" class="dashboard-card-content mt-4">
+                        <div class="flex items-center justify-between">
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-gradient-primary">BOS</p>
+                                <p class="text-sm text-gray-500">10:30 PM</p>
+                            </div>
+                            <div class="flex-grow flex items-center text-gray-400">
+                                <span class="material-symbols-outlined">flight_takeoff</span>
+                                <div class="flex-grow border-t-2 border-dashed mx-4"></div>
+                                <span class="text-sm">1 Stop</span>
+                                <div class="flex-grow border-t-2 border-dashed mx-4"></div>
+                                <span class="material-symbols-outlined">flight_land</span>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-gradient-primary">HGH</p>
+                                <p class="text-sm text-gray-500">05:00 AM <span class="text-red-500 font-semibold">+2</span></p>
+                            </div>
+                        </div>
+                         <p class="text-xs text-gray-500 text-center mt-4">Departure / Flight UA123</p>
+                    </div>
+                     <div id="flight-view-2" class="dashboard-card-content mt-4 hidden">
+                         <div class="flex items-center justify-between">
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-gradient-primary">HGH</p>
+                                <p class="text-sm text-gray-500">09:00 AM</p>
+                            </div>
+                            <div class="flex-grow flex items-center text-gray-400">
+                                <span class="material-symbols-outlined">flight_takeoff</span>
+                                <div class="flex-grow border-t-2 border-dashed mx-4"></div>
+                                <span class="text-sm">2 Stops</span>
+                                <div class="flex-grow border-t-2 border-dashed mx-4"></div>
+                                <span class="material-symbols-outlined">flight_land</span>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-gradient-primary">BOS</p>
+                                <p class="text-sm text-gray-500">04:30 PM <span class="text-red-500 font-semibold">+1</span></p>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 text-center mt-4">Return / Flight UA456</p>
+                    </div>
+                </div>
+            </div>
+            <div id="date-card" class="interactive-card rounded-xl cursor-pointer flex flex-col justify-center text-center items-center overflow-hidden p-6 relative">
+                 <svg class="progress-ring absolute inset-0 w-full h-full p-2" viewBox="0 0 120 120">
+                    <circle class="text-gray-200" stroke-width="8" stroke="currentColor" fill="transparent" r="52" cx="60" cy="60"/>
+                    <circle id="progress-ring-circle" class="text-blue-500" stroke-width="8" stroke="currentColor" fill="transparent" r="52" cx="60" cy="60" stroke-linecap="round"/>
+                </svg>
+                <div class="relative">
+                    <div id="date-view" class="dashboard-card-content">
+                        <p class="text-6xl lg:text-7xl font-extrabold text-gradient-primary leading-none">22</p>
+                        <p class="text-lg font-bold text-gray-600 tracking-wider">NOV</p>
+                    </div>
+                    <div id="countdown-view" class="dashboard-card-content hidden">
+                        <p id="countdown-days" class="text-6xl lg:text-7xl font-extrabold text-gradient-primary leading-none">0</p>
+                        <p class="text-sm font-semibold text-slate-500 uppercase tracking-wider mt-1">Days Left</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <hr class="m3-divider my-12">
+        
+        <header class="flex justify-between items-center pb-8">
+            <div>
+                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Application & Forms Guideline</h2>
+            </div>
+            <button class="w-12 h-12 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100 active:bg-gray-200 transition flex-shrink-0">
+                <span class="material-symbols-outlined">share</span>
+            </button>
+        </header>
+
         <!-- Navigation Tabs -->
-        <nav class="tabs-container">
+        <nav class="tabs-container max-w-xl mx-auto">
             <div class="tab-list" role="tablist">
                 <button class="tab-btn is-active" data-tab="process-tab" role="tab" aria-selected="true">
-                    <span class="material-symbols-outlined">dynamic_form</span>
-                    <span class="tab-label">Application Process</span>
+                    Application Process
                 </button>
                 <button class="tab-btn" data-tab="documents-tab" role="tab" aria-selected="false">
-                    <span class="material-symbols-outlined">download_for_offline</span>
-                    <span class="tab-label">Downloadable Forms</span>
+                    Downloadable Forms
                 </button>
             </div>
         </nav>
         
         <!-- Tab Content -->
-        <div class="mt-10">
+        <div class="mt-12">
             <!-- Process Stepper Tab -->
             <div id="process-tab" class="tab-content" style="display:block;">
                 <div id="stepper-ui-container">
@@ -381,8 +477,8 @@
                         <!-- Step 1 Content -->
                         <div class="step-content is-active" data-step-content="1">
                             <div class="m3-elevated-card p-6">
-                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Obtain Official Invitation Letter</h2>
-                                <p class="text-gray-600 mb-6">Your first action is to complete the form provided by your program to receive the mandatory invitation letter.</p>
+                                <h2 class="text-2xl font-bold text-gray-800 mb-3">Obtain Official Invitation Letter</h2>
+                                <p class="text-gray-600 mb-8">Your first action is to complete the form provided by your program to receive the mandatory invitation letter.</p>
                                  <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="instruction-link">
                                     <div class="instruction-icon-container">
                                         <span class="material-symbols-outlined text-xl">description</span>
@@ -398,9 +494,8 @@
                         <!-- Step 2 Content -->
                         <div class="step-content" data-step-content="2">
                             <div class="m3-elevated-card p-6">
-                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Gather Required Documents</h2>
-                                <p class="text-gray-600">With the invitation letter, <span class="action-tag">collect the following items</span>. This is the most important step.</p>
-                                <hr class="m3-divider">
+                                <h2 class="text-2xl font-bold text-gray-800 mb-3">Gather Required Documents</h2>
+                                <p class="text-gray-600 mb-8">With the invitation letter, <span class="action-tag">collect the following items</span>. This is the most important step.</p>
                                 <div class="space-y-6">
                                     <div>
                                         <h3 class="text-lg font-semibold text-gray-700 mb-4">Personal & Guardian Documents</h3>
@@ -426,9 +521,8 @@
                         <!-- Step 3 Content -->
                         <div class="step-content" data-step-content="3">
                             <div class="m3-elevated-card p-6">
-                                <h2 class="text-2xl font-bold text-gray-800 mb-2">Complete the Online Application</h2>
-                                <p class="text-gray-600">A parent or guardian must <span class="action-tag">fill out the form online</span>. Follow these required actions:</p>
-                                <hr class="m3-divider">
+                                <h2 class="text-2xl font-bold text-gray-800 mb-3">Complete the Online Application</h2>
+                                <p class="text-gray-600 mb-8">A parent or guardian must <span class="action-tag">fill out the form online</span>. Follow these required actions:</p>
                                 <div class="space-y-4">
                                     <a href="https://cova.mfa.gov.cn/qzCoCommonController.do?show&pageId=index&locale=en_US" target="_blank" rel="noopener noreferrer" class="instruction-link">
                                         <div class="instruction-icon-container">
@@ -474,9 +568,8 @@
                         <!-- Step 4 Content -->
                         <div class="step-content" data-step-content="4">
                             <div class="m3-elevated-card p-6">
-                                 <h2 class="text-2xl font-bold text-gray-800 mb-2">Final Review & Submission</h2>
-                                 <p class="text-gray-600">Your final action is to ensure your complete packet is ready for our team. Here is the handoff process:</p>
-                                 <hr class="m3-divider">
+                                 <h2 class="text-2xl font-bold text-gray-800 mb-3">Final Review & Submission</h2>
+                                 <p class="text-gray-600 mb-8">Your final action is to ensure your complete packet is ready for our team. Here is the handoff process:</p>
                                  <div class="space-y-4">
                                     <div class="instruction-card">
                                         <div class="instruction-icon-container">
@@ -617,6 +710,66 @@
 
             updateStepper(); // Initial state
         }
+        
+        /**
+         * Initializes the dashboard card functionality.
+         */
+        function setupDashboard() {
+            const dateCard = document.getElementById('date-card');
+            const dateView = document.getElementById('date-view');
+            const countdownView = document.getElementById('countdown-view');
+            const countdownDays = document.getElementById('countdown-days');
+            const progressRing = document.getElementById('progress-ring-circle');
+            
+            const flightCard = document.getElementById('flight-card');
+            const flightView1 = document.getElementById('flight-view-1');
+            const flightView2 = document.getElementById('flight-view-2');
+            
+            const tripStartDate = new Date('2025-09-01T00:00:00'); // Assume process starts Sept 1
+            const tripDate = new Date('2025-11-22T00:00:00');
+            const now = new Date();
+
+            const totalDuration = (tripDate.getTime() - tripStartDate.getTime()) / (1000 * 60 * 60 * 24);
+            const daysElapsed = (now.getTime() - tripStartDate.getTime()) / (1000 * 60 * 60 * 24);
+            const progress = Math.max(0, Math.min(1, daysElapsed / totalDuration));
+
+            const radius = progressRing.r.baseVal.value;
+            const circumference = radius * 2 * Math.PI;
+            progressRing.style.strokeDasharray = `${circumference} ${circumference}`;
+            const offset = circumference - progress * circumference;
+            progressRing.style.strokeDashoffset = offset;
+
+            dateCard.addEventListener('click', () => {
+                const isCountdownVisible = !countdownView.classList.contains('hidden');
+                
+                dateView.style.transition = 'opacity 0.3s ease-in-out';
+                countdownView.style.transition = 'opacity 0.3s ease-in-out';
+
+                if (isCountdownVisible) {
+                    countdownView.classList.add('opacity-0');
+                    setTimeout(() => {
+                        countdownView.classList.add('hidden');
+                        dateView.classList.remove('hidden');
+                        dateView.classList.remove('opacity-0');
+                    }, 300);
+                } else {
+                    const daysToTrip = Math.ceil((tripDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+                    countdownDays.textContent = daysToTrip > 0 ? daysToTrip : 0;
+                    
+                    dateView.classList.add('opacity-0');
+                     setTimeout(() => {
+                        dateView.classList.add('hidden');
+                        countdownView.classList.remove('hidden');
+                        countdownView.classList.remove('opacity-0');
+                    }, 300);
+                }
+            });
+            
+            flightCard.addEventListener('click', () => {
+                 flightView1.classList.toggle('hidden');
+                 flightView2.classList.toggle('hidden');
+            });
+        }
 
         /**
          * Main entry point for the application script.
@@ -627,8 +780,8 @@
             
             setupTabs();
             setupStepper();
+            setupDashboard();
         });
     </script>
 </body>
 </html>
-
