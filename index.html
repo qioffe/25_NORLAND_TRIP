@@ -59,7 +59,7 @@
         }
 
         .interactive-card {
-             transition: transform 0.1s, box-shadow 0.1s;
+            transition: transform 0.1s, box-shadow 0.1s;
         }
 
         .interactive-card:active {
@@ -340,49 +340,55 @@
             opacity: 0.6;
         }
         
+        /* Updated CSS for alignment */
         .flight-path-container {
             position: relative;
-            height: 24px; /* For vertical alignment of the plane */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            margin-left: 1rem;
+            margin-right: 1rem;
         }
         .flight-icon {
-            position: absolute;
-            top: 50%;
-            left: 0%;
-            transform: translateY(-50%) rotate(90deg);
             color: var(--md-sys-color-primary);
             animation: fly-across 4s ease-in-out infinite;
             text-shadow: 0 0 5px rgba(255,255,255,0.7);
             font-size: 1.125rem; /* ~18px */
+            /* Removed absolute positioning and vertical transform */
+        }
+        .flight-path-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            border-top: 2px dashed #E5E7EB;
+            z-index: -1;
         }
         @keyframes fly-across {
             0% {
-                left: 0%;
-                transform: translateY(-50%) rotate(90deg);
+                transform: rotate(90deg);
             }
             49% {
-                transform: translateY(-50%) rotate(90deg);
+                transform: rotate(90deg) translateX(calc(var(--fly-distance) - 0px));
             }
             50% {
-                left: 100%;
-                transform: translateY(-50%) rotate(90deg);
+                transform: rotate(90deg) translateX(var(--fly-distance));
             }
-            51% {
-                /* Flip direction */
-                transform: translateY(-50%) rotate(-90deg);
+            50.01% {
+                transform: rotate(-90deg) translateX(var(--fly-distance));
             }
             99% {
-                transform: translateY(-50%) rotate(-90deg);
+                transform: rotate(-90deg) translateX(0);
             }
             100% {
-                left: 0%;
-                transform: translateY(-50%) rotate(-90deg);
+                transform: rotate(-90deg) translateX(0);
             }
         }
 
         @media (max-width: 640px) {
              .tab-btn .material-symbols-outlined {
-                display: none;
-            }
+                 display: none;
+             }
             .document-list-item {
                 flex-direction: column;
                 align-items: flex-start;
@@ -414,39 +420,43 @@
                     <div class="mt-4">
                         <div class="flight-visuals flex items-center justify-between placeholder">
                             <div class="text-center"><p class="text-3xl font-bold text-gradient-primary">FLL</p></div>
-                            <div class="flight-path-container flex-grow mx-4">
-                                <div class="w-full border-t-2 border-dashed border-gray-300"></div>
+                            <!-- Updated HTML for flight path alignment -->
+                            <div class="flight-path-container">
                                 <span class="material-symbols-outlined flight-icon">flight</span>
+                                <div class="flight-path-line"></div>
                             </div>
+                            <!-- End of Updated HTML -->
                             <div class="text-center"><p class="text-3xl font-bold text-gradient-primary">PVG</p></div>
                         </div>
-                         <p class="flight-route text-xs text-gray-500 text-center mt-4">Fetching route...</p>
+                           <p class="flight-route text-xs text-gray-500 text-center mt-4">Fetching route...</p>
                     </div>
                 </div>
                 <!-- MIA to PVG Flight Card -->
                 <div id="flight-card-mia" class="m3-elevated-card flight-card p-6 flex flex-col justify-between">
-                     <div class="flex justify-between items-start">
+                       <div class="flex justify-between items-start">
                         <p class="flight-title text-sm font-semibold text-slate-500 uppercase tracking-wider">MIA → PVG</p>
                         <p class="flight-price text-xl font-bold text-gray-700">$----</p>
                     </div>
                     <div class="mt-4">
                         <div class="flight-visuals flex items-center justify-between placeholder">
                             <div class="text-center"><p class="text-3xl font-bold text-gradient-primary">MIA</p></div>
-                            <div class="flight-path-container flex-grow mx-4">
-                                <div class="w-full border-t-2 border-dashed border-gray-300"></div>
+                            <!-- Updated HTML for flight path alignment -->
+                            <div class="flight-path-container">
                                 <span class="material-symbols-outlined flight-icon">flight</span>
+                                <div class="flight-path-line"></div>
                             </div>
+                            <!-- End of Updated HTML -->
                             <div class="text-center"><p class="text-3xl font-bold text-gradient-primary">PVG</p></div>
                         </div>
-                         <p class="flight-route text-xs text-gray-500 text-center mt-4">Fetching route...</p>
+                           <p class="flight-route text-xs text-gray-500 text-center mt-4">Fetching route...</p>
                     </div>
                 </div>
             </div>
 
             <div id="date-card" class="interactive-card rounded-xl cursor-pointer flex flex-col justify-center text-center items-center overflow-hidden p-6 relative">
                  <svg class="progress-ring absolute inset-0 w-full h-full p-2" viewBox="0 0 120 120">
-                    <circle class="text-gray-200" stroke-width="8" stroke="currentColor" fill="transparent" r="52" cx="60" cy="60"/>
-                    <circle id="progress-ring-circle" class="text-blue-500" stroke-width="8" stroke="currentColor" fill="transparent" r="52" cx="60" cy="60" stroke-linecap="round"/>
+                     <circle class="text-gray-200" stroke-width="8" stroke="currentColor" fill="transparent" r="52" cx="60" cy="60"/>
+                     <circle id="progress-ring-circle" class="text-blue-500" stroke-width="8" stroke="currentColor" fill="transparent" r="52" cx="60" cy="60" stroke-linecap="round"/>
                 </svg>
                 <div class="relative">
                     <div id="date-view" class="dashboard-card-content">
@@ -465,7 +475,7 @@
         
         <header class="flex justify-between items-center pb-8">
             <div>
-                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Application & Forms Guideline</h2>
+                 <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">Application Guideline</h2>
             </div>
             <button class="w-12 h-12 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-100 active:bg-gray-200 transition flex-shrink-0">
                 <span class="material-symbols-outlined">share</span>
@@ -515,14 +525,14 @@
                                 <h2 class="text-2xl font-bold text-gray-800 mb-3">Obtain Official Invitation Letter</h2>
                                 <p class="text-gray-600 mb-8">Your first action is to complete the form provided by your program to receive the mandatory invitation letter.</p>
                                  <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf" target="_blank" rel="noopener noreferrer" class="instruction-link">
-                                    <div class="instruction-icon-container">
-                                        <span class="material-symbols-outlined text-xl">description</span>
-                                    </div>
-                                    <div class="instruction-content">
-                                        <h4 class="font-semibold text-gray-800 text-sm">Complete the JESIS Form</h4>
-                                        <p class="text-xs text-gray-600 mt-1">Once submitted, we will issue the Official Invitation Letter.</p>
-                                    </div>
-                                    <span class="material-symbols-outlined text-base text-gray-400 flex-shrink-0">open_in_new</span>
+                                     <div class="instruction-icon-container">
+                                         <span class="material-symbols-outlined text-xl">description</span>
+                                     </div>
+                                     <div class="instruction-content">
+                                         <h4 class="font-semibold text-gray-800 text-sm">Complete the JESIS Form</h4>
+                                         <p class="text-xs text-gray-600 mt-1">Once submitted, we will issue the Official Invitation Letter.</p>
+                                     </div>
+                                     <span class="material-symbols-outlined text-base text-gray-400 flex-shrink-0">open_in_new</span>
                                  </a>
                             </div>
                         </div>
@@ -535,19 +545,19 @@
                                     <div>
                                         <h3 class="text-lg font-semibold text-gray-700 mb-4">Personal & Guardian Documents</h3>
                                          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">contact_page</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Original Passport</h4><p class="text-xs text-gray-600 mt-1">Must have at least six months of validity and two blank pages.</p></div></div>
-                                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">badge</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Passport Bio-Data Page</h4><p class="text-xs text-gray-600 mt-1">A clear photocopy of the page with photo and biographical info.</p></div></div>
-                                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">account_box</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Guardian's Photo ID</h4><p class="text-xs text-gray-600 mt-1">A clear photocopy of a valid, government-issued photo ID.</p></div></div>
-                                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">home</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Proof of Address</h4><p class="text-xs text-gray-600 mt-1">Utility bill or bank statement if address is not on photo ID.</p></div></div>
-                                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">family_restroom</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Proof of Relationship</h4><p class="text-xs text-gray-600 mt-1">Original birth certificate (for parents) or court order (for guardians).</p></div></div>
-                                        </div>
+                                             <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">contact_page</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Original Passport</h4><p class="text-xs text-gray-600 mt-1">Must have at least six months of validity and two blank pages.</p></div></div>
+                                             <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">badge</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Passport Bio-Data Page</h4><p class="text-xs text-gray-600 mt-1">A clear photocopy of the page with photo and biographical info.</p></div></div>
+                                             <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">account_box</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Guardian's Photo ID</h4><p class="text-xs text-gray-600 mt-1">A clear photocopy of a valid, government-issued photo ID.</p></div></div>
+                                             <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">home</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Proof of Address</h4><p class="text-xs text-gray-600 mt-1">Utility bill or bank statement if address is not on photo ID.</p></div></div>
+                                             <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">family_restroom</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Proof of Relationship</h4><p class="text-xs text-gray-600 mt-1">Original birth certificate (for parents) or court order (for guardians).</p></div></div>
+                                         </div>
                                     </div>
                                     <div>
                                         <h3 class="text-lg font-semibold text-gray-700 mb-4">Program & Visa Forms</h3>
                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">gavel</span></div><div class="instruction-content flex-grow"><h4 class="font-semibold text-gray-800 text-sm">Notarized Consent Form</h4><p class="text-xs text-gray-600 mt-1">Must be signed by the parent or legal guardian and officially notarized.</p></div><span class="material-symbols-outlined text-base text-gray-400 flex-shrink-0">open_in_new</span></a>
-                                            <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">apartment</span></div><div class="instruction-content flex-grow"><h4 class="font-semibold text-gray-800 text-sm">"Where You Stay" Form</h4><p class="text-xs text-gray-600 mt-1">Must be signed by hand by a parent or legal guardian.</p></div><span class="material-symbols-outlined text-base text-gray-400 flex-shrink-0">open_in_new</span></a>
-                                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">mail</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Official Invitation Letter</h4><p class="text-xs text-gray-600 mt-1">The official invitation issued by the program in Step 1.</p></div></div>
+                                             <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">gavel</span></div><div class="instruction-content flex-grow"><h4 class="font-semibold text-gray-800 text-sm">Notarized Consent Form</h4><p class="text-xs text-gray-600 mt-1">Must be signed by the parent or legal guardian and officially notarized.</p></div><span class="material-symbols-outlined text-base text-gray-400 flex-shrink-0">open_in_new</span></a>
+                                             <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">apartment</span></div><div class="instruction-content flex-grow"><h4 class="font-semibold text-gray-800 text-sm">"Where You Stay" Form</h4><p class="text-xs text-gray-600 mt-1">Must be signed by hand by a parent or legal guardian.</p></div><span class="material-symbols-outlined text-base text-gray-400 flex-shrink-0">open_in_new</span></a>
+                                             <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">mail</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Official Invitation Letter</h4><p class="text-xs text-gray-600 mt-1">The official invitation issued by the program in Step 1.</p></div></div>
                                         </div>
                                     </div>
                                 </div>
@@ -559,43 +569,43 @@
                                 <h2 class="text-2xl font-bold text-gray-800 mb-3">Complete the Online Application</h2>
                                 <p class="text-gray-600 mb-8">A parent or guardian must <span class="action-tag">fill out the form online</span>. Follow these required actions:</p>
                                 <div class="space-y-4">
-                                    <a href="https://cova.mfa.gov.cn/qzCoCommonController.do?show&pageId=index&locale=en_US" target="_blank" rel="noopener noreferrer" class="instruction-link">
-                                        <div class="instruction-icon-container">
-                                            <span class="material-symbols-outlined text-xl">language</span>
-                                        </div>
-                                        <div class="instruction-content">
-                                            <h4 class="font-semibold text-gray-800 text-sm">Go to the Official Visa Website</h4>
-                                            <p class="text-xs text-gray-600 mt-1">Select application location: North America -> Washington, D.C.</p>
-                                        </div>
-                                        <span class="material-symbols-outlined text-base text-gray-400 flex-shrink-0">open_in_new</span>
-                                    </a>
-                                    <div class="instruction-card">
-                                        <div class="instruction-icon-container">
-                                           <span class="material-symbols-outlined text-xl">edit_document</span>
-                                        </div>
-                                        <div class="instruction-content">
-                                            <h4 class="font-semibold text-gray-800 text-sm">Fill Out the Form</h4>
-                                            <p class="text-xs text-gray-600 mt-1">Complete all sections accurately, following the on-screen prompts.</p>
-                                        </div>
-                                    </div>
-                                    <div class="instruction-card">
-                                        <div class="instruction-icon-container">
-                                            <span class="material-symbols-outlined text-xl">print</span>
-                                        </div>
-                                        <div class="instruction-content">
-                                            <h4 class="font-semibold text-gray-800 text-sm">Save & Print</h4>
-                                            <p class="text-xs text-gray-600 mt-1">Save your application number and print all pages of the form.</p>
-                                        </div>
-                                    </div>
-                                    <div class="instruction-card">
-                                        <div class="instruction-icon-container">
-                                            <span class="material-symbols-outlined text-xl">draw</span>
-                                        </div>
-                                        <div class="instruction-content">
-                                            <h4 class="font-semibold text-gray-800 text-sm">Sign the Printed Form</h4>
-                                            <p class="text-xs text-gray-600 mt-1">A guardian must sign the confirmation page and Section 9.1.</p>
-                                        </div>
-                                    </div>
+                                     <a href="https://cova.mfa.gov.cn/qzCoCommonController.do?show&pageId=index&locale=en_US" target="_blank" rel="noopener noreferrer" class="instruction-link">
+                                         <div class="instruction-icon-container">
+                                             <span class="material-symbols-outlined text-xl">language</span>
+                                         </div>
+                                         <div class="instruction-content">
+                                             <h4 class="font-semibold text-gray-800 text-sm">Go to the Official Visa Website</h4>
+                                             <p class="text-xs text-gray-600 mt-1">Select application location: North America -> Washington, D.C.</p>
+                                         </div>
+                                         <span class="material-symbols-outlined text-base text-gray-400 flex-shrink-0">open_in_new</span>
+                                     </a>
+                                     <div class="instruction-card">
+                                         <div class="instruction-icon-container">
+                                             <span class="material-symbols-outlined text-xl">edit_document</span>
+                                         </div>
+                                         <div class="instruction-content">
+                                             <h4 class="font-semibold text-gray-800 text-sm">Fill Out the Form</h4>
+                                             <p class="text-xs text-gray-600 mt-1">Complete all sections accurately, following the on-screen prompts.</p>
+                                         </div>
+                                     </div>
+                                     <div class="instruction-card">
+                                         <div class="instruction-icon-container">
+                                             <span class="material-symbols-outlined text-xl">print</span>
+                                         </div>
+                                         <div class="instruction-content">
+                                             <h4 class="font-semibold text-gray-800 text-sm">Save & Print</h4>
+                                             <p class="text-xs text-gray-600 mt-1">Save your application number and print all pages of the form.</p>
+                                         </div>
+                                     </div>
+                                     <div class="instruction-card">
+                                         <div class="instruction-icon-container">
+                                             <span class="material-symbols-outlined text-xl">draw</span>
+                                         </div>
+                                         <div class="instruction-content">
+                                             <h4 class="font-semibold text-gray-800 text-sm">Sign the Printed Form</h4>
+                                             <p class="text-xs text-gray-600 mt-1">A guardian must sign the confirmation page and Section 9.1.</p>
+                                         </div>
+                                     </div>
                                 </div>
                                 <p class="text-sm text-red-600 mt-6"><strong>Important</strong>: The minor should not sign any part of the application.</p>
                             </div>
@@ -606,34 +616,34 @@
                                  <h2 class="text-2xl font-bold text-gray-800 mb-3">Final Review & Submission</h2>
                                  <p class="text-gray-600 mb-8">Your final action is to ensure your complete packet is ready for our team. Here is the handoff process:</p>
                                  <div class="space-y-4">
-                                    <div class="instruction-card">
-                                        <div class="instruction-icon-container">
-                                            <span class="material-symbols-outlined text-xl">checklist</span>
-                                        </div>
-                                        <div class="instruction-content">
-                                            <h4 class="font-semibold text-gray-800 text-sm">Our Final Review</h4>
-                                            <p class="text-xs text-gray-600 mt-1">We will review your complete folder for accuracy and completion.</p>
-                                        </div>
-                                    </div>
-                                    <div class="instruction-card">
-                                        <div class="instruction-icon-container">
-                                           <span class="material-symbols-outlined text-xl">send</span>
-                                        </div>
-                                        <div class="instruction-content">
-                                            <h4 class="font-semibold text-gray-800 text-sm">Submission</h4>
-                                            <p class="text-xs text-gray-600 mt-1">We submit the complete application to the visa office on your behalf.</p>
-                                        </div>
-                                    </div>
-                                    <div class="instruction-card">
-                                        <div class="instruction-icon-container">
-                                            <span class="material-symbols-outlined text-xl">notifications</span>
-                                        </div>
-                                        <div class="instruction-content">
-                                            <h4 class="font-semibold text-gray-800 text-sm">Notification</h4>
-                                            <p class="text-xs text-gray-600 mt-1">You will be notified when the visa is ready (typically 3-4 business days).</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                     <div class="instruction-card">
+                                         <div class="instruction-icon-container">
+                                             <span class="material-symbols-outlined text-xl">checklist</span>
+                                         </div>
+                                         <div class="instruction-content">
+                                             <h4 class="font-semibold text-gray-800 text-sm">Our Final Review</h4>
+                                             <p class="text-xs text-gray-600 mt-1">We will review your complete folder for accuracy and completion.</p>
+                                         </div>
+                                     </div>
+                                     <div class="instruction-card">
+                                         <div class="instruction-icon-container">
+                                             <span class="material-symbols-outlined text-xl">send</span>
+                                         </div>
+                                         <div class="instruction-content">
+                                             <h4 class="font-semibold text-gray-800 text-sm">Submission</h4>
+                                             <p class="text-xs text-gray-600 mt-1">We submit the complete application to the visa office on your behalf.</p>
+                                         </div>
+                                     </div>
+                                     <div class="instruction-card">
+                                         <div class="instruction-icon-container">
+                                             <span class="material-symbols-outlined text-xl">notifications</span>
+                                         </div>
+                                         <div class="instruction-content">
+                                             <h4 class="font-semibold text-gray-800 text-sm">Notification</h4>
+                                             <p class="text-xs text-gray-600 mt-1">You will be notified when the visa is ready (typically 3-4 business days).</p>
+                                         </div>
+                                     </div>
+                                 </div>
                             </div>
                         </div>
                     </div>
@@ -673,6 +683,7 @@
             const routeEl = card.querySelector('.flight-route');
             const visualEl = card.querySelector('.flight-visuals');
             const titleEl = card.querySelector('.flight-title');
+            const planeIcon = card.querySelector('.flight-icon');
 
             if (flightData.status === 'ok' && flightData.price) {
                 priceEl.textContent = `$${flightData.price}`;
@@ -681,13 +692,20 @@
 
                 if (titleEl && flightData.last_updated) {
                     const updatedDate = new Date(flightData.last_updated);
-                    const formattedTime = updatedDate.toLocaleTimeString('en-US', {
-                        hour: 'numeric',
-                        minute: '2-digit',
-                        hour12: true
+                    const formattedDate = updatedDate.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
                     });
-                    titleEl.textContent = `Updated: ${formattedTime}`;
+                    titleEl.textContent = `Updated: ${formattedDate}`;
                 }
+
+                // Calculate animation distance based on container width
+                const containerWidth = planeIcon.parentElement.clientWidth;
+                const iconWidth = planeIcon.clientWidth;
+                const flyDistance = containerWidth - iconWidth;
+                document.documentElement.style.setProperty('--fly-distance', `${flyDistance}px`);
+                
             } else {
                 priceEl.textContent = 'N/A';
                 routeEl.textContent = flightData.status.replace(/_/g, ' ');
@@ -850,4 +868,3 @@
     </script>
 </body>
 </html>
-
