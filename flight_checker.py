@@ -19,7 +19,7 @@ def fetch_flight_price(departure_id, arrival_id):
         "engine": "google_flights",
         "departure_id": departure_id,
         "arrival_id": arrival_id,
-        "outbound_date": "2025-11-22",  # Updated to a future date
+        "outbound_date": "2025-11-21",  # Updated to a future date
         "return_date": "2025-11-29",    # Updated to a future date
         "currency": "USD",
         "hl": "en",
