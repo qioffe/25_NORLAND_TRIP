@@ -11,11 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <style>
-        /**
-         * @file Refactored and concise stylesheet for the travel dashboard with a dynamic background.
-         * @author Q
-         * @version 4.0
-         */
         :root {
             --md-sys-color-primary: #3B82F6;
             --md-sys-color-primary-light: #60A5FA;
@@ -27,62 +22,17 @@
             --md-sys-color-outline: #DDE8F4;
             --md-sys-color-pulse: rgba(59, 130, 246, 0.4);
         }
-
-        /* --- Body & Dynamic Background --- */
-        body { 
-            font-family: 'Inter', sans-serif; 
-            color: #1e293b;
-            /* Dynamic Fluid Background */
-            background: linear-gradient(-45deg, #a7b7ff, #eff6ff, #dbeafe, #c1d4ff);
-            background-size: 400% 400%;
-            animation: fluid-gradient 20s ease infinite;
-        }
-
-        /* --- Animations --- */
-        @keyframes fluid-gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 0 0 transparent; }
-            70% { box-shadow: 0 0 0 10px var(--md-sys-color-pulse); }
-        }
+        body { font-family: 'Inter', sans-serif; color: #1e293b; background: linear-gradient(-45deg, #a7b7ff, #eff6ff, #dbeafe, #c1d4ff); background-size: 400% 400%; animation: fluid-gradient 20s ease infinite; }
+        @keyframes fluid-gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 transparent; } 70% { box-shadow: 0 0 0 10px var(--md-sys-color-pulse); } }
         @keyframes gradient-shift { 50% { background-position: 100% 50%; } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* --- Layout & Cards --- */
-        .main-container { 
-            border-radius: 24px; 
-            background-color: rgba(255, 255, 255, 0.55); /* More transparent for a glass effect */
-            backdrop-filter: blur(20px); /* Increased blur for glass effect */
-            -webkit-backdrop-filter: blur(20px); /* Safari support */
-            box-shadow: 0 10px 30px -5px rgba(0,0,0,0.07), 0 4px 15px -6px rgba(0,0,0,0.05); 
-            transition: opacity 0.5s ease-in-out; 
-            opacity: 0; 
-            overflow: hidden; 
-            border: 1px solid rgba(255, 255, 255, 0.5); /* Lighter border */
-        }
+        .main-container { border-radius: 24px; background-color: rgba(255, 255, 255, 0.55); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 10px 30px -5px rgba(0,0,0,0.07), 0 4px 15px -6px rgba(0,0,0,0.05); transition: opacity 0.5s ease-in-out; opacity: 0; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.5); }
         .main-container.is-visible { opacity: 1; }
-        .m3-elevated-card { 
-            border-radius: 16px; /* Slightly larger radius */
-            background-color: rgba(248, 251, 254, 0.65); /* Added transparency */
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
-            border: 1px solid var(--md-sys-color-outline); 
-        }
-        .interactive-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .interactive-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-        }
-        .interactive-card:active {
-            transform: scale(0.98);
-        }
-
-        /* --- Tabs --- */
+        .m3-elevated-card { border-radius: 16px; background-color: rgba(248, 251, 254, 0.65); backdrop-filter: blur(10px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid var(--md-sys-color-outline); }
+        .interactive-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .interactive-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+        .interactive-card:active { transform: scale(0.98); }
         .tabs-container { border-bottom: 1px solid var(--md-sys-color-outline); }
         .tab-list { display: flex; justify-content: center; }
         .tab-btn { display: flex; align-items: center; justify-content: center; height: 48px; padding: 0 24px; font-size: 0.9rem; color: #475569; position: relative; flex-grow: 1; border: none; background-color: transparent; font-weight: 600; cursor: pointer; transition: background-color 0.2s; }
@@ -90,49 +40,22 @@
         .tab-btn:hover { background-color: rgba(0,0,0,0.04); }
         .tab-btn.is-active { color: var(--md-sys-color-primary); }
         .tab-btn.is-active::after { transform: scaleX(1); }
-
-        /* --- Document List & Instructions --- */
         .document-list-item, .instruction-card, .instruction-link { display: flex; text-decoration: none; color: inherit; border-radius: 12px; transition: background-color 0.2s, transform 0.2s; }
         .document-list-item { align-items: center; padding: 1rem; }
         .document-list-item:not(:last-child) { border-bottom: 1px solid var(--md-sys-color-outline); }
         .instruction-card, .instruction-link { align-items: flex-start; gap: 0.75rem; padding: 0.75rem; border: 1px solid var(--md-sys-color-outline); background-color: rgba(247, 250, 252, 0.7); }
         .instruction-card:hover, .instruction-link:hover { background-color: var(--md-sys-color-primary-container); transform: scale(1.02); }
-        .instruction-card:active, .instruction-link:active { transform: scale(0.99); transition-duration: 0.1s; } /* Press effect */
+        .instruction-card:active, .instruction-link:active { transform: scale(0.99); transition-duration: 0.1s; }
         .document-list-item:hover { background-color: var(--md-sys-color-primary-container); }
         .document-list-icon, .instruction-icon-container { flex-shrink: 0; }
         .document-list-icon { margin-right: 1rem; color: var(--md-sys-color-primary); }
-        .instruction-icon-container { 
-            width: 3rem; /* Increased size */
-            height: 3rem; /* Increased size */
-            border-radius: 9999px; 
-            background-color: var(--md-sys-color-primary-container); 
-            color: var(--md-sys-color-primary); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-        }
+        .instruction-icon-container { width: 3rem; height: 3rem; border-radius: 9999px; background-color: var(--md-sys-color-primary-container); color: var(--md-sys-color-primary); display: flex; align-items: center; justify-content: center; }
         .document-list-text, .instruction-content { flex-grow: 1; }
         .document-list-action { flex-shrink: 0; margin-left: 1rem; color: var(--md-sys-color-primary); font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; }
-
-        /* --- Stepper --- */
         .stepper-container { display: flex; justify-content: space-between; margin: 0 auto 2.5rem; max-width: 56rem; }
         .stepper-item { display: flex; flex-direction: column; align-items: center; flex-grow: 1; position: relative; cursor: pointer; }
         .stepper-item:not(:last-child)::after { content: ''; position: absolute; top: 1.25rem; left: 50%; width: 100%; height: 2px; background-color: var(--md-sys-color-outline); z-index: 1; transition: background-color 0.3s; }
-        .stepper-icon { 
-            width: 3rem; /* Increased size to 48px */
-            height: 3rem; /* Increased size to 48px */
-            border-radius: 9999px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            background-color: #DDE8F4; 
-            color: #4B5563; 
-            font-weight: 600; 
-            z-index: 2; 
-            transition: all 0.3s; 
-            border: 4px solid var(--md-sys-color-surface); 
-            position: relative; 
-        }
+        .stepper-icon { width: 3rem; height: 3rem; border-radius: 9999px; display: flex; align-items: center; justify-content: center; background-color: #DDE8F4; color: #4B5563; font-weight: 600; z-index: 2; transition: all 0.3s; border: 4px solid var(--md-sys-color-surface); position: relative; }
         .stepper-icon .step-number, .stepper-icon .step-checkmark { transition: opacity 0.3s ease-in-out; position: absolute; }
         .stepper-icon .step-checkmark { opacity: 0; }
         .stepper-label { margin-top: 0.5rem; font: 500 0.875rem/1.25rem sans-serif; color: #64748B; text-align: center; transition: color 0.3s, font-weight 0.3s; }
@@ -144,209 +67,39 @@
         .stepper-item.is-completed:not(:last-child)::after { background-color: var(--md-sys-color-primary); }
         .step-content { display: none; animation: fadeIn 0.5s ease-in-out; }
         .step-content.is-active { display: block; }
-
-        /* --- Stepper Navigation --- */
         .stepper-nav { display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--md-sys-color-outline); }
         .stepper-btn { padding: 0.75rem 1.5rem; border-radius: 9999px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
         .stepper-btn.primary { background: linear-gradient(to right, var(--md-sys-color-primary), var(--md-sys-color-primary-light), var(--md-sys-color-primary)); background-size: 200% 100%; color: var(--md-sys-color-on-primary); animation: gradient-shift 4s ease infinite; }
         .stepper-btn.secondary { background-color: #E6EEF5; color: #475569; }
         .stepper-btn:disabled { background-color: #E6EEF5; background-image: none; color: #94A3B8; cursor: not-allowed; }
-
-        /* --- Misc & Utilities --- */
         .action-tag { background-color: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600; display: inline-block; margin: 0.25rem 0; }
         .m3-divider { height: 1px; background-color: var(--md-sys-color-outline); border: none; }
         .text-gradient-primary { background: linear-gradient(to right, var(--md-sys-color-primary), var(--md-sys-color-primary-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        /* Highlight Card for upload form */
-        .highlight-card {
-            background-color: var(--md-sys-color-primary-container);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
-            border: 1px solid var(--md-sys-color-outline); 
-            transition: all 0.2s ease;
-        }
-        .highlight-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-        }
-
-        /* Summary Card Styling */
-        .summary-card {
-            padding: 1.5rem;
-            border-radius: 1rem;
-            background-color: var(--md-sys-color-surface);
-            border: 1px solid var(--md-sys-color-outline);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            cursor: pointer;
-        }
-        .summary-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
-        }
-        .summary-card .instruction-icon-container {
-            background-color: var(--md-sys-color-primary-container);
-            color: var(--md-sys-color-primary);
-        }
-
-
-        /* --- Flight Card --- */
-        .flight-card-v2 {
-            border-radius: 16px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(248,251,254,0.7) 100%);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 16px rgba(17, 24, 39, 0.05);
-            border: 1px solid var(--md-sys-color-outline);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            overflow: hidden;
-            position: relative;
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .flight-card-v2:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08);
-        }
-        
-        .flight-price-container {
-            text-align: right;
-        }
-        
-        .flight-price-value {
-            font-size: 2.5rem; /* 40px */
-            font-weight: 800;
-            line-height: 1;
-            color: #1e293b;
-            display: inline-block;
-        }
-        
-        .flight-price-value .currency {
-            font-size: 1.5rem;
-            font-weight: 600;
-            vertical-align: top;
-            margin-right: 2px;
-            color: #64748b;
-        }
-        
-        .flight-main-route {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 1.5rem 0;
-            position: relative;
-        }
-        
-.flight-airport-code {
-            font-size: 2.25rem; /* 36px */
-            font-weight: 900;
-            color: var(--md-sys-color-primary);
-        }
-
-        /* Flight Path Styles */
-        .flight-path-container {
-            position: relative;
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 2px;
-            margin: 0 1rem;
-        }
-
-        .flight-path-line {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            border-top: 2px dashed #9ca3af;
-            z-index: -1;
-        }
-        
-        .flight-icon-animated {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%) rotate(90deg);
-            color: var(--md-sys-color-primary);
-            animation: flight-move 3s linear infinite;
-        }
-        
-        @keyframes flight-move {
-            0% { left: 0; }
-            100% { left: calc(100% - 24px); }
-        }
-        
-        .flight-details {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.75rem; /* 12px */
-            color: #64748b;
-            border-top: 1px solid var(--md-sys-color-outline);
-            padding-top: 0.75rem;
-            margin-top: 1rem;
-        }
-
-        .flight-card-v2.placeholder {
-            filter: blur(4px);
-            opacity: 0.6;
-            background: #f8fafc;
-        }
-
-        /* --- NEW Date Card Styles --- */
-        #date-card {
-            border-radius: 1.5rem;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(248, 251, 254, 0.75) 100%);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
-            border: 1px solid rgba(255,255,255,0.4);
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            min-height: auto;
-            position: relative;
-        }
-        #date-card:hover {
-            box-shadow: 0 12px 24px rgba(0,0,0,0.08);
-            transform: translateY(-4px);
-        }
-        #date-card:active {
-            transform: scale(0.98);
-            transition-duration: 0.05s;
-        }
-
-        .highlight-tag {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: #FBBF24;
-            color: #78350F;
-            font-weight: 700;
-            font-size: 0.75rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0 1.5rem 0 1rem;
-            transform: translate(0, 0);
-            z-index: 10;
-        }
-
-        .date-view, .countdown-view {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .main-number {
-            font-size: 3.5rem; /* 56px */
-            line-height: 1;
-        }
-        .label-text {
-            font-size: 1.125rem; /* 18px */
-        }
+        .highlight-card { background-color: var(--md-sys-color-primary-container); box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid var(--md-sys-color-outline); transition: all 0.2s ease; }
+        .highlight-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.08); }
+        .summary-card { padding: 1.5rem; border-radius: 1rem; background-color: var(--md-sys-color-surface); border: 1px solid var(--md-sys-color-outline); transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; cursor: pointer; }
+        .summary-card:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0,0,0,0.08); transform: translateY(-4px); }
+        .summary-card .instruction-icon-container { background-color: var(--md-sys-color-primary-container); color: var(--md-sys-color-primary); }
+        .flight-card-v2 { border-radius: 16px; background: linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(248,251,254,0.7) 100%); backdrop-filter: blur(10px); box-shadow: 0 8px 16px rgba(17, 24, 39, 0.05); border: 1px solid var(--md-sys-color-outline); transition: transform 0.3s ease, box-shadow 0.3s ease; overflow: hidden; position: relative; padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; }
+        .flight-card-v2:hover { transform: translateY(-6px); box-shadow: 0 12px 24px rgba(17, 24, 39, 0.08); }
+        .flight-price-container { text-align: right; }
+        .flight-price-value { font-size: 2.5rem; font-weight: 800; line-height: 1; color: #1e293b; display: inline-block; }
+        .flight-price-value .currency { font-size: 1.5rem; font-weight: 600; vertical-align: top; margin-right: 2px; color: #64748b; }
+        .flight-main-route { display: flex; align-items: center; justify-content: space-between; margin: 1.5rem 0; position: relative; }
+        .flight-airport-code { font-size: 2.25rem; font-weight: 900; color: var(--md-sys-color-primary); }
+        .flight-path-container { position: relative; flex-grow: 1; display: flex; justify-content: center; align-items: center; height: 2px; margin: 0 1rem; }
+        .flight-path-line { position: absolute; top: 50%; left: 0; width: 100%; height: 2px; border-top: 2px dashed #9ca3af; z-index: -1; }
+        .flight-icon-animated { position: absolute; top: 50%; left: 0; transform: translateY(-50%) rotate(90deg); color: var(--md-sys-color-primary); animation: flight-move 3s linear infinite; }
+        @keyframes flight-move { 0% { left: 0; } 100% { left: calc(100% - 24px); } }
+        .flight-details { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #64748b; border-top: 1px solid var(--md-sys-color-outline); padding-top: 0.75rem; margin-top: 1rem; }
+        .flight-card-v2.placeholder { filter: blur(4px); opacity: 0.6; background: #f8fafc; }
+        #date-card { border-radius: 1.5rem; background: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(248, 251, 254, 0.75) 100%); box-shadow: 0 8px 16px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.4); padding: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; cursor: pointer; transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; min-height: auto; position: relative; }
+        #date-card:hover { box-shadow: 0 12px 24px rgba(0,0,0,0.08); transform: translateY(-4px); }
+        #date-card:active { transform: scale(0.98); transition-duration: 0.05s; }
+        .highlight-tag { position: absolute; top: 0; right: 0; background-color: #FBBF24; color: #78350F; font-weight: 700; font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 0 1.5rem 0 1rem; transform: translate(0, 0); z-index: 10; }
+        .date-view, .countdown-view { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .main-number { font-size: 3.5rem; line-height: 1; }
+        .label-text { font-size: 1.125rem; }
     </style>
 </head>
 <body class="flex flex-col items-center min-h-screen py-8 px-4">
@@ -391,7 +144,7 @@
             <div id="date-card" class="interactive-card rounded-2xl cursor-pointer flex flex-col justify-center items-center text-center overflow-hidden p-4 relative bg-white/50" role="button" aria-label="Toggle date and countdown view">
                 <p class="text-sm font-semibold text-gray-500 mb-2 uppercase tracking-wider relative z-10">DEPARTURE</p>
                 <div id="date-view" class="date-view">
-                    <p class="main-number font-extrabold text-gradient-primary">22</p>
+                    <p class="main-number font-extrabold text-gradient-primary">21</p>
                     <p class="label-text font-bold text-gray-600 tracking-wider">NOV</p>
                 </div>
                 <div id="countdown-view" class="countdown-view hidden">
@@ -481,143 +234,24 @@
         document.addEventListener('DOMContentLoaded', () => {
             const mainContainer = document.querySelector('.main-container');
             mainContainer.classList.add('is-visible');
-
-            // Note: The user requested a random version parameter for all URLs.
-            // We apply this to local or known static asset URLs to prevent caching issues.
-            // External URLs to third-party services (like Google Forms or official visa sites)
-            // are left as-is to avoid breaking their functionality.
             const randomVersion = Math.random().toString(36).substring(2, 8);
-
             const stepContents = {
-                1: `
-                    <div class="m3-elevated-card p-6">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-3">Obtain Your Official Invitation Letter</h2>
-                        <p class="text-gray-600 mb-8">First, <span class="action-tag">complete the JESIS form</span> required by your program and submit a photocopy of the minor's passport bio-data page to receive your official invitation letter.</p>
-                        <div class="space-y-4">
-                            <a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf?v=${randomVersion}" target="_blank" rel="noopener noreferrer" class="instruction-link">
-                                <div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">description</span></div>
-                                <div class="instruction-content">
-                                    <h4 class="font-semibold text-gray-800 text-sm">Fill and E-sign the Application</h4>
-                                    <p class="text-xs text-gray-600 mt-1">This is the primary program application form. Please fill it out completely and e-sign it digitally.</p>
-                                </div>
-                                <span class="material-symbols-outlined text-base text-gray-400">open_in_new</span>
-                            </a>
-                            <div class="instruction-card">
-                                <div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">file_copy</span></div>
-                                <div class="instruction-content">
-                                    <h4 class="font-semibold text-gray-800 text-sm">Photocopy of Passport Bio-Data Page</h4>
-                                    <p class="text-xs text-gray-600 mt-1">A clear photocopy of the minor's passport page to be uploaded.</p>
-                                </div>
-                            </div>
-                            <!-- Note: External Google Forms URL is not modified to ensure it works correctly. -->
-                            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeAEjP6zcOug4Rq-XMpgnx90A1rWJwgqUmcueusZNjw3Cbn-g/viewform" target="_blank" rel="noopener noreferrer" class="instruction-link highlight-card">
-                                <div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">file_upload</span></div>
-                                <div class="instruction-content">
-                                    <h4 class="font-semibold text-gray-800 text-sm">Upload</h4>
-                                    <p class="text-xs text-gray-600 mt-1">Upload the completed JESIS form and passport photocopy here.</p>
-                                </div>
-                                <span class="material-symbols-outlined text-base text-gray-400">open_in_new</span>
-                            </a>
-                        </div>
-                    </div>`,
-                2: `
-                    <div class="m3-elevated-card p-6">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-3">Gather Required Documents</h2>
-                        <p class="text-gray-600 mb-8">Once you have your invitation letter, you must <span class="action-tag">prepare a folder</span> containing all the required documents in physical, printed form.</p>
-                        <div class="space-y-6">
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Personal & Guardian Documents</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">contact_page</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Original Passport</h4><p class="text-xs text-gray-600 mt-1">This original document must have at least six months of validity remaining and two blank pages.</p></div></div>
-                                    <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">badge</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">A printed photocopy of Passport Bio-Data Page</h4><p class="text-xs text-gray-600 mt-1">A clear printed photocopy of the page in the minor's passport from STEP1.</p></div></div>
-                                    <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">account_box</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Guardian's ID and Proof of Address</h4><p class="text-xs text-gray-600 mt-1">Provide both a clear photocopy of a valid ID and a document for proof of current address.</p></div></div>
-                                    <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">family_restroom</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Original Proof of Relationship</h4><p class="text-xs text-gray-600 mt-1">You must provide the original birth certificate for parents or a mandatory original court order for legal guardians.</p></div></div>
-                                </div>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-700 mb-4">Program & Visa Forms</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf?v=${randomVersion}" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">gavel</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Notarized Consent for Visa Application</h4><p class="text-xs text-gray-600 mt-1">This form must be signed by the guardian and officially notarized.</p></div><span class="material-symbols-outlined text-base text-gray-400">open_in_new</span></a>
-                                    <a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf?v=${randomVersion}" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">apartment</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">"Where You Stay" Form</h4><p class="text-xs text-gray-600 mt-1">Must be signed by a parent or guardian by hand.</p></div><span class="material-symbols-outlined text-base text-gray-400">open_in_new</span></a>
-                                    <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">mail</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Official Invitation Letter</h4><p class="text-xs text-gray-600 mt-1">The letter you received in STEP1.</p></div></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`,
-                3: `
-                    <div class="m3-elevated-card p-6">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-3">Complete the Online Application</h2>
-                        <p class="text-gray-600 mb-8">Now, a parent or guardian must fill out the online form. Please follow these key actions. You can also use the <span class="action-tag">visa application templates we provide</span>.</p>
-                        <div class="space-y-4">
-                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">photo_camera</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Prepare a Visa-Ready Photo</h4><p class="text-xs text-gray-600 mt-1">Make sure you have a visa-ready photo to upload.</p></div></div>
-                            <!-- Note: The official visa website URL is not modified to ensure it works correctly. -->
-                            <a href="https://cova.mfa.gov.cn/qzCoCommonController.do?show&pageId=index&locale=en_US" target="_blank" rel="noopener noreferrer" class="instruction-link">
-                                <div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">language</span></div>
-                                <div class="instruction-content">
-                                    <h4 class="font-semibold text-gray-800 text-sm">Go to the Official Visa Website</h4>
-                                    <p class="text-xs text-gray-600 mt-1">Select location: North America -> Washington, D.C.</p>
-                                </div>
-                                <span class="material-symbols-outlined text-base text-gray-400">open_in_new</span>
-                            </a>
-                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">edit_document</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Fill Out the Form</h4><p class="text-xs text-gray-600 mt-1">Complete all sections accurately.</p></div></div>
-                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">print</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Save & Print</h4><p class="text-xs text-gray-600 mt-1">Save your application number and print all pages of the form.</p></div></div>
-                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">draw</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Sign the Printed Form</h4><p class="text-xs text-gray-600 mt-1">A guardian must sign the confirmation page and Section 9.1.</p></div></div>
-                        </div>
-                        <p class="text-sm text-red-600 mt-6"><strong>Important</strong>: The minor should not sign any part of the application.</p>
-                    </div>`,
-                4: `
-                    <div class="m3-elevated-card p-6">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-3">Application Submission</h2>
-                        <p class="text-gray-600 mb-8">Finally, <span class="action-tag">submit your folder to your coordinator</span> containing all the required <span class="action-tag">printed</span> and <span class="action-tag">original</span> documents.</p>
-                        <div class="space-y-4">
-                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">checklist</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Final Check</h4><p class="text-xs text-gray-600 mt-1">We will review your folder to ensure all documents are correct and ready for submission.</p></div></div>
-                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">send</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Submission</h4><p class="text-xs text-gray-600 mt-1">We will submit the complete application to the visa office for you.</p></div></div>
-                            <div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">notifications</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Notification</h4><p class="text-xs text-gray-600 mt-1">The passport with the visa should be ready in 3 to 4 business days. We will notify you when it's ready for pickup.</p></div></div>
-                        </div>
-                    </div>`,
-                5: `
-                    <div class="m3-elevated-card p-6">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-3">Application Process Summary</h2>
-                        <p class="text-gray-600 mb-8">Here is a quick overview of the four main steps you've completed for your visa application.</p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <div class="summary-card p-6 space-y-2">
-                                <div class="instruction-icon-container"><span class="material-symbols-outlined">mail</span></div>
-                                <h3 class="font-bold text-lg text-gray-800">1. Invitation</h3>
-                                <p class="text-sm text-gray-600 mt-2">Complete the JESIS form and upload your passport photocopy to receive your official invitation letter.</p>
-                            </div>
-                            <div class="summary-card p-6 space-y-2">
-                                <div class="instruction-icon-container"><span class="material-symbols-outlined">folder_open</span></div>
-                                <h3 class="font-bold text-lg text-gray-800">2. Documents</h3>
-                                <p class="text-sm text-gray-600 mt-2">Gather all required physical documents, including your passport, guardian's ID, and printed forms, into a single folder.</p>
-                            </div>
-                            <div class="summary-card p-6 space-y-2">
-                                <div class="instruction-icon-container"><span class="material-symbols-outlined">web</span></div>
-                                <h3 class="font-bold text-lg text-gray-800">3. Online Application</h3>
-                                <p class="text-sm text-gray-600 mt-2">Fill out the official online visa form, then save and print it for signing.</p>
-                            </div>
-                            <div class="summary-card p-6 space-y-2">
-                                <div class="instruction-icon-container"><span class="material-symbols-outlined">send</span></div>
-                                <h3 class="font-bold text-lg text-gray-800">4. Final Submission</h3>
-                                <p class="text-sm text-gray-600 mt-2">Submit your complete document folder to your coordinator for a final check and official submission.</p>
-                            </div>
-                        </div>
-                    </div>`
+                1: `<div class="m3-elevated-card p-6"><h2 class="text-2xl font-bold text-gray-800 mb-3">Obtain Your Official Invitation Letter</h2><p class="text-gray-600 mb-8">First, <span class="action-tag">complete the JESIS form</span> required by your program and submit a photocopy of the minor's passport bio-data page to receive your official invitation letter.</p><div class="space-y-4"><a href="https://qioffe.github.io/25_NORLAND_TRIP/JESIE_application.pdf?v=${randomVersion}" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">description</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Fill and E-sign the Application</h4><p class="text-xs text-gray-600 mt-1">This is the primary program application form. Please fill it out completely and e-sign it digitally.</p></div><span class="material-symbols-outlined text-base text-gray-400">open_in_new</span></a><div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">file_copy</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Photocopy of Passport Bio-Data Page</h4><p class="text-xs text-gray-600 mt-1">A clear photocopy of the minor's passport page to be uploaded.</p></div></div><a href="https://docs.google.com/forms/d/e/1FAIpQLSeAEjP6zcOug4Rq-XMpgnx90A1rWJwgqUmcueusZNjw3Cbn-g/viewform" target="_blank" rel="noopener noreferrer" class="instruction-link highlight-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">file_upload</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Upload</h4><p class="text-xs text-gray-600 mt-1">Upload the completed JESIS form and passport photocopy here.</p></div><span class="material-symbols-outlined text-base text-gray-400">open_in_new</span></a></div></div>`,
+                2: `<div class="m3-elevated-card p-6"><h2 class="text-2xl font-bold text-gray-800 mb-3">Gather Required Documents</h2><p class="text-gray-600 mb-8">Once you have your invitation letter, you must <span class="action-tag">prepare a folder</span> containing all the required documents in physical, printed form.</p><div class="space-y-6"><div><h3 class="text-lg font-semibold text-gray-700 mb-4">Personal & Guardian Documents</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">contact_page</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Original Passport</h4><p class="text-xs text-gray-600 mt-1">This original document must have at least six months of validity remaining and two blank pages.</p></div></div><div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">badge</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">A printed photocopy of Passport Bio-Data Page</h4><p class="text-xs text-gray-600 mt-1">A clear printed photocopy of the page in the minor's passport from STEP1.</p></div></div><div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">account_box</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Guardian's ID and Proof of Address</h4><p class="text-xs text-gray-600 mt-1">Provide both a clear photocopy of a valid ID and a document for proof of current address.</p></div></div><div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">family_restroom</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Original Proof of Relationship</h4><p class="text-xs text-gray-600 mt-1">You must provide the original birth certificate for parents or a mandatory original court order for legal guardians.</p></div></div></div></div><div><h3 class="text-lg font-semibold text-gray-700 mb-4">Program & Visa Forms</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><a href="https://qioffe.github.io/25_NORLAND_TRIP/Consent_Letter.pdf?v=${randomVersion}" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">gavel</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Notarized Consent for Visa Application</h4><p class="text-xs text-gray-600 mt-1">This form must be signed by the guardian and officially notarized.</p></div><span class="material-symbols-outlined text-base text-gray-400">open_in_new</span></a><a href="https://qioffe.github.io/25_NORLAND_TRIP/WYS.pdf?v=${randomVersion}" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">apartment</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">"Where You Stay" Form</h4><p class="text-xs text-gray-600 mt-1">Must be signed by a parent or guardian by hand.</p></div><span class="material-symbols-outlined text-base text-gray-400">open_in_new</span></a><div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">mail</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Official Invitation Letter</h4><p class="text-xs text-gray-600 mt-1">The letter you received in STEP1.</p></div></div></div></div></div></div>`,
+                3: `<div class="m3-elevated-card p-6"><h2 class="text-2xl font-bold text-gray-800 mb-3">Complete the Online Application</h2><p class="text-gray-600 mb-8">Now, a parent or guardian must fill out the online form. Please follow these key actions. You can also use the <span class="action-tag">visa application templates we provide</span>.</p><div class="space-y-4"><div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">photo_camera</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Prepare a Visa-Ready Photo</h4><p class="text-xs text-gray-600 mt-1">Make sure you have a visa-ready photo to upload.</p></div></div><a href="https://cova.mfa.gov.cn/qzCoCommonController.do?show&pageId=index&locale=en_US" target="_blank" rel="noopener noreferrer" class="instruction-link"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">language</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Go to the Official Visa Website</h4><p class="text-xs text-gray-600 mt-1">Select location: North America -> Washington, D.C.</p></div><span class="material-symbols-outlined text-base text-gray-400">open_in_new</span></a><div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">edit_document</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Fill Out the Form</h4><p class="text-xs text-gray-600 mt-1">Complete all sections accurately.</p></div></div><div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">print</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Save & Print</h4><p class="text-xs text-gray-600 mt-1">Save your application number and print all pages of the form.</p></div></div><div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">draw</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Sign the Printed Form</h4><p class="text-xs text-gray-600 mt-1">A guardian must sign the confirmation page and Section 9.1.</p></div></div></div><p class="text-sm text-red-600 mt-6"><strong>Important</strong>: The minor should not sign any part of the application.</p></div>`,
+                4: `<div class="m3-elevated-card p-6"><h2 class="text-2xl font-bold text-gray-800 mb-3">Application Submission</h2><p class="text-gray-600 mb-8">Finally, <span class="action-tag">submit your folder to your coordinator</span> containing all the required <span class="action-tag">printed</span> and <span class="action-tag">original</span> documents.</p><div class="space-y-4"><div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">checklist</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Final Check</h4><p class="text-xs text-gray-600 mt-1">We will review your folder to ensure all documents are correct and ready for submission.</p></div></div><div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">send</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Submission</h4><p class="text-xs text-gray-600 mt-1">We will submit the complete application to the visa office for you.</p></div></div><div class="instruction-card"><div class="instruction-icon-container"><span class="material-symbols-outlined text-xl">notifications</span></div><div class="instruction-content"><h4 class="font-semibold text-gray-800 text-sm">Notification</h4><p class="text-xs text-gray-600 mt-1">The passport with the visa should be ready in 3 to 4 business days. We will notify you when it's ready for pickup.</p></div></div></div></div>`,
+                5: `<div class="m3-elevated-card p-6"><h2 class="text-2xl font-bold text-gray-800 mb-3">Application Process Summary</h2><p class="text-gray-600 mb-8">Here is a quick overview of the four main steps you've completed for your visa application.</p><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"><div class="summary-card p-6 space-y-2"><div class="instruction-icon-container"><span class="material-symbols-outlined">mail</span></div><h3 class="font-bold text-lg text-gray-800">1. Invitation</h3><p class="text-sm text-gray-600 mt-2">Complete the JESIS form and upload your passport photocopy to receive your official invitation letter.</p></div><div class="summary-card p-6 space-y-2"><div class="instruction-icon-container"><span class="material-symbols-outlined">folder_open</span></div><h3 class="font-bold text-lg text-gray-800">2. Documents</h3><p class="text-sm text-gray-600 mt-2">Gather all required physical documents, including your passport, guardian's ID, and printed forms, into a single folder.</p></div><div class="summary-card p-6 space-y-2"><div class="instruction-icon-container"><span class="material-symbols-outlined">web</span></div><h3 class="font-bold text-lg text-gray-800">3. Online Application</h3><p class="text-sm text-gray-600 mt-2">Fill out the official online visa form, then save and print it for signing.</p></div><div class="summary-card p-6 space-y-2"><div class="instruction-icon-container"><span class="material-symbols-outlined">send</span></div><h3 class="font-bold text-lg text-gray-800">4. Final Submission</h3><p class="text-sm text-gray-600 mt-2">Submit your complete document folder to your coordinator for a final check and official submission.</p></div></div></div>`
             };
-
             loadFlightData(randomVersion);
             setupTabs();
             setupStepper(stepContents);
             setupDashboard();
         });
-
-        /** Loads flight data and updates UI cards. */
         async function loadFlightData(randomVersion) {
             try {
-                // Appending a random version to prevent caching of the JSON file.
                 const response = await fetch(`flights_data.json?v=${randomVersion}`);
                 if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
                 const data = await response.json();
-                
                 updateFlightCard('flight-card-fll', data['FLL-PVG']);
                 updateFlightCard('flight-card-mia', data['MIA-PVG']);
             } catch (error) {
@@ -625,43 +259,28 @@
                 ['flight-card-fll', 'flight-card-mia'].forEach(id => updateFlightCard(id, { status: 'data_load_failed' }));
             }
         }
-
-        /** Populates a single flight card with data. */
         function updateFlightCard(cardId, data) {
             const card = document.getElementById(cardId);
             if (!card) return;
             const el = (selector) => card.querySelector(selector);
             const isSuccess = data?.status === 'ok' && data.price;
-
             card.classList.toggle('placeholder', !isSuccess);
-
             const priceEl = el('.flight-price-value');
             if (priceEl) {
-                priceEl.innerHTML = isSuccess 
-                    ? `<span class="currency">$</span>${data.price}` 
-                    : `<span class="currency">$</span>----`;
+                priceEl.innerHTML = isSuccess ? `<span class="currency">$</span>${data.price}` : `<span class="currency">$</span>----`;
             }
-
             const routeInfoEl = el('.flight-route-info');
             if (routeInfoEl) {
-                routeInfoEl.textContent = isSuccess 
-                    ? data.route_info || 'Route unavailable' 
-                    : (data?.status || 'error').replace(/_/g, ' ');
+                routeInfoEl.textContent = isSuccess ? data.route_info || 'Route unavailable' : (data?.status || 'error').replace(/_/g, ' ');
             }
-
             const lastUpdatedEl = el('.flight-last-updated');
             if (lastUpdatedEl) {
-                lastUpdatedEl.textContent = isSuccess && data.last_updated
-                    ? `Updated: ${new Date(data.last_updated).toLocaleDateString('en-US', { day: 'numeric', month: 'short' })}`
-                    : 'Update Failed';
+                lastUpdatedEl.textContent = isSuccess && data.last_updated ? `Updated: ${new Date(data.last_updated).toLocaleDateString('en-US', { day: 'numeric', month: 'short' })}` : 'Update Failed';
             }
-
             const departureCode = cardId === 'flight-card-fll' ? 'FLL' : 'MIA';
             el('.flight-airport-code.departure').textContent = departureCode;
             el('.flight-airport-code.arrival').textContent = 'PVG';
         }
-
-        /** Sets up tabbed navigation. */
         function setupTabs() {
             document.querySelector('.tabs-container')?.addEventListener('click', e => {
                 const button = e.target.closest('.tab-btn[data-tab]');
@@ -671,14 +290,11 @@
                     btn.setAttribute('aria-selected', 'false');
                 });
                 document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
-                
                 button.classList.add('is-active');
                 button.setAttribute('aria-selected', 'true');
                 document.getElementById(button.dataset.tab).style.display = 'block';
             });
         }
-
-        /** Initializes an interactive stepper component. */
         function setupStepper(contents) {
             const root = document.querySelector('.stepper');
             if (!root) return;
@@ -687,7 +303,6 @@
             const nextBtn = document.getElementById('next-step-btn');
             const prevBtn = document.getElementById('prev-step-btn');
             let step = 1;
-
             const update = () => {
                 items.forEach((item, i) => {
                     const stepNumber = i + 1;
@@ -696,7 +311,6 @@
                 });
                 contentContainer.innerHTML = `<div class="step-content is-active" data-step-content="${step}">${contents[step]}</div>`;
                 prevBtn.disabled = step === 1;
-                
                 if (step === items.length) {
                     nextBtn.classList.add('hidden');
                 } else {
@@ -704,12 +318,10 @@
                 }
                 nextBtn.textContent = step === items.length - 1 ? 'Summary' : 'Next Step';
             };
-
             const nav = (newStep) => { 
                 step = Math.max(1, Math.min(newStep, items.length)); 
                 update(); 
             };
-            
             nextBtn.addEventListener('click', () => nav(step + 1));
             prevBtn.addEventListener('click', () => nav(step - 1));
             root.addEventListener('click', e => {
@@ -718,35 +330,24 @@
             });
             update();
         }
-
-        /** Configures the dashboard countdown card. */
         function setupDashboard() {
             const card = document.getElementById('date-card');
             if (!card) return;
-
             const dateView = document.getElementById('date-view');
             const countdownView = document.getElementById('countdown-view');
             const daysEl = document.getElementById('countdown-days');
-            
-            // Define the trip start and end dates
-            const startDate = new Date('2025-08-01T00:00:00'); 
-            const tripDate = new Date('2025-11-22T00:00:00');
-            
-            // Function to update the days left
-            const updateCountdown = () => {
+            const tripDate = new Date('2025-11-21T00:00:00');
+            const countdownInterval = setInterval(() => {
                 const now = new Date();
                 const timeLeftMs = tripDate.getTime() - now.getTime();
-                
-                const daysLeft = Math.max(0, Math.ceil(timeLeftMs / (1000 * 60 * 60 * 24)));
-                
+                if (timeLeftMs <= 0) {
+                    daysEl.textContent = 'Trip has started!';
+                    clearInterval(countdownInterval);
+                    return;
+                }
+                const daysLeft = Math.ceil(timeLeftMs / (1000 * 60 * 60 * 24));
                 daysEl.textContent = daysLeft;
-            };
-
-            // Set up initial state and update interval
-            updateCountdown();
-            setInterval(updateCountdown, 1000 * 60 * 60); // Update every hour
-
-            // Add click listener to toggle views
+            }, 1000);
             card.addEventListener('click', () => {
                 dateView.classList.toggle('hidden');
                 countdownView.classList.toggle('hidden');
