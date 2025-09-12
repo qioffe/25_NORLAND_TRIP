@@ -2,13 +2,13 @@
     "FLL-PVG": {
         "price": 1288,
         "route_info": "FLL\u2192YUL\u2192YVR\u2192PVG",
-        "last_updated": "2025-09-11T08:13:50.964901",
+        "last_updated": "2025-09-12T02:19:38.987965",
         "status": "ok"
     },
     "MIA-PVG": {
         "price": 1402,
         "route_info": "MIA\u2192IST\u2192PVG",
-        "last_updated": "2025-09-11T08:13:53.076152",
+        "last_updated": "2025-09-12T02:19:40.169299",
         "status": "ok"
     }
 }
