@@ -169,14 +169,16 @@
         #itinerary-stepper.is-collapsed::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 8rem; background: linear-gradient(to top, rgba(248, 251, 254, 1), rgba(248, 251, 254, 0)); pointer-events: none; border-radius: 0 0 16px 16px; }
 
         @media (max-width: 768px) {
-            body { padding-top: 1rem; }
+            body { padding-top: 1rem; padding-bottom: 1rem; }
             .main-container { padding: 0; margin: 0; border-radius: 0; box-shadow: none; border: none; background-color: transparent; }
-            .section-card { border-radius: 0; }
+            .section-card { border-radius: 0; padding-left: 1.5rem; padding-right: 1.5rem; }
             #itinerary-stepper .stepper-label-container { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
             #itinerary-stepper .instruction-card { width: 100%; }
             #itinerary-stepper.is-collapsed { max-height: 28rem; /* Approx height for 2 stacked items */ }
             .ticket-main { padding: 1rem; }
             .ticket-route { flex-direction: column; gap: 1rem; }
+            .stepper-item { flex-direction: column; align-items: flex-start; }
+            #stepper-ui-container.grid { display: block; }
         }
     </style>
 </head>
@@ -706,4 +708,3 @@
     </script>
 </body>
 </html>
-
