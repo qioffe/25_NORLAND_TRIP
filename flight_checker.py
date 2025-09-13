@@ -12,6 +12,8 @@ def fetch_flight_price(departure_id, arrival_id):
             "price": None,
             "route_info": None,
             "airline": None,
+            "outbound_date": "2025-11-21",  # Default outbound date
+            "return_date": "2025-11-29",    # Default return date
             "last_updated": datetime.now().isoformat(),
             "status": "missing_api_key"
         }
@@ -21,7 +23,7 @@ def fetch_flight_price(departure_id, arrival_id):
         "departure_id": departure_id,
         "arrival_id": arrival_id,
         "outbound_date": "2025-11-21",  # Updated to a future date
-        "return_date": "2025-11-30",    # Updated to a future date
+        "return_date": "2025-11-29",    # Updated to a future date
         "currency": "USD",
         "hl": "en",
         "api_key": api_key
@@ -37,6 +39,8 @@ def fetch_flight_price(departure_id, arrival_id):
                 "price": None,
                 "route_info": None,
                 "airline": None,
+                "outbound_date": "2025-11-21",  # Default outbound date
+                "return_date": "2025-11-29",    # Default return date
                 "last_updated": datetime.now().isoformat(),
                 "status": f"api_error: {data['error']}"
             }
@@ -66,6 +70,8 @@ def fetch_flight_price(departure_id, arrival_id):
             "price": best_price,
             "route_info": route_info,
             "airline": airline_name,
+            "outbound_date": params["outbound_date"],  # Add outbound date
+            "return_date": params["return_date"],      # Add return date
             "last_updated": datetime.now().isoformat(),
             "status": "ok" if best_price else "no_price_found"
         }
@@ -76,6 +82,8 @@ def fetch_flight_price(departure_id, arrival_id):
             "price": None,
             "route_info": None,
             "airline": None,
+            "outbound_date": "2025-11-21",  # Default outbound date
+            "return_date": "2025-11-29",    # Default return date
             "last_updated": datetime.now().isoformat(),
             "status": f"request_exception: {str(e)}"
         }
