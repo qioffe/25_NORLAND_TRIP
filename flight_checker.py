@@ -13,7 +13,7 @@ def fetch_flight_price(departure_id, arrival_id):
             "route_info": None,
             "airline": None,
             "outbound_date": "2025-11-21",  # Default outbound date
-            "return_date": "2025-11-29",    # Default return date
+            "return_date": "2025-11-30",    # Default return date
             "last_updated": datetime.now().isoformat(),
             "status": "missing_api_key"
         }
@@ -23,7 +23,7 @@ def fetch_flight_price(departure_id, arrival_id):
         "departure_id": departure_id,
         "arrival_id": arrival_id,
         "outbound_date": "2025-11-21",  # Updated to a future date
-        "return_date": "2025-11-29",    # Updated to a future date
+        "return_date": "2025-11-30",    # Updated to a future date
         "currency": "USD",
         "hl": "en",
         "api_key": api_key
@@ -40,7 +40,7 @@ def fetch_flight_price(departure_id, arrival_id):
                 "route_info": None,
                 "airline": None,
                 "outbound_date": "2025-11-21",  # Default outbound date
-                "return_date": "2025-11-29",    # Default return date
+                "return_date": "2025-11-30",    # Default return date
                 "last_updated": datetime.now().isoformat(),
                 "status": f"api_error: {data['error']}"
             }
