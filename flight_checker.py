@@ -4,13 +4,14 @@ from datetime import datetime
 from serpapi import GoogleSearch
 
 def fetch_flight_price(departure_id, arrival_id):
-    """Fetches flight prices using SerpApi and returns structured data."""
+    """Fetches flight prices and airline names using SerpApi and returns structured data."""
     api_key = os.environ.get("SERPAPI_API_KEY")
     if not api_key:
         print("Error: SERPAPI_API_KEY environment variable not set.")
         return {
             "price": None,
             "route_info": None,
+            "airline": None,
             "last_updated": datetime.now().isoformat(),
             "status": "missing_api_key"
         }
@@ -35,12 +36,14 @@ def fetch_flight_price(departure_id, arrival_id):
             return {
                 "price": None,
                 "route_info": None,
+                "airline": None,
                 "last_updated": datetime.now().isoformat(),
                 "status": f"api_error: {data['error']}"
             }
         
         best_price = None
         route_info = None
+        airline_name = None
 
         # Check for flights in "best_flights" or "other_flights"
         flights_results = data.get("best_flights", []) or data.get("other_flights", [])
@@ -55,9 +58,14 @@ def fetch_flight_price(departure_id, arrival_id):
                 airport_ids.append(all_flights[-1]["arrival_airport"]["id"])
                 route_info = '→'.join(airport_ids)
 
+                # Get the airline name from the first flight segment
+                if all_flights and "airline" in all_flights[0]:
+                    airline_name = all_flights[0]["airline"]
+
         return {
             "price": best_price,
             "route_info": route_info,
+            "airline": airline_name,
             "last_updated": datetime.now().isoformat(),
             "status": "ok" if best_price else "no_price_found"
         }
@@ -67,12 +75,13 @@ def fetch_flight_price(departure_id, arrival_id):
         return {
             "price": None,
             "route_info": None,
+            "airline": None,
             "last_updated": datetime.now().isoformat(),
             "status": f"request_exception: {str(e)}"
         }
 
 def main():
-    """Main function to fetch prices for multiple routes and save to a file."""
+    """Main function to fetch prices and airline names for multiple routes and save to a file."""
     routes_to_check = [
         {"departure": "FLL", "arrival": "PVG"},
         {"departure": "MIA", "arrival": "PVG"}
@@ -93,4 +102,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
