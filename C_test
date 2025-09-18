@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Refined M3 Carousel</title>
+
+    <style>
+        :root {
+            /* M3 Design Tokens */
+            --width-large: 450px;
+            --width-medium: 250px;
+            --width-small: 56px;
+            --item-height: 350px;
+            --item-spacing: 8px;
+            --radius-corner: 28px;
+            --padding-container: 16px;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #f4f4f9;
+            color: #1c1c1e;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        h1 {
+            font-weight: 400;
+            margin-bottom: 2rem;
+            color: #444;
+            text-align: center;
+        }
+
+        #carousel-root {
+            width: 100%;
+            max-width: 900px;
+            height: var(--item-height);
+        }
+
+        .carousel-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            cursor: grab;
+            user-select: none;
+            padding: 0 var(--padding-container);
+            box-sizing: border-box;
+            
+            /* Refined: Subtle bilateral fade effect on both edges */
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+        }
+        
+        .carousel-container:active {
+            cursor: grabbing;
+        }
+
+        .carousel-item {
+            position: absolute;
+            top: 0;
+            height: var(--item-height);
+            background-size: cover;
+            background-position: center; 
+            border-radius: var(--radius-corner);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            outline: 1px solid rgba(0,0,0,0.08);
+            outline-offset: -1px;
+            transform: translateZ(0); /* Promotes hardware acceleration */
+            /* Transition for the parallax effect to smoothly snap back */
+            transition: background-position 0.3s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <h1>Refined Fluid Carousel<br/>(With Loop, Fade & Physics)</h1>
+    <div id="carousel-root"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const lerp = (start, end, amount) => (1 - amount) * start + amount * end;
+
+            class M3FinalCarousel {
+                constructor(rootElement, urls) {
+                    this.root = rootElement;
+                    this.urls = urls;
+                    this.itemCount = urls.length;
+                    
+                    this.scroll = 0;
+                    this.targetScroll = 0;
+                    this.isDragging = false;
+                    this.dragStart = 0;
+                    
+                    this.items = [];
+                    this.itemData = [];
+
+                    this.SIZES = { LARGE: 450, MEDIUM: 250, SMALL: 56 };
+                    this.SPACING = 8;
+                    
+                    this.init();
+                }
+
+                init() {
+                    this.root.innerHTML = `<div class="carousel-container"></div>`;
+                    this.container = this.root.querySelector('.carousel-container');
+
+                    // Create a pool of DOM elements (more than images) to facilitate smooth looping
+                    const numToCreate = this.itemCount > 5 ? this.itemCount : 8;
+                    for(let i = 0; i < numToCreate; i++) {
+                        const item = document.createElement('div');
+                        item.className = 'carousel-item';
+                        this.container.appendChild(item);
+                        this.items.push(item);
+                        this.itemData.push({ width: 0, transformX: 0, opacity: 0, zIndex: 0 });
+                    }
+
+                    this.container.addEventListener('wheel', this.handleWheel.bind(this), { passive: false });
+                    this.container.addEventListener('mousedown', this.handleDragStart.bind(this));
+                    this.container.addEventListener('touchstart', this.handleDragStart.bind(this), { passive: true });
+                    window.addEventListener('mousemove', this.handleDragMove.bind(this));
+                    window.addEventListener('touchmove', this.handleDragMove.bind(this));
+                    window.addEventListener('mouseup', this.handleDragEnd.bind(this));
+                    window.addEventListener('touchend', this.handleDragEnd.bind(this));
+                    document.addEventListener('keydown', this.handleKeyPress.bind(this));
+
+                    this.run();
+                }
+                
+                run() {
+                    // The core animation loop with interpolation for smoothness
+                    this.scroll = lerp(this.scroll, this.targetScroll, 0.07);
+                    this.scroll = Math.round(this.scroll * 1000) / 1000; // Round to prevent precision errors
+
+                    this.calculatePositions();
+                    this.applyStyles();
+                    
+                    requestAnimationFrame(this.run.bind(this));
+                }
+
+                calculatePositions() {
+                    const POSITIONS = {
+                        large: 0,
+                        medium: this.SIZES.LARGE + this.SPACING,
+                        small: this.SIZES.LARGE + this.SIZES.MEDIUM + (2 * this.SPACING)
+                    };
+
+                    const scrollInt = Math.floor(this.scroll);
+                    const scrollDecimal = this.scroll - scrollInt;
+                    
+                    // Calculate positions for our pool of DOM items
+                    for (let i = 0; i < this.items.length; i++) {
+                        const relativePos = i - scrollDecimal;
+                        const data = this.itemData[i];
+                        
+                        if (relativePos >= 0 && relativePos < 1) { // Large -> Medium
+                            data.width = lerp(this.SIZES.LARGE, this.SIZES.MEDIUM, relativePos);
+                            data.transformX = lerp(POSITIONS.large, POSITIONS.medium, relativePos);
+                        } else if (relativePos >= 1 && relativePos < 2) { // Medium -> Small
+                            data.width = lerp(this.SIZES.MEDIUM, this.SIZES.SMALL, relativePos - 1);
+                            data.transformX = lerp(POSITIONS.medium, POSITIONS.small, relativePos - 1);
+                        } else if (relativePos >= 2) {
+                            data.width = this.SIZES.SMALL;
+                            data.transformX = POSITIONS.small + (relativePos - 2) * (this.SIZES.SMALL + this.SPACING);
+                        } else {
+                            data.width = this.SIZES.LARGE;
+                            data.transformX = relativePos * (this.SIZES.LARGE + this.SPACING);
+                        }
+
+                        if (relativePos > -1.5 && relativePos < 3.5) { data.opacity = 1; } 
+                        else { data.opacity = 0; }
+                        
+                        data.zIndex = 100 - Math.abs(relativePos * 10);
+                    }
+                }
+
+                applyStyles() {
+                    const heroDataIndex = (Math.round(this.scroll) % this.itemCount + this.itemCount) % this.itemCount;
+                    const dragStrength = this.targetScroll - this.scroll;
+
+                    this.items.forEach((item, i) => {
+                        const { width, transformX, opacity, zIndex } = this.itemData[i];
+                        
+                        const scrollInteger = Math.floor(this.scroll);
+                        // The crucial modulo logic to map the correct image for an infinite loop
+                        const urlIndex = ((scrollInteger + i) % this.itemCount + this.itemCount) % this.itemCount;
+                        item.style.backgroundImage = `url(${this.urls[urlIndex]})`;
+                        
+                        item.style.width = `${width}px`;
+                        item.style.opacity = opacity;
+                        item.style.zIndex = Math.round(zIndex);
+
+                        let finalTransform = `translateX(${transformX}px)`;
+                        
+                        // Apply micro-animations only to the current hero item
+                        if (urlIndex === heroDataIndex) {
+                            const tiltAngle = dragStrength * -3;
+                            finalTransform += ` rotateY(${tiltAngle}deg)`;
+                            
+                            const parallaxOffset = (this.scroll % 1) * 20;
+                            item.style.backgroundPosition = `calc(50% + ${parallaxOffset}px) center`;
+                        } else {
+                            // Reset for all other items
+                            item.style.backgroundPosition = 'center';
+                        }
+                        item.style.transform = finalTransform;
+                    });
+                }
+                
+                // Event handlers for the infinite loop model (no clamping)
+                handleWheel(e) { e.preventDefault(); this.targetScroll += e.deltaY * 0.005; }
+                handleDragStart(e) { this.isDragging = true; this.dragStart = (e.pageX || e.touches[0].pageX) - this.targetScroll * 100; this.container.style.cursor = 'grabbing'; }
+                handleDragMove(e) { if (!this.isDragging) return; const currentX = e.pageX || e.touches[0].pageX; this.targetScroll = (currentX - this.dragStart) / 100; }
+                handleDragEnd() { if (!this.isDragging) return; this.isDragging = false; this.targetScroll = Math.round(this.targetScroll); this.container.style.cursor = 'grab'; }
+                handleKeyPress(e) { let d = 0; if (e.key === 'ArrowRight') d = 1; if (e.key === 'ArrowLeft') d = -1; if (d !== 0) { this.targetScroll = Math.round(this.targetScroll) + d; }}
+            }
+
+            const imageUrls = [
+                "https://picsum.photos/id/10/800/600", "https://picsum.photos/id/20/800/600",
+                "https://picsum.photos/id/30/800/600", "https://picsum.photos/id/40/800/600",
+                "https://picsum.photos/id/50/800/600", "https://picsum.photos/id/60/800/600",
+                "https://picsum.photos/id/70/800/600", "https://picsum.photos/id/80/800/600",
+            ];
+
+            const carouselRoot = document.getElementById("carousel-root");
+            new M3FinalCarousel(carouselRoot, imageUrls);
+        });
+    </script>
+</body>
+</html>
