@@ -5,16 +5,16 @@
         "airline": "Air Canada",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-09-20T02:18:20.342795",
+        "last_updated": "2025-09-21T02:39:26.151436",
         "status": "ok"
     },
     "MIA-PVG": {
-        "price": 1496,
-        "route_info": "MIA\u2192LHR\u2192PVG",
-        "airline": "British Airways",
+        "price": 1351,
+        "route_info": "MIA\u2192YVR\u2192PVG",
+        "airline": "Air Canada",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-09-20T02:18:21.414006",
+        "last_updated": "2025-09-21T02:39:27.154148",
         "status": "ok"
     }
 }
