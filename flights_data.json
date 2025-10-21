@@ -1,20 +1,20 @@
 {
     "FLL-PVG": {
-        "price": 1258,
+        "price": 1244,
         "route_info": "FLL\u2192YYZ\u2192YVR\u2192PVG",
         "airline": "Air Canada",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-10-20T02:45:08.003980",
+        "last_updated": "2025-10-21T02:27:55.085856",
         "status": "ok"
     },
     "MIA-PVG": {
-        "price": 1258,
+        "price": 1345,
         "route_info": "MIA\u2192YVR\u2192PVG",
         "airline": "Air Canada",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-10-20T02:45:08.555480",
+        "last_updated": "2025-10-21T02:27:57.064829",
         "status": "ok"
     }
 }
