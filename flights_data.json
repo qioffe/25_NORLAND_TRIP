@@ -5,7 +5,7 @@
         "airline": "Air Canada",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-10-25T02:24:46.669585",
+        "last_updated": "2025-10-26T02:41:45.145609",
         "status": "ok"
     },
     "MIA-PVG": {
@@ -14,7 +14,7 @@
         "airline": "Air Canada",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-10-25T02:24:48.748293",
+        "last_updated": "2025-10-26T02:41:46.007037",
         "status": "ok"
     }
 }
