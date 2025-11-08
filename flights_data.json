@@ -1,20 +1,20 @@
 {
     "FLL-PVG": {
-        "price": 1363,
-        "route_info": "FLL\u2192YYZ\u2192YVR\u2192PVG",
-        "airline": "Air Canada",
-        "outbound_date": "2025-11-21",
-        "return_date": "2025-11-30",
-        "last_updated": "2025-11-07T02:41:38.249276",
-        "status": "ok"
-    },
-    "MIA-PVG": {
-        "price": 1309,
-        "route_info": "MIA\u2192LAX\u2192PVG",
+        "price": 1391,
+        "route_info": "FLL\u2192ATL\u2192SEA\u2192PVG",
         "airline": "Delta",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-11-07T02:41:40.056831",
+        "last_updated": "2025-11-08T02:23:57.288887",
+        "status": "ok"
+    },
+    "MIA-PVG": {
+        "price": 1314,
+        "route_info": "MIA\u2192SEA\u2192PVG",
+        "airline": "Delta",
+        "outbound_date": "2025-11-21",
+        "return_date": "2025-11-30",
+        "last_updated": "2025-11-08T02:23:58.768318",
         "status": "ok"
     }
 }
