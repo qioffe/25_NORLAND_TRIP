@@ -5,7 +5,7 @@
         "airline": "Delta",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-11-10T02:48:32.208273",
+        "last_updated": "2025-11-11T02:43:58.210966",
         "status": "ok"
     },
     "MIA-PVG": {
@@ -14,7 +14,7 @@
         "airline": "Air Canada",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-11-10T02:48:32.940455",
+        "last_updated": "2025-11-11T02:43:59.160622",
         "status": "ok"
     }
 }
