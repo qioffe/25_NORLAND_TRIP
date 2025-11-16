@@ -1,20 +1,20 @@
 {
     "FLL-PVG": {
-        "price": 1351,
-        "route_info": "FLL\u2192ATL\u2192LAX\u2192PVG",
-        "airline": "Delta",
+        "price": 1301,
+        "route_info": "FLL\u2192CLT\u2192DFW\u2192PVG",
+        "airline": "American",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-11-15T02:28:01.992878",
+        "last_updated": "2025-11-16T02:48:20.927870",
         "status": "ok"
     },
     "MIA-PVG": {
-        "price": 1309,
-        "route_info": "MIA\u2192LAX\u2192PVG",
-        "airline": "Delta",
+        "price": 1304,
+        "route_info": "MIA\u2192DFW\u2192PVG",
+        "airline": "American",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-11-15T02:28:02.769562",
+        "last_updated": "2025-11-16T02:48:21.958063",
         "status": "ok"
     }
 }
