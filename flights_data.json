@@ -5,7 +5,7 @@
         "airline": "American",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-11-17T02:45:11.941618",
+        "last_updated": "2025-11-18T02:42:27.183232",
         "status": "ok"
     },
     "MIA-PVG": {
@@ -14,7 +14,7 @@
         "airline": "American",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-11-17T02:45:14.112588",
+        "last_updated": "2025-11-18T02:42:27.905813",
         "status": "ok"
     }
 }
