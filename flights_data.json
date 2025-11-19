@@ -1,11 +1,11 @@
 {
     "FLL-PVG": {
-        "price": 1301,
-        "route_info": "FLL\u2192CLT\u2192DFW\u2192PVG",
+        "price": 1306,
+        "route_info": "FLL\u2192DFW\u2192PVG",
         "airline": "American",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-11-18T02:42:27.183232",
+        "last_updated": "2025-11-19T02:42:42.931719",
         "status": "ok"
     },
     "MIA-PVG": {
@@ -14,7 +14,7 @@
         "airline": "American",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-11-18T02:42:27.905813",
+        "last_updated": "2025-11-19T02:42:43.885302",
         "status": "ok"
     }
 }
