@@ -1,20 +1,20 @@
 {
     "FLL-PVG": {
-        "price": 1697,
-        "route_info": "FLL\u2192YYZ\u2192PVG",
-        "airline": "WestJet",
+        "price": null,
+        "route_info": null,
+        "airline": null,
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-11-21T02:41:37.779925",
-        "status": "ok"
+        "last_updated": "2025-11-22T02:25:55.123427",
+        "status": "api_error: Google Flights hasn't returned any results for this query."
     },
     "MIA-PVG": {
-        "price": 1756,
-        "route_info": "MIA\u2192SFO\u2192PVG",
-        "airline": "United",
+        "price": 6216,
+        "route_info": "MIA\u2192LAX\u2192MNL\u2192PVG",
+        "airline": "American",
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-11-21T02:41:39.134533",
+        "last_updated": "2025-11-22T02:25:56.269737",
         "status": "ok"
     }
 }
