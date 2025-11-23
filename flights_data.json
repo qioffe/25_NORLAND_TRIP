@@ -5,16 +5,16 @@
         "airline": null,
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-11-22T02:25:55.123427",
-        "status": "api_error: Google Flights hasn't returned any results for this query."
+        "last_updated": "2025-11-23T02:57:22.176461",
+        "status": "api_error: `outbound_date` cannot be in the past."
     },
     "MIA-PVG": {
-        "price": 6216,
-        "route_info": "MIA\u2192LAX\u2192MNL\u2192PVG",
-        "airline": "American",
+        "price": null,
+        "route_info": null,
+        "airline": null,
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2025-11-22T02:25:56.269737",
-        "status": "ok"
+        "last_updated": "2025-11-23T02:57:22.229107",
+        "status": "api_error: `outbound_date` cannot be in the past."
     }
 }
