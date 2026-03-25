@@ -5,7 +5,7 @@
         "airline": null,
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2026-03-24T03:35:06.556829",
+        "last_updated": "2026-03-25T03:38:16.948853",
         "status": "api_error: `outbound_date` cannot be in the past."
     },
     "MIA-PVG": {
@@ -14,7 +14,7 @@
         "airline": null,
         "outbound_date": "2025-11-21",
         "return_date": "2025-11-30",
-        "last_updated": "2026-03-24T03:35:06.701198",
+        "last_updated": "2026-03-25T03:38:17.069072",
         "status": "api_error: `outbound_date` cannot be in the past."
     }
 }
